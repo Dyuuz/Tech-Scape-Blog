@@ -272,6 +272,30 @@ body.nav-active { overflow: hidden; }
   transition: var(--transition-1);
 }
 
+.btncustom {
+  /* background-image: var(--gradient-2); */
+  /* background-size: 200%; */
+  background-position: left;
+  color: var(--white);
+  font-size: var(--fontSize-6);
+  font-weight: var(--weight-bold);
+  max-width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: var(--transition-1);
+}
+
+.btncustom img:hover {
+  opacity: 0.8;
+  transform: rotate(360deg);
+  transition: transform 0.5s ease;
+}
+
+.imgprofile{
+  border-radius: 10px;
+}
+
 .cntr{
   display: flex;
   align-items: center;
@@ -293,6 +317,7 @@ body.nav-active { overflow: hidden; }
 }
 
 .btn:is(:hover, :focus-visible) { background-position: right; }
+.btncustom:is(:hover, :focus-visible) { background-position: right; }
 
 .btn-primary {
   padding: 8px 16px;
@@ -384,6 +409,7 @@ body.nav-active { overflow: hidden; }
 \*-----------------------------------*/
 
 .header .btn { display: none; }
+.header .btncustom { display: none; }
 
 .header {
   position: fixed;
@@ -723,6 +749,11 @@ body.nav-active { overflow: hidden; }
 }
 
 .feature .btn {
+  margin-inline: auto;
+  margin-block-start: 30px;
+}
+
+.feature .btncustom{
   margin-inline: auto;
   margin-block-start: 30px;
 }
@@ -1184,6 +1215,11 @@ body.nav-active { overflow: hidden; }
     margin-inline-start: auto;
   }
 
+  .header .btncustom{
+    display: block;
+    margin-inline-start: auto;
+  }
+
   .header.active { padding-block: 20px; }
 
 
@@ -1448,7 +1484,8 @@ body.nav-active { overflow: hidden; }
     margin-inline: auto;
   }
 
-  .header .btn { margin-inline-start: 0; }
+  .header .btn{ margin-inline-start: 0; }
+  .header .btncustom{ margin-inline-start: 0; }
 
   .navbar-link {
     color: var(--text-wild-blue-yonder);

@@ -153,4 +153,3 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'App/cache'),
     }
 }
-
