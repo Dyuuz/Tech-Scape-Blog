@@ -46,7 +46,7 @@
                                 <div class="card-tag">
                                     <div class="post-actionspage">
                                                       
-                                      <button class="post-likespage" onclick="toggleLike()" title="Like this post">
+                                      <button class="post-likes" onclick="toggleLike()" data-id="{{ myblog.id }}">
                                           ❤️ <span id="like-count">{{myblog.likes.count}}</span>
                                       </button>
                           
@@ -144,15 +144,23 @@
                 </nav>
             </div>
             {% endif %}
-            
-{% comment %} 
-            <a href="#" class="btn btn-secondary">
-                <span class="span">Show More Posts</span>
-
-                <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-            </a> {% endcomment %}
-
         </div>
-
+        <script>
+            window.onload = function () {
+              const likedPosts = {{ all_user_likes }}; 
+              const posts = document.querySelectorAll(".post-likes");
+              
+              posts.forEach(post => {
+                  const postId = parseInt(post.getAttribute("data-id"));
+                  if (likedPosts.includes(postId)) {
+                    post.classList.add('active');
+                    post.setAttribute('likedBoolean', 'true');
+                  }
+                  else {
+                    post.setAttribute('likedBoolean', 'false')
+                  }
+              });
+            };
+        </script>
     </section>
 {% endblock  %}

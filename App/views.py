@@ -84,6 +84,10 @@ def home(request):
 
 # Query recently uploaded record from DB
 def recentposts(request):
+    user = request.user
+    if user.is_authenticated:
+        all_user_likes = user.like_post.all()
+        all_user_likes = [int(blog.id) for blog in all_user_likes]
     all_categ = Category.objects.all()
     recentpost = Blog.objects.all().order_by('-time')
     
@@ -211,10 +215,14 @@ def category(request, cat):
 
 # Categorize blog posts according to their division 
 def categories(request):
+    user = request.user
+    if user.is_authenticated:
+        all_user_likes = user.like_post.all()
+        all_user_likes = [int(blog.id) for blog in all_user_likes]
     categories = Category.objects.prefetch_related('posts').all()
     all_categ = Category.objects.all()
     for category in categories:
-            category.limited_posts = category.posts.all().order_by('-time')[:2]
+            category.limited_posts = category.posts.all().order_by('-time')[:5]
             for mod in category.limited_posts:
                 target_date_str = f"{mod.time}"
                 target = target_date_str.split('+')[0]
@@ -234,6 +242,10 @@ def categories(request):
 
 # Displays all blog posts in a category 
 def category_detail(request, name):
+    user = request.user
+    if user.is_authenticated:
+        all_user_likes = user.like_post.all()
+        all_user_likes = [int(blog.id) for blog in all_user_likes]
     category = get_object_or_404(Category, name=name)
     blog_posts = category.posts.all().order_by('-time')
     all_categ = Category.objects.all()
