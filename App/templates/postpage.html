@@ -36,12 +36,12 @@
                             
                         {% comment %} {% else %} {% endcomment %}
 
-                        <button class="post-likes" onclick="toggleLike()" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-liked="{{ is_liked|yesno:"true,false" }}">
+                        <button class="post-likes" onclick="toggleLikePost()" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-liked="{{ is_liked|yesno:"true,false" }}">
                             ❤️ <span id="like-count">{{blog.likes.count}}</span>
                         </button>
 
                         {% comment %} {% endif %} {% endcomment %}
-                        <button class="post-bookmark" onclick="toggleBookmark()"  data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-bookmarked="{{ is_bookmarked|yesno:"true,false" }}">
+                        <button class="post-bookmark" onclick="toggleBookmarkPost()"  data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-bookmarked="{{ is_bookmarked|yesno:"true,false" }}">
                             🔖 Bookmark
                         </button>
                         
@@ -126,6 +126,10 @@
             - custom js link
         -->
         <script>
+            window.userData = {
+                post_id: "{{ blog.id }}",
+            };
+            
             let isLiked = false;
             let isBookmarked = false;
             const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -133,10 +137,10 @@
             window.onload = function() {
                 const likeButton = document.querySelector('.post-likes');
                 const authStatusLike = likeButton.dataset.isLiked;
-
+            
                 const bookmarkButton = document.querySelector('.post-bookmark');
                 const authStatusBookmark = bookmarkButton.dataset.isBookmarked;
-
+            
                 if (authStatusLike === "true") {
                     isLiked = !isLiked;
                     likeButton.classList.toggle('active', isLiked);
@@ -147,100 +151,7 @@
                     bookmarkButton.classList.toggle('active', isBookmarked);
                 }
             };
-
-            function toggleLike() {
-                const likeButton = document.querySelector('.post-likes');
-                const likeCount = document.getElementById('like-count');
-                const authStatus = likeButton.dataset.isAuthenticated;
-
-                if (authStatus === "true") {
-                    isLiked = !isLiked;
-                    likeButton.classList.toggle('active', isLiked);
-                    likeCount.textContent = isLiked ? parseInt(likeCount.textContent) + 1 : parseInt(likeCount.textContent) - 1;
-
-                    if (isLiked === true) {
-                        buttonBoolean = "true";
-                        updateLike(buttonBoolean);
-                    } else{
-                        buttonBoolean = "false";
-                        updateLike(buttonBoolean);
-                    }
-                
-                } else {
-                    const redirectUrl = "{% url 'loginsession' name=blog.category.name slug=blog.slug %}";
-                    window.location.href = redirectUrl;
-                }
-                
-            }
-
-            function toggleBookmark() {
-                const bookmarkButton = document.querySelector('.post-bookmark');
-                const authStatus = bookmarkButton.dataset.isAuthenticated;
-                if (authStatus === "true") {
-                    isBookmarked = !isBookmarked;
-                    bookmarkButton.classList.toggle('active', isBookmarked);
-                    if (isBookmarked === true) {
-                        buttonBoolean = "true";
-                        updateBookmark(buttonBoolean);
-                    } else{
-                        buttonBoolean = "false";
-                        updateBookmark(buttonBoolean);
-                    }
-                
-                } else {
-                    const redirectUrl = "{% url 'loginsession' name=blog.category.name slug=blog.slug %}";
-                    window.location.href = redirectUrl;
-                    
-                }
-                
-            }
-
-            function updateLike(buttonBoolean) {
-                fetch('/update-like/', { 
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrf_token  
-                    },
-                    body: JSON.stringify({ post_id: {{ blog.id }}, buttonBoolean : buttonBoolean })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log(data.message); 
-                    } else {
-                        console.log('Error: ' + data.message);
-                    }
-                })
-                .catch(error => console.log('Error:', error));
-            }
-
-            function updateBookmark(buttonBoolean){
-                fetch('/update-bookmark/', { 
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrf_token  
-                    },
-                    body: JSON.stringify({ post_id: {{ blog.id }}, buttonBoolean : buttonBoolean })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log(data.message); 
-                    } else {
-                        console.log('Error: ' + data.message);
-                    }
-                })
-                .catch(error => console.log('Error:', error));
-            }
-
         </script>
-        
-
-        
-
-
     </section>
 {% endblock  %}
 

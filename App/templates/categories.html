@@ -79,7 +79,7 @@
                                 <div class="card-tag">
                                     <div class="post-actionspage">
                                         
-                                        <button class="post-likes" onclick="toggleLike()" data-id="{{ myblog.id }}">
+                                        <button class="post-likes" onclick="toggleLike('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
                                             ❤️ <span id="like-count">{{myblog.likes.count}}</span>
                                         </button>
                                         

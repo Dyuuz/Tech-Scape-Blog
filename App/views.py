@@ -17,24 +17,29 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Count
 
 # Create your views here.
-def home(request):
+def home(request):        
     user = request.user
-    bk = Category.posts.all()
     if user.is_authenticated:
         all_user_likes = user.like_post.all()
         all_user_likes = [int(blog.id) for blog in all_user_likes]
+        
+        user_subscribed = Newsletter.objects.get(user=user)
+        user_subscribed = True if user_subscribed and user_subscribed.subscribe else False
+        
         all_user_bookmarks = user.bookmark_post.all()
+        
+        # Today's pick post based on user's interaction
         blog = get_blogs_based_on_user_likes(user)
         all_blog_id = [int(myblog.id) for myblog in blog]
     else:
         blog = Blog.objects.all().order_by('?')[:11]
+
         
+    # Category post instance
     all_categ = Category.objects.all()
     
     # Randomize database query results
     all_categ_articles = Category.objects.order_by('?')
-    print(f"All categ: {all_categ_articles}") # Output before serializing
-    
     current_user = request.user
     
     # Cache key identifier as user username
@@ -65,8 +70,13 @@ def home(request):
         random.shuffle(images_data)
         print(f"True: {images_data}")  # Output after deserializing
     
+    # Popular post blog instance
     popular_cat = Blog.objects.all().order_by('-views_count')[:10]
+    
+    # Most liked post blog instance
     post_likes = Blog.objects.all().annotate(num_likes=Count('likes')).order_by('-num_likes')[:10]
+    
+    # Recent post blog instance
     blog_mod = Blog.objects.all().order_by('-time')[:8]
     for mod in blog_mod:
         target_date_str = f"{mod.time}"
@@ -156,6 +166,7 @@ def register(request):
                 )
             user.set_password(password)
             user.save()
+            Newsletter.objects.create(user=user, subscribe=False)
             return redirect('login')
         else:
             return HttpResponse("Passwords are incorrect")
@@ -336,7 +347,7 @@ def update_like(request):
         data = request.body
         Ajax_data = json.loads(data.decode('utf-8'))
         user = request.user
-        post_id = Ajax_data.get('post_id')
+        post_id = int(Ajax_data.get('post_id'))
         buttonBoolean = Ajax_data.get('buttonBoolean')
         likeBoolean = Ajax_data.get('likeBoolean')
         # print(buttonBoolean)
@@ -344,7 +355,7 @@ def update_like(request):
         # print(user.bookmark_post.all())
         blog = Blog.objects.get(id=post_id)
         
-        if buttonBoolean == "true" or likeBoolean == "false":
+        if buttonBoolean == "true":
             blog.likes.add(user)
             blog.save()
             return JsonResponse({'success': True, 'message': 'Post liked successfully!'})
@@ -362,7 +373,7 @@ def update_bookmark(request):
         data = request.body
         Ajax_data = json.loads(data.decode('utf-8'))
         user = request.user
-        post_id = Ajax_data.get('post_id')
+        post_id = int(Ajax_data.get('post_id'))
         buttonBoolean = Ajax_data.get('buttonBoolean')
         blog = Blog.objects.get(id=post_id)
         
@@ -409,3 +420,17 @@ def get_blogs_based_on_user_likes(user):
         final_blog_list.extend(additional_blogs)
 
     return final_blog_list[:11]  # Ensure it returns exactly 11 posts
+
+def update_subscribe(request):
+    if request.method == "POST":
+        data = request.body
+        Ajax_data = json.loads(data.decode('utf-8'))
+        post_id = Ajax_data.get('post_id')
+        user = request.user
+        if user:
+            subscribe = Newsletter.objects.get(user=user)
+            subscribe.subscribe = True
+            subscribe.save()
+        else:
+            return JsonResponse({'success': False, 'message': 'Sign in subscribe!'})
+        

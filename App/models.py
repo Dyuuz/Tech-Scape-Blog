@@ -14,9 +14,10 @@ class Category(models.Model):
 class Newsletter(models.Model):
     subscribe = models.BooleanField(default=False)
     user = models.ForeignKey(User, related_name='subscribe_list', on_delete=models.CASCADE)
+    email = models.EmailField(max_length=100, default='empty')
     
     def __str__(self) -> None:
-        return self.user
+        return self.user.username
     
 class Blog(models.Model):
     title = models.CharField(max_length=75)

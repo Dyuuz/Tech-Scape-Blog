@@ -198,9 +198,9 @@
               features like user-friendly categories, comment sections, and social sharing tools to stay 
               connected. With registration, enjoy personalized interactions and post engagement. 
             </p>
-            {{ bk }}
-              
-            {% if user.is_authenticated  %}
+            
+            <button></button>
+            {% if user_subscribed  %}
             <p class="hero-text1">
               {{ user.username }}, your inbox just got updated with our latest newsletters.
             </p>
@@ -211,7 +211,7 @@
                 class="input-field" autocomplete="off">
 
               <button class="btn btn-primary">
-                <span class="span">Subscribe</span>
+                <span class="span" onclick="Subscribe()">Subscribe</span>
 
                 <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
               </button>
@@ -338,7 +338,7 @@
                   <div class="card-wrapper">
                     <div class="card-tag">
                       <div class="post-actionspage">
-                        <button class="post-likes" onclick="toggleLike('{{ myblog.id }}')" data-id="{{ myblog.id }}">
+                        <button class="post-likes" onclick="toggleLike('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
                             ❤️ <span id="like-count">{{myblog.likes.count}}</span>
                         </button>
                       </div>
@@ -849,7 +849,12 @@
   -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="{% static 'script22.js'%}"></script>
+  <script src="{% static 'scriptUser.js'%}"></script>
   <script>
+    window.userData = {
+      username: "{{ user.id }}",
+    }; 
+
     window.onload = function () {
       const likedPosts = {{ all_user_likes }}; 
       const posts = document.querySelectorAll(".post-likes");
@@ -865,36 +870,8 @@
           }
       });
     };
-    
-    function toggleLike(postID) {
-      let isLiked = false;
-      const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-      const likeElement = document.querySelector(`.post-likes[data-id='${postID}']`);
-      const likeBoolean = likeElement.getAttribute("likedBoolean");
-      const likeCountElement = likeElement.querySelector('#like-count');
-
-      axios.post('/update-like/', 
-        {
-          post_id: postID,
-          likeBoolean: likeBoolean,
-      }, { headers: {
-              'X-CSRFToken': csrf_token
-          }
-      })
-      .then(response => {
-        if (response.data.success) {
-          const isLiked = likeElement.classList.toggle('active');
-          likeElement.setAttribute('likedBoolean', isLiked.toString());
-          let currentCount = parseInt(likeCountElement.textContent);
-          likeCountElement.textContent = isLiked ? currentCount + 1 : currentCount - 1;
-        }
-        
-      })
-      .catch(error => {
-          console.error('Error:', error.response.data);
-      });
-    }
   </script>
+
   <!-- 
     - ionicon link
   -->
