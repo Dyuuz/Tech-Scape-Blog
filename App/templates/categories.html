@@ -151,23 +151,7 @@
             {% endfor %}
 
         </div>
-        <script>
-            window.onload = function () {
-              const likedPosts = {{ all_user_likes }}; 
-              const posts = document.querySelectorAll(".post-likes");
-              
-              posts.forEach(post => {
-                  const postId = parseInt(post.getAttribute("data-id"));
-                  if (likedPosts.includes(postId)) {
-                    post.classList.add('active');
-                    post.setAttribute('likedBoolean', 'true');
-                  }
-                  else {
-                    post.setAttribute('likedBoolean', 'false')
-                  }
-              });
-            };
-        </script>
+        
 
     </section>
 {% endblock  %}

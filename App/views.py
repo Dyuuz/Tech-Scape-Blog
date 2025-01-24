@@ -10,20 +10,23 @@ from django import template
 from django.urls import reverse
 from .models import *
 import random
+from itertools import chain
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
+from django.db.models import Count
 
 # Create your views here.
 def home(request):
-    blog = Blog.objects.all().order_by('-time')[:11]
     user = request.user
-    
     if user.is_authenticated:
         all_user_likes = user.like_post.all()
         all_user_likes = [int(blog.id) for blog in all_user_likes]
         all_user_bookmarks = user.bookmark_post.all()
+        blog = get_blogs_based_on_user_likes(user)
         all_blog_id = [int(myblog.id) for myblog in blog]
+    else:
+        blog = Blog.objects.all().order_by('?')[:11]
         
     all_categ = Category.objects.all()
     
@@ -61,9 +64,9 @@ def home(request):
         random.shuffle(images_data)
         print(f"True: {images_data}")  # Output after deserializing
     
-    likes_cat = Blog.objects.all().order_by('-views_count')[:5]
-    post_likes = Blog.objects.all().order_by('-likes')[:5]
-    blog_mod = Blog.objects.all().order_by('-time')[:5]
+    popular_cat = Blog.objects.all().order_by('-views_count')[:5]
+    post_likes = Blog.objects.all().annotate(num_likes=Count('likes')).order_by('-num_likes')[:5]
+    blog_mod = Blog.objects.all().order_by('-time')[:10]
     for mod in blog_mod:
         target_date_str = f"{mod.time}"
         target = target_date_str.split('+')[0]
@@ -375,3 +378,33 @@ def profile(request):
     user = request.user
     all_user_likes = user.like_post.all()
     return render(request , 'profile.html', locals())
+
+def get_blogs_based_on_user_likes(user):
+    # Step 1: Get the user's top 3 most liked categories
+    top_categories = (
+        Category.objects.filter(posts__likes=user)  # Filter categories where user liked blogs
+        .annotate(like_count=Count('posts__likes'))  # Count likes in each category
+        .order_by('-like_count')  # Sort by most liked categories
+        .values_list('id', flat=True)[:4]  # Get IDs of the top 4 categories
+    )
+
+    # Step 2: Fetch blog posts, picking 3 posts from each top category
+    blogs = []
+    for category_id in top_categories:
+        category_blogs = Blog.objects.filter(category_id=category_id).order_by('-time')[:3]  # Get latest 3 posts
+        blogs.append(category_blogs)
+
+    # Flatten the list of QuerySets into a single list
+    final_blog_list = list(chain(*blogs))
+
+    # Step 3: If less than 11 posts, fill remaining spots with random blog posts from other categories
+    if len(final_blog_list) < 11:
+        remaining_count = 11 - len(final_blog_list)
+        
+        # Get random blog posts not in the user's top categories
+        additional_blogs = Blog.objects.exclude(category_id__in=top_categories).order_by('?')[:remaining_count]
+        
+        # Combine both lists
+        final_blog_list.extend(additional_blogs)
+
+    return final_blog_list[:11]  # Ensure it returns exactly 11 posts
