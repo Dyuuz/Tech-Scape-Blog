@@ -19,6 +19,7 @@ from django.db.models import Count
 # Create your views here.
 def home(request):
     user = request.user
+    bk = Category.posts.all()
     if user.is_authenticated:
         all_user_likes = user.like_post.all()
         all_user_likes = [int(blog.id) for blog in all_user_likes]
@@ -64,9 +65,9 @@ def home(request):
         random.shuffle(images_data)
         print(f"True: {images_data}")  # Output after deserializing
     
-    popular_cat = Blog.objects.all().order_by('-views_count')[:5]
-    post_likes = Blog.objects.all().annotate(num_likes=Count('likes')).order_by('-num_likes')[:5]
-    blog_mod = Blog.objects.all().order_by('-time')[:10]
+    popular_cat = Blog.objects.all().order_by('-views_count')[:10]
+    post_likes = Blog.objects.all().annotate(num_likes=Count('likes')).order_by('-num_likes')[:10]
+    blog_mod = Blog.objects.all().order_by('-time')[:8]
     for mod in blog_mod:
         target_date_str = f"{mod.time}"
         target = target_date_str.split('+')[0]

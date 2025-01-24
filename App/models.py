@@ -10,6 +10,13 @@ class Category(models.Model):
 
     def __str__(self) -> None:
         return self.name
+
+class Newsletter(models.Model):
+    subscribe = models.BooleanField(default=False)
+    user = models.ForeignKey(User, related_name='subscribe_list', on_delete=models.CASCADE)
+    
+    def __str__(self) -> None:
+        return self.user
     
 class Blog(models.Model):
     title = models.CharField(max_length=75)

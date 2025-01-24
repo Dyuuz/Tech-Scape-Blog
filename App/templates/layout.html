@@ -33,7 +33,7 @@
   <!-- 
     - custom css link
   -->
-  <link rel="stylesheet" href="{% static 'styles78912.css'%}">
+  <link rel="stylesheet" href="{% static 'styles777.css'%}">
   <link rel="stylesheet" href="{% static 'related22.css'%}">
   <link rel="stylesheet" href="{% static 'postpag222.css'%}">
 
@@ -185,7 +185,7 @@
           <div class="hero-content">
 
             {% comment %} {% if request.user %} {% endcomment %}
-            <p class="hero-subtitle">Hello {{ user.username }}!</p>
+            {% comment %} <p class="hero-subtitle">Hello {{ user.username }}!</p> {% endcomment %}
             {% comment %} {% endif %} {% endcomment %}
 
             <h1 class="headline headline-1 section-title">
@@ -198,12 +198,13 @@
               features like user-friendly categories, comment sections, and social sharing tools to stay 
               connected. With registration, enjoy personalized interactions and post engagement. 
             </p>
+            {{ bk }}
               
-            {% if request.user and user.is_authenticated  %}
+            {% if user.is_authenticated  %}
             <p class="hero-text1">
               {{ user.username }}, your inbox just got updated with our latest newsletters.
             </p>
-            
+
             {% else %}
             <div class="input-wrapper">
               <input type="email" name="email_address" placeholder="Type your email address" required
@@ -864,7 +865,7 @@
           }
       });
     };
-
+    
     function toggleLike(postID) {
       let isLiked = false;
       const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
