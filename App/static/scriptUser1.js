@@ -1,8 +1,68 @@
 function Subscribe() {
-    const user = window.userData.username;
     const emailInput = document.querySelector('input[name="email_address"]');
     const emailValue = emailInput.value;
-    alert(emailValue);
+    if (!emailValue) {
+        emailInput.placeholder = "Email is required";
+    } else {
+        axiosSubsribe(emailValue);
+    }
+}
+
+function axiosSubsribe(emailValue) {
+    const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const emailInput = document.querySelector('input[name="email_address"]');
+    axios.post('/update-subscribe/', 
+        {
+            emailVal: emailValue,
+        }, 
+        { 
+            headers: {
+                'X-CSRFToken': csrf_token
+            }
+        }
+    )
+    .then(response => {
+        if (response.data.success === true) {
+            const suggestionBox = document.createElement('div');
+            suggestionBox.textContent = response.data.message;
+            suggestionBox.style.position = 'absolute';
+            suggestionBox.style.backgroundColor = '#f8d7da';
+            suggestionBox.style.color = 'green';
+            suggestionBox.style.fontSize = '15px';
+            suggestionBox.style.padding = '5px';
+            suggestionBox.style.border = '1px solidrgb(48, 204, 155)';
+            suggestionBox.style.borderRadius = '5px';
+            suggestionBox.style.marginTop = '55px';
+            suggestionBox.style.marginRight = '50px';
+            // suggestionBox.style.zIndex = '1000';
+            emailInput.insertAdjacentElement('afterend', suggestionBox);
+            setTimeout(() => {
+                suggestionBox.remove();
+            }, 3000);
+            window.location.reload();
+        } else {
+            // alert(response.data.success);
+            const suggestionBox = document.createElement('div');
+            suggestionBox.textContent = response.data.message;
+            suggestionBox.style.position = 'absolute';
+            suggestionBox.style.backgroundColor = '#f8d7da';
+            suggestionBox.style.color = '#721c24';
+            suggestionBox.style.fontSize = '15px';
+            suggestionBox.style.padding = '5px';
+            suggestionBox.style.border = '1px solid #f5c6cb';
+            suggestionBox.style.borderRadius = '5px';
+            suggestionBox.style.marginTop = '55px';
+            suggestionBox.style.marginRight = '50px';
+            // suggestionBox.style.zIndex = '1000';
+            emailInput.insertAdjacentElement('afterend', suggestionBox);
+            setTimeout(() => {
+                suggestionBox.remove();
+            }, 3000);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error.response.data);
+    });
 }
 
 function toggleLike(postID) {
@@ -23,13 +83,13 @@ function toggleLike(postID) {
         buttonBoolean = "true";
         postID = parseInt(postID);
         axios.post('/update-like/', 
-          {
-            post_id: postID,
-          buttonBoolean: buttonBoolean,
-          }, { headers: {
-                  'X-CSRFToken': csrf_token
-              }
-          })
+            {
+                post_id: postID,
+            buttonBoolean: buttonBoolean,
+            }, { headers: {
+                    'X-CSRFToken': csrf_token
+                }
+            })
         .then(response => {
           console.log(response.data);
         })
@@ -37,26 +97,26 @@ function toggleLike(postID) {
             console.error('Error:', error.response.data);
         });
       } else{
-          buttonBoolean = "false";
-          postID = parseInt(postID);
-          axios.post('/update-like/', 
-            {
-              post_id: postID,
-            buttonBoolean: buttonBoolean,
-            }, { headers: {
-                    'X-CSRFToken': csrf_token
-                }
+            buttonBoolean = "false";
+            postID = parseInt(postID);
+            axios.post('/update-like/', 
+                {
+                post_id: postID,
+                buttonBoolean: buttonBoolean,
+                }, { headers: {
+                        'X-CSRFToken': csrf_token
+                    }
+                })
+            .then(response => {
+                console.log(response.data);
             })
-          .then(response => {
-            console.log(response.data);
-          })
-          .catch(error => {
-            console.error('Error:', error.response.data);
+            .catch(error => {
+                console.error('Error:', error.response.data);
         });
       }
   
     } else {
-        const redirectUrl = "{% url 'login' %}";
+        const redirectUrl = "{% url 'register' %}";
         window.location.href = redirectUrl;
     }  
   }

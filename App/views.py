@@ -15,6 +15,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Count
+import re
 
 # Create your views here.
 def home(request):        
@@ -387,9 +388,12 @@ def update_bookmark(request):
             return JsonResponse({'success': True, 'message': 'Post unbookmarked successfully!'})
 
 def profile(request):
-    user = request.user
-    all_user_likes = user.like_post.all()
-    return render(request , 'profile.html', locals())
+    try:
+        user = request.user
+        all_user_likes = user.like_post.all()
+        return render(request , 'profile.html', locals())
+    except:
+        return redirect('home')
 
 def get_blogs_based_on_user_likes(user):
     # Step 1: Get the user's top 3 most liked categories
@@ -425,12 +429,20 @@ def update_subscribe(request):
     if request.method == "POST":
         data = request.body
         Ajax_data = json.loads(data.decode('utf-8'))
-        post_id = Ajax_data.get('post_id')
-        user = request.user
-        if user:
-            subscribe = Newsletter.objects.get(user=user)
-            subscribe.subscribe = True
-            subscribe.save()
+        emailVal = Ajax_data.get('emailVal')
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_regex, emailVal):
+            return JsonResponse({'success': False, 'message': 'Invalid email format!'})
         else:
-            return JsonResponse({'success': False, 'message': 'Sign in subscribe!'})
-        
+            try:
+                user = request.user
+                if user:
+                    subscribe = Newsletter.objects.get(user=user)
+                    subscribe.subscribe = True
+                    subscribe.email = emailVal
+                    subscribe.save()
+                    return JsonResponse({'success': True, 'message': 'Subscribed successfully!'})
+                else:
+                    return JsonResponse({'success': False, 'message': 'Sign in to subscribe!'})
+            except:
+                return JsonResponse({'success': False, 'message': 'Sign in to subscribe!'})
