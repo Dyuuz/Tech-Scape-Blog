@@ -46,12 +46,10 @@
                         </button>
                         
                         <div class="post-share-container">
-                            <button class="post-share" onclick="toggleShareDropdown()" title="Share this post">🔗 Share</button>
-                            <div class="share-dropdown">
-                                <a href="#" class="share-icon" title="Share on Twitter">🐦</a>
-                                <a href="#" class="share-icon" title="Share on Facebook">📘</a>
-                                <a href="#" class="share-icon" title="Share on LinkedIn">🔗</a>
-                            </div>
+                            <button class="post-shares-home" onclick="toggleShareDropdown()" title="Share this post">🚀 
+                                <span id="share-count">{{blog.shares_count}}</span> Shares
+                            </button>
+                            
                         </div>
                     </div>
                 

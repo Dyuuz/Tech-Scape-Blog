@@ -11,6 +11,7 @@ urlpatterns = [
     path('profile', views.profile, name = 'profile'),
     path('recent-posts', views.recentposts, name = 'recentposts'),
     path('update-like/', views.update_like, name = 'update-like'),
+    path('update-shares/', views.update_shares, name = 'update-shares'),
     path('update-subscribe/', views.update_subscribe, name = 'update-subscribe'),
     path('update-bookmark/', views.update_bookmark, name = 'update-bookmark'),
     path('register', views.register, name = 'register'),

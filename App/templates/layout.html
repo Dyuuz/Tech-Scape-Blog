@@ -35,7 +35,7 @@
   -->
   <link rel="stylesheet" href="{% static 'styles777.css'%}">
   <link rel="stylesheet" href="{% static 'related22.css'%}">
-  <link rel="stylesheet" href="{% static 'postpag222.css'%}">
+  <link rel="stylesheet" href="{% static 'postpag456.css'%}">
 
   <!-- 
     - preload images
@@ -340,6 +340,9 @@
                       <div class="post-actionspage">
                         <button class="post-likes" onclick="toggleLike('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
                             ❤️ <span id="like-count">{{myblog.likes.count}}</span>
+                        </button>
+                        <button class="post-shares-home" onclick="sharePost('{{ myblog.id }}')" data-id="{{ myblog.id }}">
+                          🚀 <span id="share-count">{{ myblog.shares_count }}</span>
                         </button>
                       </div>
                     </div>

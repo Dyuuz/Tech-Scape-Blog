@@ -447,3 +447,24 @@ def update_subscribe(request):
             except:
                 return JsonResponse({'success': False, 'message': 'Sign in to subscribe!'})
             
+def update_shares(request):
+    """
+    Logic script to update blog shares count feature directly with ajax request 
+    """
+    if request.method == "POST":
+        data = request.body
+        Ajax_data = json.loads(data.decode('utf-8'))
+        post_id = int(Ajax_data.get('post_id'))
+        blog = Blog.objects.get(id=post_id)
+        user = request.user
+        
+        session_key = f'viewed_post_{post_id}_{user}'
+        if not request.session.get(session_key):
+            request.session[session_key] = True
+            if blog:
+                blog.shares_count += 1
+                blog.save()
+                return JsonResponse({'success': True, 'message': 'Blog count updated successfully!'})
+            
+        else:
+            return JsonResponse({'success': False, 'message': 'Too many requests!'})

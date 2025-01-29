@@ -119,12 +119,14 @@ function toggleShareDropdown() {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     
     if (navigator.share) {
-      alert('Web Share API is supported in your browser.');
+      // alert('Web Share API is supported in your browser.');
       navigator.share({
         title: document.title,
         text: 'Check out this awesome page!',
         url: window.location.href
       }).catch(console.error);
+      sharesupdate();
+
     } else {
       const shareUrl = window.location.href;
       const tempInput = document.createElement('input');
@@ -153,6 +155,30 @@ function toggleShareDropdown() {
         dialog.close();
         document.body.removeChild(dialog);
       }, 2000);
+
+      sharesupdate();
     }
     
+}
+
+function sharesupdate() {
+  const ShareCount = document.getElementById('share-count');
+
+  axios.post('/update-shares/', 
+    {
+        post_id: window.userData.post_id,
+    }, { headers: {
+            'X-CSRFToken': csrf_token
+        }
+    })
+  .then(response => {
+  if (response.data.success === true) {
+    ShareCount.textContent = parseInt(ShareCount.textContent) + 1;
+  } else {
+    console.log(response.data.message);
+  }
+  })
+  .catch(error => {
+      console.error('Error:', error.response.data);
+  });
 }

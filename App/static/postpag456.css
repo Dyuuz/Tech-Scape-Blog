@@ -125,6 +125,22 @@
     color: #f3f8fc;
 }
 
+.post-shares-home {
+    position: relative;
+    /* background-color: #3498db; */
+    color: #ffffff;
+    border: 1px dashed rgb(103, 103, 175);
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive button font size */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .post-likes, .post-bookmark, .post-share {
     background-color: rgba(255, 255, 255, 0.8);
     border: none;
