@@ -31,6 +31,7 @@ class Blog(models.Model):
     bookmarks = models.ManyToManyField(User, related_name='bookmark_post', blank=True)
     dislikes = models.IntegerField(default=0)
     views_count = models.IntegerField(default=0)
+    shares_count = models.IntegerField(default=0)
     mins_read = models.IntegerField(default=5)
     category = models.ForeignKey(Category, related_name='posts', on_delete=models.CASCADE, default=2)
     

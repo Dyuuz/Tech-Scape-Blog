@@ -116,5 +116,43 @@ window.addEventListener("resize", function () {
 
 function toggleShareDropdown() {
     const shareContainer = document.querySelector('.post-share-container');
-    shareContainer.classList.toggle('active');
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    
+    if (navigator.share) {
+      alert('Web Share API is supported in your browser.');
+      navigator.share({
+        title: document.title,
+        text: 'Check out this awesome page!',
+        url: window.location.href
+      }).catch(console.error);
+    } else {
+      const shareUrl = window.location.href;
+      const tempInput = document.createElement('input');
+      document.body.appendChild(tempInput);
+      tempInput.value = shareUrl;
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      
+      // const link = `https://wa.me/?text=Check%20this%20out:%20${encodeURIComponent(window.location.href)}`;
+      // window.location.href = link;
+
+      const dialog = document.createElement('dialog');
+      dialog.textContent = 'URL copied to clipboard.';
+      dialog.style.padding = '1em';
+      dialog.style.border = 'none';
+      dialog.style.borderRadius = '5px';
+      dialog.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+      dialog.style.backgroundColor = '#fff';
+      dialog.style.color = '#333';
+      dialog.style.fontSize = '1em';
+      dialog.style.textAlign = 'center';
+      document.body.appendChild(dialog);
+      dialog.showModal();
+      setTimeout(() => {
+        dialog.close();
+        document.body.removeChild(dialog);
+      }, 2000);
+    }
+    
 }

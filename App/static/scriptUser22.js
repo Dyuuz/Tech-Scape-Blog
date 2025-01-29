@@ -79,45 +79,44 @@ function toggleLike(postID) {
       likeCountElement.textContent = isLiked ? parseInt(likeCountElement.textContent) + 1 : parseInt(likeCountElement.textContent) - 1;
       likeElement.setAttribute("likedBoolean", isLiked.toString());
       
-      if (isLiked === true) {
-        buttonBoolean = "true";
-        postID = parseInt(postID);
-        axios.post('/update-like/', 
-            {
-                post_id: postID,
-            buttonBoolean: buttonBoolean,
-            }, { headers: {
-                    'X-CSRFToken': csrf_token
-                }
-            })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-            console.error('Error:', error.response.data);
-        });
-      } else{
-            buttonBoolean = "false";
+        if (isLiked === true) {
+            buttonBoolean = "true";
             postID = parseInt(postID);
             axios.post('/update-like/', 
                 {
-                post_id: postID,
+                    post_id: postID,
                 buttonBoolean: buttonBoolean,
                 }, { headers: {
                         'X-CSRFToken': csrf_token
                     }
                 })
             .then(response => {
-                console.log(response.data);
+            console.log(response.data);
             })
             .catch(error => {
                 console.error('Error:', error.response.data);
-        });
-      }
+            });
+        } else{
+                buttonBoolean = "false";
+                postID = parseInt(postID);
+                axios.post('/update-like/', 
+                    {
+                    post_id: postID,
+                    buttonBoolean: buttonBoolean,
+                    }, { headers: {
+                            'X-CSRFToken': csrf_token
+                        }
+                    })
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error('Error:', error.response.data);
+            });
+        }
   
     } else {
-        const redirectUrl = "{% url 'register' %}";
-        window.location.href = redirectUrl;
+        redirectUser();
     }  
   }
 
@@ -140,8 +139,7 @@ function toggleLikePost() {
         }
     
     } else {
-        const redirectUrl = "{% url 'loginsession' name=blog.category.name slug=blog.slug %}";
-        window.location.href = redirectUrl;
+        redirectUrl();
     }
     
 }
@@ -161,9 +159,7 @@ function toggleBookmarkPost() {
         }
     
     } else {
-        const redirectUrl = "{% url 'loginsession' name=blog.category.name slug=blog.slug %}";
-        window.location.href = redirectUrl;
-        
+        redirectUrl();
     }
     
 }

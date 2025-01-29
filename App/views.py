@@ -446,3 +446,4 @@ def update_subscribe(request):
                     return JsonResponse({'success': False, 'message': 'Sign in to subscribe!'})
             except:
                 return JsonResponse({'success': False, 'message': 'Sign in to subscribe!'})
+            

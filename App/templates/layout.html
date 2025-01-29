@@ -14,7 +14,7 @@
     - primary meta tags
   -->
   <title>Tech Scape - Perosonal Blog Website</title>
-  <meta name="title" content="Perosonal Blog Website">
+  <meta name="title" content="Tech Scape">
   <meta name="description" content="This is a blog html template made by Laycon">
 
   <!-- 
@@ -766,25 +766,29 @@
             <p class="footer-text">
               Sign up to be first to receive the latest stories inspiring us, case studies, and industry news.
             </p>
+            <form class="blog-register-form" action="register" method="POST">
+              {% csrf_token %}
+              <div class="input-wrapper">
+                <input type="text" name="name" placeholder="Your name" required class="input-field" autocomplete="off">
 
-            <div class="input-wrapper">
-              <input type="text" name="name" placeholder="Your name" required class="input-field" autocomplete="off">
+                <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+              </div>
 
-              <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-            </div>
+              <div class="input-wrapper">
+                <input type="email" name="email_address" placeholder="Emaill address" required class="input-field"
+                  autocomplete="off">
 
-            <div class="input-wrapper">
-              <input type="email" name="email_address" placeholder="Emaill address" required class="input-field"
-                autocomplete="off">
+                <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+              </div>
+              
+              <a class="btn btn-primary">
+                <button type="submit">
+                  <span class="span">Subscribe</span>
+                </button>
 
-              <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
-            </div>
-
-            <a href="#" class="btn btn-primary">
-              <span class="span">Subscribe</span>
-
-              <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-            </a>
+                <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+              </a>
+            </form>
 
           </div>
 
@@ -848,8 +852,8 @@
     - custom js link
   -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="{% static 'script22.js'%}"></script>
-  <script src="{% static 'scriptUser1.js'%}"></script>
+  <script src="{% static 'scriptAll.js'%}"></script>
+  <script src="{% static 'scriptUser22.js'%}"></script>
   <script>
     window.userData = {
       username: "{{ user.id }}",
@@ -871,7 +875,12 @@
       });
     };
   </script>
-
+  <script>
+    function redirectUser() {
+      const redirectUrl = "{% url 'login' %}";
+      window.location.href = redirectUrl;
+    }
+  </script>
   <!-- 
     - ionicon link
   -->

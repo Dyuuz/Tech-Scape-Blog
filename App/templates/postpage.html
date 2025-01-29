@@ -151,6 +151,12 @@
                     bookmarkButton.classList.toggle('active', isBookmarked);
                 }
             };
+
+            function redirectUrl() {
+                const redirectUrl = "{% url 'loginsession' name=blog.category.name slug=blog.slug %}";
+                window.location.href = redirectUrl;
+            }
+            
         </script>
     </section>
 {% endblock  %}
