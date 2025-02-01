@@ -33,7 +33,7 @@
   <!-- 
     - custom css link
   -->
-  <link rel="stylesheet" href="{% static 'styles777.css'%}">
+  <link rel="stylesheet" href="{% static 'styles78.css'%}">
   <link rel="stylesheet" href="{% static 'related22.css'%}">
   <link rel="stylesheet" href="{% static 'postpag456.css'%}">
 
@@ -103,7 +103,7 @@
 
             <div>
               <p class="card-title">Hello {{ user.username }}!</p>
-              <p class="card-subtitle">
+              <p class="card-subtitle-new">
                 You have 3 new contents to read.
               </p>
               
@@ -346,8 +346,8 @@
                         <button class="post-likes" onclick="toggleLike('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
                             ❤️ <span id="like-count">{{myblog.likes.count}}</span>
                         </button>
-                        <button class="post-shares-home" onclick="sharePost('{{ myblog.id }}')" data-id="{{ myblog.id }}">
-                          🚀 <span id="share-count">{{ myblog.shares_count }}</span>
+                        <button class="post-shares-home" onclick="toggleShareAll('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
+                          🚀 <span id="share-count" data-id="{{ myblog.id }}">{{ myblog.shares_count }}</span>
                         </button>
                       </div>
                     </div>

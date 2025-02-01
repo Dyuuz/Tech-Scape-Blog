@@ -43,8 +43,14 @@ def home(request):
         if not blog_data:
             serialized_blog_data  = serializers.serialize('json', blog)
             
-            # Cache the image data list for 2 hours
-            cache.set(no_user_auth_key, serialized_blog_data , timeout = 7200)
+            # Calculate the remaining seconds until the end of the day
+            now = datetime.now()
+            end_of_day = datetime.combine(now.date(), datetime.max.time())
+            seconds_until_end_of_day = (end_of_day - now).seconds
+            print(seconds_until_end_of_day)
+            
+            # Cache the image data list until the end of the day
+            cache.set(no_user_auth_key, serialized_blog_data, timeout=seconds_until_end_of_day)
             
             # Custom function to deserialize serialized data
             blog = deserial(serialized_blog_data)

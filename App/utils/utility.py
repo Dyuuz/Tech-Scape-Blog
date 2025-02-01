@@ -18,10 +18,13 @@ import re
 
 # Function scripts
 def subscribe_check(request):
-    current_user = request.user if request.user.is_authenticated else None
-    user_subscribed = Newsletter.objects.get(user=current_user)
-    user_subscribed = True if user_subscribed and user_subscribed.subscribe else False
-    return user_subscribed
+    try:
+        current_user = request.user if request.user.is_authenticated else None
+        user_subscribed = Newsletter.objects.get(user=current_user)
+        user_subscribed = True if user_subscribed and user_subscribed.subscribe else False
+        return user_subscribed
+    except:
+        return False
 
 # Pending 
 def comment(request):

@@ -748,6 +748,25 @@ body.nav-active { overflow: hidden; }
 .feature .profile-card .card-subtitle,
 .feature .card-wrapper .card-btn { font-size: var(--fontSize-6); }
 
+.card-subtitle-new{
+  font-size: var(--fontSize-6);
+  color: var(--text-slate-gray);
+  /* font-size: var(--fontSize-7);  */
+  animation: colorChange 5s infinite;
+}
+
+@keyframes colorChange {
+  0% {
+    color: #b0b9c9;
+  }
+  50% {
+    color: #669dba;
+  }
+  100% {
+    color: #b0b9c9;
+  }
+}
+
 .feature-card .card-wrapper:last-child {
   font-size: var(--fontSize-4);
   margin-block-end: 0;
