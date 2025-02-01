@@ -23,41 +23,68 @@ function axiosSubsribe(emailValue) {
     )
     .then(response => {
         if (response.data.success === true) {
-            const suggestionBox = document.createElement('div');
-            suggestionBox.textContent = response.data.message;
-            suggestionBox.style.position = 'absolute';
-            suggestionBox.style.backgroundColor = '#f8d7da';
-            suggestionBox.style.color = 'green';
-            suggestionBox.style.fontSize = '15px';
-            suggestionBox.style.padding = '5px';
-            suggestionBox.style.border = '1px solidrgb(48, 204, 155)';
-            suggestionBox.style.borderRadius = '5px';
-            suggestionBox.style.marginTop = '55px';
-            suggestionBox.style.marginRight = '50px';
-            // suggestionBox.style.zIndex = '1000';
-            emailInput.insertAdjacentElement('afterend', suggestionBox);
-            setTimeout(() => {
-                suggestionBox.remove();
-            }, 3000);
-            window.location.reload();
+            const dialogBox = document.createElement('div');
+            dialogBox.style.position = 'fixed';
+            dialogBox.style.top = '50%';
+            dialogBox.style.left = '50%';
+            dialogBox.style.transform = 'translate(-50%, -50%)';
+            dialogBox.style.backgroundColor = '#333';
+            dialogBox.style.color = '#fff';
+            dialogBox.style.padding = '20px';
+            dialogBox.style.borderRadius = '8px';
+            dialogBox.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+            dialogBox.style.zIndex = '1000';
+            
+            const message = document.createElement('p');
+            message.textContent = response.data.message;
+            dialogBox.appendChild(message);
+            
+            const okButton = document.createElement('button');
+            okButton.textContent = 'Proceed';
+            okButton.style.marginTop = '10px';
+            okButton.style.padding = '5px 10px';
+            okButton.style.border = 'none';
+            okButton.style.borderRadius = '4px';
+            okButton.style.backgroundColor = '#007bff';
+            okButton.style.color = '#fff';
+            okButton.style.cursor = 'pointer';
+            okButton.addEventListener('click', () => {
+                dialogBox.remove();
+                window.location.reload();
+            });
+            dialogBox.appendChild(okButton);
+            
+            document.body.appendChild(dialogBox);
+            // setTimeout(() => {
+            //     suggestionBox.remove();
+                
+            //     // Delay the page reload by 5 more seconds after removal
+            //     setTimeout(() => {
+            //         window.location.reload();
+            //     }, 1000);  // 5 seconds delay before reload
+        
+            // }, 7000);  // Suggestion box stays for 7 seconds
+
         } else {
             // alert(response.data.success);
             const suggestionBox = document.createElement('div');
             suggestionBox.textContent = response.data.message;
             suggestionBox.style.position = 'absolute';
-            suggestionBox.style.backgroundColor = '#f8d7da';
-            suggestionBox.style.color = '#721c24';
-            suggestionBox.style.fontSize = '15px';
-            suggestionBox.style.padding = '5px';
-            suggestionBox.style.border = '1px solid #f5c6cb';
-            suggestionBox.style.borderRadius = '5px';
+            suggestionBox.style.backgroundColor = '0 4px 8px rgba(214, 26, 26, 0.1)';
+            suggestionBox.style.color = '#fff';
+            suggestionBox.style.fontSize = '14px';
+            suggestionBox.style.padding = '10px 20px';
+            suggestionBox.style.borderRadius = '8px';
+            suggestionBox.style.boxShadow = '0 4px 8px rgba(238, 254, 249, 0.1)';
             suggestionBox.style.marginTop = '55px';
             suggestionBox.style.marginRight = '50px';
+            suggestionBox.style.transition = 'opacity 0.3s ease';
+            suggestionBox.style.opacity = '0.9';
             // suggestionBox.style.zIndex = '1000';
             emailInput.insertAdjacentElement('afterend', suggestionBox);
             setTimeout(() => {
                 suggestionBox.remove();
-            }, 3000);
+            }, 2000);
         }
     })
     .catch(error => {

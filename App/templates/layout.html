@@ -119,10 +119,15 @@
               <a href="#" class="navbar-bottom-link hover-1">Articles Saved</a>
             </li>
 
+            {% if user_subscribed  %}
+            <li>
+              <a href="#" class="navbar-bottom-link hover-1">Unsubscribe</a>
+            </li>
+            {% else %}
             <li>
               <a href="#" class="navbar-bottom-link hover-1">Subscribe</a>
             </li>
-
+            {% endif %}
             <li>
               <a href="#" class="navbar-bottom-link hover-1">My Likes</a>
             </li>
@@ -856,7 +861,7 @@
   -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="{% static 'scriptAll.js'%}"></script>
-  <script src="{% static 'scriptUser22.js'%}"></script>
+  <script src="{% static 'scriptUser556.js'%}"></script>
   <script>
     window.userData = {
       username: "{{ user.id }}",

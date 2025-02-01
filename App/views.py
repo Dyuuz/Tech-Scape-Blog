@@ -19,45 +19,56 @@ import re
 
 # Create your views here.
 def home(request):        
-    user = request.user
-    if user.is_authenticated:
-        all_user_likes = user.like_post.all()
+    # Cache key identifier as user username
+    current_user = request.user
+    
+    if current_user.is_authenticated:
+        all_user_likes = current_user.like_post.all()
         all_user_likes = [int(blog.id) for blog in all_user_likes]
         
-        user_subscribed = Newsletter.objects.get(user=user)
+        user_subscribed = Newsletter.objects.get(user=current_user)
         user_subscribed = True if user_subscribed and user_subscribed.subscribe else False
         
-        all_user_bookmarks = user.bookmark_post.all()
+        all_user_bookmarks = current_user.bookmark_post.all()
         
         # Today's pick post based on user's interaction
-        blog = get_blogs_based_on_user_likes(user)
+        blog = get_blogs_based_on_user_likes(current_user)
         all_blog_id = [int(myblog.id) for myblog in blog]
+        
     else:
+        no_user_auth_key = f"Picks-{current_user}"
         blog = Blog.objects.all().order_by('?')[:11]
-
+        blog_data = cache.get(no_user_auth_key)
+        # blog = Blog.objects.select_related('likes', 'bookmarks').all().order_by('?')[:11]
+        if not blog_data:
+            serialized_blog_data  = serializers.serialize('json', blog)
+            
+            # Cache the image data list for 2 hours
+            cache.set(no_user_auth_key, serialized_blog_data , timeout = 7200)
+            
+            # Custom function to deserialize serialized data
+            blog = deserial(serialized_blog_data)
+        else:
+            blog = deserial(blog_data)
         
     # Category post instance
     all_categ = Category.objects.all()
     
     # Randomize database query results
     all_categ_articles = Category.objects.order_by('?')
-    current_user = request.user
-    
-    # Cache key identifier as user username
-    cache_key = f"{current_user}"
     
     # To test for query outputs if cached or not
     # cache.clear() 
-    
+    topics_cache_key = f"Hot-Topics-{current_user}"
     # Retrieves the value from the cache assigned with the custom key.
-    images_data = cache.get(cache_key)
+    images_data = cache.get(topics_cache_key)
     
     # If executes if images_data returns none
     if not images_data:
         serialized_data  = serializers.serialize('json', all_categ_articles)
         
         # Cache the image data list for 2 hours
-        cache.set(cache_key, serialized_data , timeout = 7200)
+        cache.set(topics_cache_key, serialized_data , timeout = 7200)
         
         # Custom function to deserialize serialized data
         images_data = deserial(serialized_data)
@@ -458,9 +469,9 @@ def update_shares(request):
         blog = Blog.objects.get(id=post_id)
         user = request.user
         
-        session_key = f'viewed_post_{post_id}_{user}'
-        if not request.session.get(session_key):
-            request.session[session_key] = True
+        session_share_key = f'viewed_post_{post_id}_{user}'
+        if not request.session.get(session_share_key):
+            request.session[session_share_key] = True
             if blog:
                 blog.shares_count += 1
                 blog.save()
