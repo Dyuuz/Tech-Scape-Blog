@@ -230,7 +230,7 @@ function sharesupdate() {
 }
 
 function sharesupdateAll(postID) {
-  const ShareCount = document.querySelector(`.share-count[data-id='${postID}']`);
+  const ShareCount = document.querySelector(`#share-count[data-id='${postID}']`);
 
   axios.post('/update-shares/', 
     {
