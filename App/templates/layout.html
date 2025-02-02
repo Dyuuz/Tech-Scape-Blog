@@ -35,7 +35,7 @@
   -->
   <link rel="stylesheet" href="{% static 'styles78.css'%}">
   <link rel="stylesheet" href="{% static 'related22.css'%}">
-  <link rel="stylesheet" href="{% static 'postpag456.css'%}">
+  <link rel="stylesheet" href="{% static 'postpag155.css'%}">
 
   <!-- 
     - preload images
@@ -83,7 +83,7 @@
           </li>
 
           <li>
-            <a href="#featured" class="navbar-link hover-1" data-nav-toggler>Featured Post</a>
+            <a href="#featured" class="navbar-link hover-1" data-nav-toggler>Premium+</a>
           </li>
 
           <li>
@@ -103,9 +103,15 @@
 
             <div>
               <p class="card-title">Hello {{ user.username }}!</p>
+              {% if user_subscribed %}
               <p class="card-subtitle-new">
                 You have 3 new contents to read.
               </p>
+              {% else  %}
+              <p class="card-subtitle-new">
+                Subscribe to get the latest updates.
+              </p>
+              {% endif %}
               
             </div>
           </div>
@@ -347,7 +353,7 @@
                             ❤️ <span id="like-count">{{myblog.likes.count}}</span>
                         </button>
                         <button class="post-shares-home" onclick="toggleShareAll('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
-                          🚀 <span id="share-count" data-id="{{ myblog.id }}">{{ myblog.shares_count }}</span>
+                          🚀 <span id="share-count" class="share-count" data-id="{{ myblog.id }}">{{ myblog.shares_count }}</span>
                         </button>
                       </div>
                     </div>
@@ -861,7 +867,7 @@
   -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="{% static 'scriptAll.js'%}"></script>
-  <script src="{% static 'scriptUser556.js'%}"></script>
+  <script src="{% static 'scriptUser123.js'%}"></script>
   <script>
     window.userData = {
       username: "{{ user.id }}",

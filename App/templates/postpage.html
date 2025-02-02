@@ -22,20 +22,16 @@
                     <!-- Blog Header Section -->
                     <header class="post-header">
                         <h1 class="post-title">{{blog.title}}</h1>
-                        <div class="post-infor">
-                            <span class="post-date">{{blog.time | date:"F j, Y h:i a"}} </span> |
-                            <span class="post-read-time">{{blog.mins_read}} mins read</span>
+                        <div class="post-meta">
+                            <span class="post-views" title="Views">👁️ {{blog.views_count}}</span>
+                            <span><i class="fas fa-calendar-alt"></i> {{blog.time | date:"F j, Y h:i a"}}</span>
+                            <span><i class="fas fa-clock"></i> {{blog.mins_read}} mins read</span>
                         </div>
                     </header>
                 
                     <!-- Interactive Buttons Section -->
                     <div class="post-actions">
-                        <span class="post-views" title="Views">👁️ {{blog.views_count}}</span>
-
-                        {% comment %} {% if request.User in blog.likes  %} {% endcomment %}
-                            
-                        {% comment %} {% else %} {% endcomment %}
-
+                        
                         <button class="post-likes" onclick="toggleLikePost()" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-liked="{{ is_liked|yesno:"true,false" }}">
                             ❤️ <span id="like-count">{{blog.likes.count}}</span>
                         </button>

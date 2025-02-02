@@ -161,8 +161,31 @@ function toggleShareDropdown() {
     
 }
 
+function sharesupdate() {
+  const ShareCount = document.getElementById('share-count');
+
+  axios.post('/update-shares/', 
+    {
+        post_id: window.userData.post_id,
+    }, { headers: {
+            'X-CSRFToken': csrf_token
+        }
+    })
+  .then(response => {
+  if (response.data.success === true) {
+    ShareCount.textContent = parseInt(ShareCount.textContent) + 1;
+  } else {
+    console.log(response.data.message);
+  }
+  })
+  .catch(error => {
+      console.error('Error:', error.response.data);
+  });
+}
+
 function toggleShareAll(postID) {
-  const likeElement = document.querySelector(`.post-likes[data-id='${postID}']`);
+  const ShareCount = document.querySelector(`.post-shares-home[data-id='${postID}']`);
+  const InnerShareCount = ShareCount.querySelector('.share-count');
   const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
   if (navigator.share) {
@@ -207,30 +230,10 @@ function toggleShareAll(postID) {
   }
 }
 
-function sharesupdate() {
-  const ShareCount = document.getElementById('share-count');
-
-  axios.post('/update-shares/', 
-    {
-        post_id: window.userData.post_id,
-    }, { headers: {
-            'X-CSRFToken': csrf_token
-        }
-    })
-  .then(response => {
-  if (response.data.success === true) {
-    ShareCount.textContent = parseInt(ShareCount.textContent) + 1;
-  } else {
-    console.log(response.data.message);
-  }
-  })
-  .catch(error => {
-      console.error('Error:', error.response.data);
-  });
-}
-
 function sharesupdateAll(postID) {
-  const ShareCount = document.querySelector(`#share-count[data-id='${postID}']`);
+  const ShareCount = document.querySelector(`.post-shares-home[data-id='${postID}']`);
+  const InnerShareCount = ShareCount.querySelector('.share-count');
+  const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
   axios.post('/update-shares/', 
     {
@@ -241,7 +244,7 @@ function sharesupdateAll(postID) {
     })
   .then(response => {
   if (response.data.success === true) {
-    ShareCount.textContent = parseInt(ShareCount.textContent) + 1;
+    InnerShareCount.textContent = parseInt(InnerShareCount.textContent) + 1;
   } else {
     console.log(response.data.message);
   }

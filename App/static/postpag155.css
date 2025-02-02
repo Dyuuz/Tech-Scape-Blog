@@ -64,7 +64,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    gap: 15px;
+    gap: 9px;
     padding-left: 20px;
     height: fit-content;
     /* border-bottom: 1px solid rgba(200, 200, 200, 0.5); */
@@ -127,9 +127,9 @@
 
 .post-shares-home {
     position: relative;
-    /* background-color: #3498db; */
-    color: #ffffff;
-    border: 1px dashed rgb(103, 103, 175);
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #2c3e50;
+    /* border: 1px dashed rgb(103, 103, 175); */
     padding: 10px 15px;
     border-radius: 20px;
     font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive button font size */
@@ -139,6 +139,11 @@
     height: 25px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+.post-shares-home:hover {
+    border: 1px solid #3c95cd;
+    transition: border-color 0.3s ease;
+    border-color: #3c95cd;
 }
 
 .post-likes, .post-bookmark, .post-share {
@@ -315,4 +320,60 @@
     width:fit-content;
     padding: 5px;
     border-radius: 5px;
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between elements */
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.post-meta span {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.post-meta span:hover {
+    background: rgba(0, 0, 0, 0.1); /* Subtle hover effect */
+}
+
+.post-meta span i {
+    font-size: 2rem;
+    color: #333;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .post-meta {
+        color: #bbb;
+    }
+
+    .post-meta span {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .post-meta span i {
+        color: #ddd;
+    }
+
+    .post-meta span:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Responsive Adjustment */
+@media (max-width: 768px) {
+    .post-meta {
+        flex-wrap: wrap; /* Allows wrapping on smaller screens */
+        gap: 10px;
+    }
 }

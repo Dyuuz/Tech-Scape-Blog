@@ -40,22 +40,43 @@ def home(request):
         blog = Blog.objects.all().order_by('?')[:11]
         blog_data = cache.get(no_user_auth_key)
         # blog = Blog.objects.select_related('likes', 'bookmarks').all().order_by('?')[:11]
+        
+        now = datetime.now()
+        end_of_day = datetime.combine(now.date(), datetime.max.time())
+        seconds_until_end_of_day = (end_of_day - now).seconds
+        
         if not blog_data:
             serialized_blog_data  = serializers.serialize('json', blog)
-            
-            # Calculate the remaining seconds until the end of the day
-            now = datetime.now()
-            end_of_day = datetime.combine(now.date(), datetime.max.time())
-            seconds_until_end_of_day = (end_of_day - now).seconds
-            print(seconds_until_end_of_day)
             
             # Cache the image data list until the end of the day
             cache.set(no_user_auth_key, serialized_blog_data, timeout=seconds_until_end_of_day)
             
             # Custom function to deserialize serialized data
             blog = deserial(serialized_blog_data)
+            
         else:
-            blog = deserial(blog_data)
+            today_date = datetime.now().date()
+
+            # Fetch latest blog post from the database
+            latest_blog = Blog.objects.latest('time')
+            serialized_blog_data = serializers.serialize('json', blog)
+            cached_blog = deserial(blog_data)
+            
+            if cached_blog[0].time.date() != latest_blog.time.date():
+                # Check if any blog post has changed
+                blog_ids = [blog.id for blog in cached_blog]
+                latest_blog_ids = [blog.id for blog in Blog.objects.filter(id__in=blog_ids)]
+                if set(blog_ids) != set(latest_blog_ids):
+                    serialized_blog_data = serializers.serialize('json', blog)
+                    cache.set(no_user_auth_key, serialized_blog_data, timeout=seconds_until_end_of_day)
+                    blog = deserial(serialized_blog_data)
+                else:
+                    blog = deserial(blog_data)
+                    serialized_blog_data = serializers.serialize('json', blog)
+                    cache.set(no_user_auth_key, serialized_blog_data, timeout=seconds_until_end_of_day)
+                    blog = deserial(serialized_blog_data)
+            else:
+                blog = cached_blog
         
     # Category post instance
     all_categ = Category.objects.all()

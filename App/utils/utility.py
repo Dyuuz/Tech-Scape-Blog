@@ -138,7 +138,10 @@ def update_subscribe(request):
         else:
             try:
                 user = request.user
-                if user:
+                emailcheck = Newsletter.objects.filter(email=emailVal).exists()
+                if emailcheck and user.is_authenticated:
+                    return JsonResponse({'success': False, 'message': 'Email already exists!'})
+                elif user.is_authenticated:
                     subscribe = Newsletter.objects.get(user=user)
                     subscribe.subscribe = True
                     subscribe.email = emailVal
@@ -160,7 +163,7 @@ def update_shares(request):
         blog = Blog.objects.get(id=post_id)
         user = request.user
         
-        session_share_key = f'viewed_post_{post_id}_{user}'
+        session_share_key = f'viewed_post_{post_id}_'
         if not request.session.get(session_share_key):
             request.session[session_share_key] = True
             if blog:

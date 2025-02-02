@@ -70,7 +70,7 @@ function axiosSubsribe(emailValue) {
             const suggestionBox = document.createElement('div');
             suggestionBox.textContent = response.data.message;
             suggestionBox.style.position = 'absolute';
-            suggestionBox.style.backgroundColor = '0 4px 8px rgba(214, 26, 26, 0.1)';
+            suggestionBox.style.backgroundColor = 'rgba(219, 105, 105, 0.96)';
             suggestionBox.style.color = '#fff';
             suggestionBox.style.fontSize = '14px';
             suggestionBox.style.padding = '10px 20px';
