@@ -143,7 +143,7 @@ function toggleShareDropdown() {
       dialog.textContent = 'URL copied to clipboard.';
       dialog.style.padding = '1em';
       dialog.style.border = 'none';
-      dialog.style.borderRadius = '5px';
+      dialog.style.borderRadius = '20px';
       dialog.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
       dialog.style.backgroundColor = '#fff';
       dialog.style.color = '#333';
@@ -188,17 +188,20 @@ function toggleShareAll(postID) {
   const InnerShareCount = ShareCount.querySelector('.share-count');
   const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+  // const page_url = getpageUrl(name, slug);
+  const page_url = ShareCount.getAttribute("data-url")
+  
   if (navigator.share) {
     // alert('Web Share API is supported in your browser.');
     navigator.share({
       title: document.title,
       text: 'Check out this awesome page!',
-      url: window.location.href
+      url: page_url
     }).catch(console.error);
     sharesupdateAll(postID);
 
   } else {
-    const shareUrl = window.location.href;
+    const shareUrl = page_url;
     const tempInput = document.createElement('input');
     document.body.appendChild(tempInput);
     tempInput.value = shareUrl;
@@ -213,7 +216,7 @@ function toggleShareAll(postID) {
     dialog.textContent = 'URL copied to clipboard.';
     dialog.style.padding = '1em';
     dialog.style.border = 'none';
-    dialog.style.borderRadius = '5px';
+    dialog.style.borderRadius = '20px';
     dialog.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
     dialog.style.backgroundColor = '#fff';
     dialog.style.color = '#333';

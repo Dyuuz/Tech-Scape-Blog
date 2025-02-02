@@ -35,7 +35,7 @@
   -->
   <link rel="stylesheet" href="{% static 'styles78.css'%}">
   <link rel="stylesheet" href="{% static 'related22.css'%}">
-  <link rel="stylesheet" href="{% static 'postpag155.css'%}">
+  <link rel="stylesheet" href="{% static 'postpag54.css'%}">
 
   <!-- 
     - preload images
@@ -352,7 +352,7 @@
                         <button class="post-likes" onclick="toggleLike('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
                             ❤️ <span id="like-count">{{myblog.likes.count}}</span>
                         </button>
-                        <button class="post-shares-home" onclick="toggleShareAll('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
+                        <button class="post-shares-home" onclick="toggleShareAll('{{ myblog.id }}')" data-url="{{ request.scheme }}://{{ request.get_host }}{% url 'postpage' name=myblog.category.name slug=myblog.slug %}" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
                           🚀 <span id="share-count" class="share-count" data-id="{{ myblog.id }}">{{ myblog.shares_count }}</span>
                         </button>
                       </div>
@@ -866,12 +866,12 @@
     - custom js link
   -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="{% static 'scriptAll.js'%}"></script>
+  <script src="{% static 'scriptHome.js'%}"></script>
   <script src="{% static 'scriptUser123.js'%}"></script>
   <script>
     window.userData = {
       username: "{{ user.id }}",
-    }; 
+    };
 
     window.onload = function () {
       const likedPosts = {{ all_user_likes }}; 
@@ -890,6 +890,11 @@
     };
   </script>
   <script>
+    function getpageUrl(name, slug) {
+      const redirectUrl = "";"
+      return redirectUrl;
+    }
+
     function redirectUser() {
       const redirectUrl = "{% url 'login' %}";
       window.location.href = redirectUrl;

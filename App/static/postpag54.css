@@ -39,6 +39,7 @@
 
 .post-header {
     padding: 20px;
+    padding-bottom: 15px;
     /* border-bottom: 1px solid rgba(200, 200, 200, 0.5); */
 }
 
@@ -75,7 +76,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     height: fit-content;
     /* border-bottom: 1px solid rgba(200, 200, 200, 0.5); */
 }
@@ -117,12 +118,6 @@
     cursor: pointer;
     color: #d5dde4;
     transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-
-.post-views {
-    font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive font size */
-    color: #f3f8fc;
 }
 
 .post-shares-home {
@@ -332,18 +327,34 @@
     letter-spacing: 0.02em;
 }
 
+.post-meta .post-views {
+    font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive font size */
+    color: #f3f8fc;
+    background: rgba(0, 0, 0, 0.1); /* Subtle hover effect */
+    border: 1px solid rgba(255, 255, 255, 0.424);
+}
+
+.post-meta .post-views:hover {
+    font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive font size */
+    color: #f3f8fc;
+    background: rgba(0, 0, 0, 0.1); /* Subtle hover effect */
+    border: 1px solid rgba(255, 255, 255, 0.424);
+}
+
 .post-meta span {
+    font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive font size */
     display: flex;
     align-items: center;
     gap: 2px;
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.2);
     padding: 6px 14px;
+    color: #f3f8fc;
     border-radius: 20px;
     transition: all 0.3s ease-in-out;
 }
 
 .post-meta span:hover {
-    background: rgba(0, 0, 0, 0.1); /* Subtle hover effect */
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .post-meta span i {
@@ -358,7 +369,7 @@
     }
 
     .post-meta span {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.2);
     }
 
     .post-meta span i {
