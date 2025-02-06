@@ -36,7 +36,7 @@ def home(request):
         all_blog_id = [int(myblog.id) for myblog in blog]
         
     else:
-        no_user_auth_key = f"Picks-{current_user}"
+        no_user_auth_key = f"Today-Picks-{current_user}"
         blog = Blog.objects.all().order_by('?')[:11]
         blog_data = cache.get(no_user_auth_key)
         # blog = Blog.objects.select_related('likes', 'bookmarks').all().order_by('?')[:11]
@@ -53,30 +53,32 @@ def home(request):
             
             # Custom function to deserialize serialized data
             blog = deserial(serialized_blog_data)
-            
         else:
-            today_date = datetime.now().date()
-
-            # Fetch latest blog post from the database
-            latest_blog = Blog.objects.latest('time')
-            serialized_blog_data = serializers.serialize('json', blog)
-            cached_blog = deserial(blog_data)
+            # Custom function to deserialize serialized data
+            cached_blog_cnts = deserial(blog_data)
+            cached_blog_ids = [blog.id for blog in cached_blog_cnts]
             
-            if cached_blog[0].time.date() != latest_blog.time.date():
-                # Check if any blog post has changed
-                blog_ids = [blog.id for blog in cached_blog]
-                latest_blog_ids = [blog.id for blog in Blog.objects.filter(id__in=blog_ids)]
-                if set(blog_ids) != set(latest_blog_ids):
-                    serialized_blog_data = serializers.serialize('json', blog)
-                    cache.set(no_user_auth_key, serialized_blog_data, timeout=seconds_until_end_of_day)
-                    blog = deserial(serialized_blog_data)
-                else:
-                    blog = deserial(blog_data)
-                    serialized_blog_data = serializers.serialize('json', blog)
-                    cache.set(no_user_auth_key, serialized_blog_data, timeout=seconds_until_end_of_day)
-                    blog = deserial(serialized_blog_data)
-            else:
-                blog = cached_blog
+            all_blogs = list(Blog.objects.all())
+            
+            existing_cached_blogs = list(Blog.objects.filter(id__in=cached_blog_ids))
+            serialized_blog_data  = serializers.serialize('json', existing_cached_blogs)
+            cache.set(no_user_auth_key, serialized_blog_data)
+            blog = deserial(blog_data)
+            
+            # # Check if all cached contents are a subset of all blog instances
+            # if set(cached_blog_cnts).issubset(set(all_blogs)):
+            #     for cached_blog in cached_blog_cnts:
+            #         db_blog = Blog.objects.get(id=cached_blog.id)
+            #         # print(db_blog.shares_count)
+            #         # print(cached_blog.shares_count)
+            #         if cached_blog.shares_count != db_blog.shares_count:
+            #             print(True)
+            #             # Update the cached blog if it doesn't match the database instance                        
+            #             cache.set(no_user_auth_key, serialized_blog_data)
+                        
+            #     blog = deserial(blog_data)
+            # else:
+            #     blog = deserial(blog_data)
         
     # Category post instance
     all_categ = Category.objects.all()
@@ -100,14 +102,12 @@ def home(request):
         # Custom function to deserialize serialized data
         images_data = deserial(serialized_data)
         random.shuffle(images_data)
-        print(f"Not: {images_data}") 
         
     else:
         # Condtion runs when cache is created
         # Custom function to deserialize serialized data
         images_data = deserial(images_data)
         random.shuffle(images_data)
-        print(f"True: {images_data}")  # Output after deserializing
     
     # Popular post blog instance
     popular_cat = Blog.objects.all().order_by('-views_count')[:10]
