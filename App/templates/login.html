@@ -23,7 +23,7 @@
           <p class="blog-register-alert">
             
           </p>
-            <button class="blog-register-button" type="submit" onclick="submitForm()">Login</button>
+            <button class="blog-register-button" type="submit" >Login</button>
       </form>
       <p class="blog-register-text">
           Don't have an account? <a href="{% url 'register' %}">Register</a>
@@ -35,45 +35,56 @@
         document.getElementById('loginForm').onsubmit = function(event) {
           var password = document.getElementById('password').value;
           var alert = document.querySelector('.blog-register-alert');
+          var form = document.getElementById('loginForm');
+          var formData = new FormData(form);
+          this.action = getLoginUrl(formData);
+        };
 
-          // Regular expression for password validation
+        function getLoginUrl(formData) {
+          var alert =  document.querySelector('.blog-register-alert');
+          alert.style.display = 'block';
+          const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+          axios.post('login', formData,
+          { headers: {
+            'X-CSRFToken': csrf_token
+          }}
+          )
+          .then(response => {
+            if (response.data.success === true) {
+              //alert.textContent = response.data.message;
+              window.location.href = response.data.redirect_url;
+              
+            } else if (response.data.exceptionError === true) {
+              alert.textContent = response.data.message;
+
+            } else if(response.data.userError === true) {
+              alert.textContent = response.data.message;
+
+            } else if(response.data.passworderror === true) {
+              alert.textContent = response.data.message;
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert.textContent = 'An error occurred. Please try again.';
+          });
+          event.preventDefault();
+        }
+
+        function submitForm() {
           var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
           if (!passwordPattern.test(password)) {
             alert.style.display = 'block';
-
             alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
             
             setTimeout(function() {
               alert.style.display = 'none';
-            }, 10000); // Hide after 5 seconds
-            event.preventDefault(); // Prevent form submission
+            }, 10000); 
+            event.preventDefault(); 
           }
-        };
-
-        function getLoginUrl() {
-
-        }
-
-        {% comment %} function submitForm() {
-          var form = document.getElementById('loginForm');
-          var formData = new FormData(form);
-          var alert = document.querySelector(.blog-register-alert)
-          alert.textContent = 'wrong credentials';
-      
-          fetch('login', { // URL for form submission
-              method: 'POST',
-              body: formData
-          })
-          .then(response => response.json())
-          .then(data => {
-              console.log('Success:', data);
-          })
-          .catch(error => {
-              console.error('Error:', error);
-          });
-      
-          event.preventDefault(); // Prevent the default form submission
-      } {% endcomment %}
+          
+      }
       
       </script>
     </div>

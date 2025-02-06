@@ -227,14 +227,24 @@ def loginsession(request, name, slug):
 def login_view(request):
     all_categ = Category.objects.all()
     if request.method == 'POST':
-        username = request.POST.get('username')
+        # data = request.body
+        # Ajax_data = json.loads(data.decode('utf-8'))
+        
+        username = request.POST.get('username').strip().title()
         password = request.POST.get('password')
+        
+        user_check = User.objects.filter(username=username).exists()
+        if user_check:
+            usid = user_check
+        else:
+            return JsonResponse({'userError': True, 'message': 'Username does not exist!'})
         
         try:
             user = authenticate(request, username=username, password=password)
             
             if user.is_authenticated:
                 login(request, user)
+                
                 post_slug = request.session.get('post_slug')
                 cat_name = request.session.get('cat_name')
                 
@@ -245,15 +255,16 @@ def login_view(request):
                     response = postpage(request, name=cat_name, slug=post_slug)
                     # request.session.flush()
                     return response
-                    
-                return redirect('home')
+                
+                # return JsonResponse({'success': True, 'message': 'Login successful'})
+                return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': reverse('home')})
             
             else:
-                return HttpResponse("Invalid password")
+                return JsonResponse({'passworderror': True, 'message': 'Invalid passord!'})
         
         except Exception as e:
-            return HttpResponse(str(e))
-            # return render(request, 'login.html', locals())
+            # return HttpResponse(str(e))
+            return JsonResponse({'exceptionError': True, 'message': 'Invalid credentials!'})
         
     else:
         return render(request, 'login.html', locals())

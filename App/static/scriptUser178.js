@@ -8,6 +8,8 @@ function Subscribe() {
     }
 }
 
+const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
 function axiosSubsribe(emailValue) {
     const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const emailInput = document.querySelector('input[name="email_address"]');
