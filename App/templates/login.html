@@ -43,7 +43,7 @@
         function getLoginUrl(formData) {
           var alert =  document.querySelector('.blog-register-alert');
           alert.style.display = 'block';
-          const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+          const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
           axios.post('login', formData,
           { headers: {

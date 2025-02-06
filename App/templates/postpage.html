@@ -32,7 +32,7 @@
                     <!-- Interactive Buttons Section -->
                     <div class="post-actions">
 
-                        <button class="post-likes" onclick="toggleLikePost()" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-liked="{{ is_liked|yesno:"true,false" }}">
+                        <button class="post-likes" onclick="toggleLikePost2()" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-liked="{{ is_liked|yesno:"true,false" }}">
                             ❤️ <span id="like-count">{{blog.likes.count}}</span>
                         </button>
 

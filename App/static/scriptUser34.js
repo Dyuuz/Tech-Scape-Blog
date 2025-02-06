@@ -149,10 +149,11 @@ function toggleLike(postID) {
     }  
   }
 
-function toggleLikePost() {
+function toggleLikePost2() {
     const likeButton = document.querySelector('.post-likes');
     const likeCount = document.getElementById('like-count');
     const authStatus = likeButton.dataset.isAuthenticated;
+    alert('hello');
 
     if (authStatus === "true") {
         isLiked = !isLiked;

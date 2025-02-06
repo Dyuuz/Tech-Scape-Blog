@@ -250,6 +250,7 @@ def login_view(request):
                 
                 if post_slug and cat_name:
                     url = reverse('postpage', kwargs={'name': cat_name, 'slug': post_slug})
+                    return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': url})
                     return redirect(url)
                 
                     response = postpage(request, name=cat_name, slug=post_slug)
