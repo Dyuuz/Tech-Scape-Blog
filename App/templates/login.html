@@ -12,18 +12,18 @@
         <h1 class="section-title-login">Welcome to Tech-Scape </h1>
         <p class="log-title">Input credentials to continue</p>
       </section>
-      <form class="blog-register-form" action="login" method="POST">
+      <form class="blog-register-form" id="loginForm" method="POST">
           {% csrf_token %}
           <h6 class="newh6">Name</h6> 
           <input class="blog-register-input" type="text" name="username" placeholder="Input username" autocomplete="on" required>
           
           <h6 class="newh6">Password</h6> 
-          <input class="blog-register-input" type="password" name="password" placeholder="Input password" required>
+          <input class="blog-register-input" id="password" type="password" name="password" placeholder="Input password" required>
           
           <p class="blog-register-alert">
-            {% comment %} Invalid credentials {% endcomment %}
+            
           </p>
-          <button class="blog-register-button" type="submit">Login</button>
+            <button class="blog-register-button" type="submit" onclick="submitForm()">Login</button>
       </form>
       <p class="blog-register-text">
           Don't have an account? <a href="{% url 'register' %}">Register</a>
@@ -31,6 +31,51 @@
       <p class="blog-register-password">
           <a href="{% url 'verify' %}">Forgot password?</a>
       </p>
+      <script>
+        document.getElementById('loginForm').onsubmit = function(event) {
+          var password = document.getElementById('password').value;
+          var alert = document.querySelector('.blog-register-alert');
+
+          // Regular expression for password validation
+          var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+          if (!passwordPattern.test(password)) {
+            alert.style.display = 'block';
+
+            alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
+            
+            setTimeout(function() {
+              alert.style.display = 'none';
+            }, 10000); // Hide after 5 seconds
+            event.preventDefault(); // Prevent form submission
+          }
+        };
+
+        function getLoginUrl() {
+
+        }
+
+        {% comment %} function submitForm() {
+          var form = document.getElementById('loginForm');
+          var formData = new FormData(form);
+          var alert = document.querySelector(.blog-register-alert)
+          alert.textContent = 'wrong credentials';
+      
+          fetch('login', { // URL for form submission
+              method: 'POST',
+              body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+              console.log('Success:', data);
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      
+          event.preventDefault(); // Prevent the default form submission
+      } {% endcomment %}
+      
+      </script>
     </div>
 </div>
 {% endblock  %}
