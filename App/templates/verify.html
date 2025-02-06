@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{%load static%}
+
+{% block hero %}
+
+{% endblock  %}
+
+{%block featured%}
+<div class="blog-register-body">
+    <div class="blog-register-container">
+        <div class="container">
+            <h2>Email Verification</h2>
+            <p>Please enter the verification code sent to {{email}}.</p>
+            <form action="otp" method="POST">
+                {% csrf_token %}
+                <input name="otp" type="text" placeholder="Enter verification code" required>
+                <p class='customalert'>{{alert}}</p>
+                <p class='customalert'>{{pk}}</p>
+                <button type="submit">Verify</button>
+            </form>
+            <p class="resend">Didn't receive a code? <a href="{% url 'verify'%}">Resend code</a></p>
+        </div>
+    </div>
+</div>
+{% endblock  %}
+
+{% block usercontents %}
+
+{% endblock  %}
+
+{% block populartags %}
+
+{% endblock  %}
+
+{% block recents %}
+
+{% endblock  %}

@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'App'
+    'App',
+    'compressor',
 ]
 
 MIDDLEWARE = [
@@ -128,13 +129,31 @@ USE_I18N = True
 
 USE_TZ = True
 
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',  # For django-compressor
+]
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+COMPRESS_ENABLED = True
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
 STATIC_URL = 'static/'
 
 STATICFILES_DIR = [os.path.join('BASE_DIR', 'App/static'), ]
+
+COMPRESS_ROOT = os.path.join(BASE_DIR, 'App/static')
+
+COMPRESS_OUTPUT_DIR = 'CACHE'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = 'media/'
 

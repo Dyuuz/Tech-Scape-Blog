@@ -8,12 +8,21 @@
 {%block featured%}
 <div class="blog-register-body">
     <div class="blog-register-container">
-        <h2 class="blog-register-title">Create an account</h2>
+        <section class="forms-section">
+            <h1 class="section-title-login">Welcome to Tech-Scape </h1>
+            <p class="log-title">Input credentials to sign up</p>
+        </section>
         <form class="blog-register-form" action="register" method="POST">
             {% csrf_token %}
+            {% comment %} <h6 class="newh6">Name</h6> 
+            <input class="blog-register-input" type="text" name="username" placeholder="Username" required> {% endcomment %}
+            <h6 class="newh6">Userame</h6> 
             <input class="blog-register-input" type="text" name="username" placeholder="Username" required>
+            <h6 class="newh6">Email</h6> 
             <input class="blog-register-input" type="email" name="email" placeholder="Email Address" required>
+            <h6 class="newh6">Password</h6> 
             <input class="blog-register-input" type="password" name="password" placeholder="Password" required>
+            <h6 class="newh6">Confirm Password</h6>
             <input class="blog-register-input" type="password" name="confirm_password" placeholder="Confirm Password" required>
             <button class="blog-register-button" type="submit">Register</button>
         </form>

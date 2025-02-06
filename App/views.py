@@ -372,3 +372,6 @@ def profile(request):
         return render(request , 'profile.html', locals())
     except:
         return redirect('home')
+    
+def verify(request):
+    return render(request, 'verify.html')

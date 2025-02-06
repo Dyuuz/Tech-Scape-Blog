@@ -570,10 +570,18 @@ body.nav-active { overflow: hidden; }
   color: #b0b9c9; 
   animation: colorChange 5s infinite;
 }
+.hero-text2 { 
+  font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive button font size */
+  color: #2c3e50;
+  /* animation: colorChange 5s infinite; */
+}
+.hero-text2:hover { 
+  color: #225a97;
+}
 
 @keyframes colorChange {
   0% {
-    color: #b0b9c9;
+    color: #edeff4;
   }
   50% {
     color: #669dba;

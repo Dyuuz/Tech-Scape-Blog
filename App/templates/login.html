@@ -8,18 +8,29 @@
 {%block featured%}
 <div class="blog-register-body">
     <div class="blog-register-container">
-    <h2 class="blog-register-title">Login credential</h2>
-        <form class="blog-register-form" action="login" method="POST">
-            {% csrf_token %}
-            <input class="blog-register-input" type="text" name="username" placeholder="Username" required>
-            {% comment %} <input class="blog-register-input" type="email" name="email" placeholder="Email Address" required> {% endcomment %}
-            <input class="blog-register-input" type="password" name="password" placeholder="Password" required>
-            {% comment %} <input class="blog-register-input" type="password" name="confirm_password" placeholder="Confirm Password" required> {% endcomment %}
-            <button class="blog-register-button" type="submit">Login</button>
-        </form>
-        <p class="blog-register-text">
-            Don't have an account? <a href="{% url 'register' %}">Register</a>
-        </p>
+      <section class="forms-section">
+        <h1 class="section-title-login">Welcome to Tech-Scape </h1>
+        <p class="log-title">Input credentials to continue</p>
+      </section>
+      <form class="blog-register-form" action="login" method="POST">
+          {% csrf_token %}
+          <h6 class="newh6">Name</h6> 
+          <input class="blog-register-input" type="text" name="username" placeholder="Input username" autocomplete="on" required>
+          
+          <h6 class="newh6">Password</h6> 
+          <input class="blog-register-input" type="password" name="password" placeholder="Input password" required>
+          
+          <p class="blog-register-alert">
+            {% comment %} Invalid credentials {% endcomment %}
+          </p>
+          <button class="blog-register-button" type="submit">Login</button>
+      </form>
+      <p class="blog-register-text">
+          Don't have an account? <a href="{% url 'register' %}">Register</a>
+      </p>
+      <p class="blog-register-password">
+          <a href="{% url 'verify' %}">Forgot password?</a>
+      </p>
     </div>
 </div>
 {% endblock  %}
