@@ -14,11 +14,11 @@
       </section>
       <form class="blog-register-form" id="loginForm" method="POST">
           {% csrf_token %}
-          <h6 class="newh6">Name</h6> 
+          <h6 class="newh6">Username</h6> 
           <input class="blog-register-input" type="text" name="username" placeholder="Input username" autocomplete="on" required>
           
           <h6 class="newh6">Password</h6> 
-          <input class="blog-register-input" id="password" type="password" name="password" placeholder="Input password" required>
+          <input class="blog-register-input" id="password" type="password" name="password" placeholder="Input password" autocomplete="on" required>
           
           <p class="blog-register-alert">
             

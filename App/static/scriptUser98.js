@@ -8,8 +8,6 @@ function Subscribe() {
     }
 }
 
-const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
 function axiosSubsribe(emailValue) {
     const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const emailInput = document.querySelector('input[name="email_address"]');
@@ -147,13 +145,12 @@ function toggleLike(postID) {
     } else {
         redirectUser();
     }  
-  }
+}
 
-function toggleLikePost2() {
+function toggleLikePost() {
     const likeButton = document.querySelector('.post-likes');
     const likeCount = document.getElementById('like-count');
     const authStatus = likeButton.dataset.isAuthenticated;
-    alert('hello');
 
     if (authStatus === "true") {
         isLiked = !isLiked;
@@ -171,7 +168,6 @@ function toggleLikePost2() {
     } else {
         redirectUrl();
     }
-    
 }
 
 function toggleBookmarkPost() {
@@ -195,6 +191,7 @@ function toggleBookmarkPost() {
 }
 
 function updateLike(buttonBoolean) {
+    const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     fetch('/update-like/', { 
         method: 'POST',
         headers: {
@@ -215,6 +212,7 @@ function updateLike(buttonBoolean) {
 }
 
 function updateBookmark(buttonBoolean){
+    const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     fetch('/update-bookmark/', { 
         method: 'POST',
         headers: {

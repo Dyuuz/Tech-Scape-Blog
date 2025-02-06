@@ -162,6 +162,7 @@ function toggleShareDropdown() {
 }
 
 function sharesupdate() {
+  const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   const ShareCount = document.getElementById('share-count');
 
   axios.post('/update-shares/', 
@@ -186,7 +187,6 @@ function sharesupdate() {
 function toggleShareAll(postID) {
   const ShareCount = document.querySelector(`.post-shares-home[data-id='${postID}']`);
   const InnerShareCount = ShareCount.querySelector('.share-count');
-  const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
   // const page_url = getpageUrl(name, slug);
   const page_url = ShareCount.getAttribute("data-url")

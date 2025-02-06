@@ -237,7 +237,7 @@ def login_view(request):
         if user_check:
             usid = user_check
         else:
-            return JsonResponse({'userError': True, 'message': 'Username does not exist!'})
+            return JsonResponse({'userError': True, 'message': 'Username does not exist'})
         
         try:
             user = authenticate(request, username=username, password=password)
@@ -261,11 +261,11 @@ def login_view(request):
                 return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': reverse('home')})
             
             else:
-                return JsonResponse({'passworderror': True, 'message': 'Invalid passord!'})
+                return JsonResponse({'passworderror': True, 'message': 'Invalid passord'})
         
         except Exception as e:
             # return HttpResponse(str(e))
-            return JsonResponse({'exceptionError': True, 'message': 'Invalid credentials!'})
+            return JsonResponse({'exceptionError': True, 'message': 'Wrong Password'})
         
     else:
         return render(request, 'login.html', locals())
