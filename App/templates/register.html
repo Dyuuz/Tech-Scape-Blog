@@ -12,7 +12,7 @@
             <h1 class="section-title-login">Welcome to Tech-Scape </h1>
             <p class="log-title">Input credentials to sign up</p>
         </section>
-        <form class="blog-register-form" action="register" method="POST">
+        <form class="blog-register-form" id="registerForm" method="POST">
             {% csrf_token %}
             {% comment %} <h6 class="newh6">Name</h6> 
             <input class="blog-register-input" type="text" name="username" placeholder="Username" required> {% endcomment %}
@@ -24,11 +24,81 @@
             <input class="blog-register-input" type="password" name="password" placeholder="Password" required>
             <h6 class="newh6">Confirm Password</h6>
             <input class="blog-register-input" type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <p class="blog-register-alert">
+            
+            </p>
             <button class="blog-register-button" type="submit">Register</button>
         </form>
         <p class="blog-register-text">
             Already have an account? <a href="{% url 'login' %}">Login</a>
         </p>
+        <script>
+            document.getElementById('registerForm').onsubmit = function(event) {
+                var password = document.querySelector('input[name="password"]').value;
+                var alert = document.querySelector('.blog-register-alert');
+                var form = document.getElementById('registerForm');
+                var formData = new FormData(form);
+                
+                var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+                if (!passwordPattern.test(password)) {
+                    alert.style.display = 'block';
+                    alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
+                    
+                    setTimeout(function() {
+                    alert.style.display = 'none';
+                    }, 10000); 
+                    event.preventDefault(); 
+                }
+
+              //this.action = getLoginUrl(formData);
+            };
+    
+            function getLoginUrl(formData) {
+                var alert =  document.querySelector('.blog-register-alert');
+                alert.style.display = 'block';
+                const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        
+                axios.post('register', formData,
+                { headers: {
+                    'X-CSRFToken': csrf_token
+                }}
+                )
+                .then(response => {
+                    if (response.data.success === true) {
+                    //alert.textContent = response.data.message;
+                    window.location.href = response.data.redirect_url;
+                    
+                    } else if (response.data.exceptionError === true) {
+                    alert.textContent = response.data.message;
+        
+                    } else if(response.data.userError === true) {
+                    alert.textContent = response.data.message;
+        
+                    } else if(response.data.passworderror === true) {
+                    alert.textContent = response.data.message;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert.textContent = 'An error occurred. Please try again.';
+                });
+                event.preventDefault();
+            }
+    
+            function submitForm() {
+                var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+                if (!passwordPattern.test(password)) {
+                    alert.style.display = 'block';
+                    alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
+                    
+                    setTimeout(function() {
+                    alert.style.display = 'none';
+                    }, 10000); 
+                    event.preventDefault(); 
+                }
+            }
+          
+        </script>
     </div>
 </div>
 {% endblock  %}
