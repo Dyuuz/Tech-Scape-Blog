@@ -195,26 +195,40 @@ def recentposts(request):
 # Create operation for new users
 def register(request):
     all_categ = Category.objects.all()
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
-        if password == confirm_password:
-            user = User.objects.create_user(
-                username=username,
-                email=email,
-                )
-            user.set_password(password)
-            user.save()
-            Newsletter.objects.create(user=user, subscribe=False)
-            return redirect('login')
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username').strip().title()
+            email = request.POST.get('email').strip()
+            password = request.POST.get('password').strip()
+            confirm_password = request.POST.get('confirm_password').strip()
+            
+            userexists = User.object.filter(username=username).exists()
+            emailexists = User.object.filter(emmail=email).exists()
+            
+            if password != confirm_password:
+                return JsonResponse({'password': True, 'message': 'Password does not match'})
+            
+            elif userexists:
+                return JsonResponse({'userexists': True, 'message': 'Username is taken'})
+            
+            elif emailexists:
+                return JsonResponse({'userexists': True, 'message': 'Email is taken'})
+            
+            else:
+                user = User.objects.create_user(
+                        username=username,
+                        email=email,
+                        )
+                user.set_password(password)
+                user.save()
+                Newsletter.objects.create(user=user, subscribe=False)
+                url =  redirect('login')
+                return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': url})
+            
         else:
-            return HttpResponse("Passwords are incorrect")
             return render(request, 'register.html', locals())
-        
-    else:
-        return render(request, 'register.html', locals())
+    except Exception as e:
+            return JsonResponse({'exceptionError': True, 'message': 'Exception error'})
 
 # Creates session when user tries to interact with a blog post if no user is authenticated
 def loginsession(request, name, slug):
@@ -231,13 +245,13 @@ def login_view(request):
         # Ajax_data = json.loads(data.decode('utf-8'))
         
         username = request.POST.get('username').strip().title()
-        password = request.POST.get('password')
+        password = request.POST.get('password').strip()
         
         user_check = User.objects.filter(username=username).exists()
         if user_check:
             usid = user_check
         else:
-            return JsonResponse({'userError': True, 'message': 'Username does not exist'})
+            return JsonResponse({'userError': True, 'message': 'Username or Password is incorrect'})
         
         try:
             user = authenticate(request, username=username, password=password)
@@ -251,21 +265,21 @@ def login_view(request):
                 if post_slug and cat_name:
                     url = reverse('postpage', kwargs={'name': cat_name, 'slug': post_slug})
                     return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': url})
-                    return redirect(url)
+                    # return redirect(url)
                 
-                    response = postpage(request, name=cat_name, slug=post_slug)
+                    # response = postpage(request, name=cat_name, slug=post_slug)
                     # request.session.flush()
-                    return response
+                    # return response
                 
                 # return JsonResponse({'success': True, 'message': 'Login successful'})
                 return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': reverse('home')})
             
             else:
-                return JsonResponse({'passworderror': True, 'message': 'Invalid passord'})
+                return JsonResponse({'passworderror': True, 'message': 'Username or Password is incorrect'})
         
         except Exception as e:
             # return HttpResponse(str(e))
-            return JsonResponse({'exceptionError': True, 'message': 'Wrong Password'})
+            return JsonResponse({'exceptionError': True, 'message': 'Username or Password is incorrect'})
         
     else:
         return render(request, 'login.html', locals())

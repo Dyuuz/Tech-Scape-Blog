@@ -33,27 +33,50 @@
             Already have an account? <a href="{% url 'login' %}">Login</a>
         </p>
         <script>
+            var user = document.querySelector('input[name="username"]');
+            var mail = document.querySelector('input[name="email"]');
+            var password = document.querySelector('input[name="password"]');
+            var confirmpassword = document.querySelector('input[name="confirm_password"]');
+            var alert = document.querySelector('.blog-register-alert');
+
+            user.addEventListener('input', function() {
+            alert.textContent = '';
+            });
+
+            mail.addEventListener('input', function() {
+            alert.textContent = '';
+            });
+
+            password.addEventListener('input', function() {
+            alert.textContent = '';
+            });
+
+            confirmpassword.addEventListener('input', function() {
+            alert.textContent = '';
+            });
+
             document.getElementById('registerForm').onsubmit = function(event) {
                 var password = document.querySelector('input[name="password"]').value;
+                var confirm_password = document.querySelector('input[name="confirm_password"]').value;
                 var alert = document.querySelector('.blog-register-alert');
                 var form = document.getElementById('registerForm');
                 var formData = new FormData(form);
                 
                 var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-                if (!passwordPattern.test(password)) {
+                if (password !== confirm_password) {
+                    alert.style.display = 'block';
+                    alert.textContent = 'Password does not match';
+                    event.preventDefault(); 
+                } else if (!passwordPattern.test(password)) {
                     alert.style.display = 'block';
                     alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
-                    
-                    setTimeout(function() {
-                    alert.style.display = 'none';
-                    }, 10000); 
                     event.preventDefault(); 
+                } else {
+                    this.action = getRegisterUrl(formData);
                 }
-
-              //this.action = getLoginUrl(formData);
             };
     
-            function getLoginUrl(formData) {
+            function getRegisterUrl(formData) {
                 var alert =  document.querySelector('.blog-register-alert');
                 alert.style.display = 'block';
                 const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
@@ -64,18 +87,23 @@
                 }}
                 )
                 .then(response => {
-                    if (response.data.success === true) {
-                    //alert.textContent = response.data.message;
-                    window.location.href = response.data.redirect_url;
+                    if (response.data.password === true) {
+                        alert.textContent = response.data.message;
                     
-                    } else if (response.data.exceptionError === true) {
-                    alert.textContent = response.data.message;
+                    } else if (response.data.userexists === true) {
+                        alert.textContent = response.data.message;
         
-                    } else if(response.data.userError === true) {
-                    alert.textContent = response.data.message;
+                    } else if(response.data.userexists === true) {
+                        alert.textContent = response.data.message;
         
-                    } else if(response.data.passworderror === true) {
-                    alert.textContent = response.data.message;
+                    } else if(response.data.success === true) {
+                        window.location.href = response.data.redirect_url;
+        
+                    } else if(response.data.exceptionError === true) {
+                        window.location.href = response.data.message;
+        
+                    } else {
+                        console.log('Successful Sign up')
                     }
                 })
                 .catch(error => {

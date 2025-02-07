@@ -32,6 +32,20 @@
           <a href="{% url 'verify' %}">Forgot password?</a>
       </p>
       <script>
+        var user = document.querySelector('input[name="username"]');
+        var password = document.querySelector('input[name="password"]');
+        var alert = document.querySelector('.blog-register-alert');
+
+        user.addEventListener('input', function() {
+          alert.textContent = '';
+          //alert.style.display = 'none';
+        });
+
+        password.addEventListener('input', function() {
+          alert.textContent = '';
+          //alert.style.display = 'none';
+        });
+
         document.getElementById('loginForm').onsubmit = function(event) {
           var password = document.getElementById('password').value;
           var alert = document.querySelector('.blog-register-alert');
@@ -53,7 +67,36 @@
           .then(response => {
             if (response.data.success === true) {
               //alert.textContent = response.data.message;
+              // Show success dialog
+              var successDialog = document.createElement('div');
+              successDialog.style.position = 'fixed';
+              successDialog.style.top = '50%';
+              successDialog.style.left = '50%';
+              successDialog.style.transform = 'translate(-50%, -50%)';
+              successDialog.style.padding = '20px';
+              successDialog.style.backgroundColor = ' rgba(93, 97, 196, 0.95)';
+              successDialog.style.color = 'white';
+              successDialog.style.borderRadius = '20px';
+              successDialog.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+              successDialog.textContent = 'Login successful!';
+              successDialog.style.border = '2px solid rgb(255, 255, 255)';
+              successDialog.style.fontSize = '15px';
+              successDialog.style.fontWeight = 'bold';
+              successDialog.style.textAlign = 'center';
+              successDialog.style.width = '200px';
+              successDialog.style.height = '60px';
+              successDialog.style.display = 'flex';
+              successDialog.style.justifyContent = 'center';
+              successDialog.style.alignItems = 'center';
+              document.body.appendChild(successDialog);
+
+              // Redirect after a short delay
+              setTimeout(function() {
+              document.body.removeChild(successDialog);
               window.location.href = response.data.redirect_url;
+              }, 3000);
+              
+              //window.location.href = response.data.redirect_url;
               
             } else if (response.data.exceptionError === true) {
               alert.textContent = response.data.message;
@@ -65,10 +108,20 @@
               alert.textContent = response.data.message;
             }
           })
-          .catch(error => {
+            .catch(error => {
             console.error('Error:', error);
-            alert.textContent = 'An error occurred. Please try again.';
-          });
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              alert.textContent = 'Request error, refresh page and re-login ';
+            } else if (error.request) {
+              // The request was made but no response was received
+              alert.textContent = 'Please check your network connection.';
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              alert.textContent = 'An error occurred while setting up the request: ' + error.message;
+            }
+            });
           event.preventDefault();
         }
 

@@ -8,9 +8,12 @@
 {%block featured%}
 <div class="blog-register-body">
     <div class="blog-register-container">
+        <section class="forms-section">
+            <h1 class="section-title-login">Email Verification</h1>
+            <p class="log-title">Please enter the verification code sent to lekanoyesunle@gmail.com {{email}}.</p>
+        </section>
         <div class="container">
-            <h2>Email Verification</h2>
-            <p>Please enter the verification code sent to {{email}}.</p>
+            <p class="timer">60</p>
             <form action="otp" method="POST">
                 {% csrf_token %}
                 <input name="otp" type="text" placeholder="Enter verification code" required>
@@ -21,6 +24,20 @@
             <p class="resend">Didn't receive a code? <a href="{% url 'verify'%}">Resend code</a></p>
         </div>
     </div>
+    <script>
+        let timer = 60;
+        const texttimer = document.querySelector('.timer');
+        texttimer.textContent = `Time remaining: ${timer} seconds`;
+
+        const countdown = setInterval(() => {
+            timer--;
+            texttimer.innerText = `Time remaining: ${timer} seconds`;
+            if (timer <= 0) {
+                clearInterval(countdown);
+                texttimer.innerText = 'Time is up!';
+            }
+        } , 1000);
+    </script>
 </div>
 {% endblock  %}
 
