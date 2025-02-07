@@ -202,7 +202,7 @@ def register(request):
         confirm_password = request.POST.get('confirm_password').strip()
         
         userexists = User.object.filter(username=username).exists()
-        emailexists = User.object.filter(emmail=email).exists()
+        emailexists = User.object.filter(emmail=email).exists() 
         
         try:
             if password != confirm_password:
