@@ -195,16 +195,16 @@ def recentposts(request):
 # Create operation for new users
 def register(request):
     all_categ = Category.objects.all()
-    try:
-        if request.method == 'POST':
-            username = request.POST.get('username').strip().title()
-            email = request.POST.get('email').strip()
-            password = request.POST.get('password').strip()
-            confirm_password = request.POST.get('confirm_password').strip()
-            
-            userexists = User.object.filter(username=username).exists()
-            emailexists = User.object.filter(emmail=email).exists()
-            
+    if request.method == 'POST':
+        username = request.POST.get('username').strip().title()
+        email = request.POST.get('email').strip()
+        password = request.POST.get('password').strip()
+        confirm_password = request.POST.get('confirm_password').strip()
+        
+        userexists = User.object.filter(username=username).exists()
+        emailexists = User.object.filter(emmail=email).exists()
+        
+        try:
             if password != confirm_password:
                 return JsonResponse({'password': True, 'message': 'Password does not match'})
             
@@ -225,10 +225,11 @@ def register(request):
                 url =  redirect('login')
                 return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': url})
             
-        else:
-            return render(request, 'register.html', locals())
-    except Exception as e:
+        except Exception as e:
             return JsonResponse({'exceptionError': True, 'message': 'Exception error'})
+        
+    else:
+        return render(request, 'register.html', locals())
 
 # Creates session when user tries to interact with a blog post if no user is authenticated
 def loginsession(request, name, slug):
