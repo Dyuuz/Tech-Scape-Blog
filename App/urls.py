@@ -14,6 +14,7 @@ urlpatterns = [
     path('update-like/', views.update_like, name = 'update-like'),
     path('update-shares/', views.update_shares, name = 'update-shares'),
     path('update-subscribe/', views.update_subscribe, name = 'update-subscribe'),
+    path('subscribe-option/', views.update_suboption, name = 'subscribe-option'),
     path('update-bookmark/', views.update_bookmark, name = 'update-bookmark'),
     path('register', views.register, name = 'register'),
     path('loginsession/<slug:slug>/<slug:name>', views.loginsession, name = 'loginsession'),

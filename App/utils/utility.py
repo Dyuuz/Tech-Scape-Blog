@@ -173,3 +173,20 @@ def update_shares(request):
             
         else:
             return JsonResponse({'success': False, 'message': 'Too many requests!'})
+
+def update_suboption(request):
+    """
+    Logic script to update user subscription option directly with ajax request 
+    """
+    if request.method == "POST":
+        data = request.body
+        Ajax_data = json.loads(data.decode('utf-8'))
+        user = request.user
+        suboption = Ajax_data.get('suboption')
+        try:
+            subscribe = Newsletter.objects.get(user=user)
+            subscribe.subscribe = True if suboption == 'true' else False
+            subscribe.save()
+            return JsonResponse({'success': True, 'message': 'Subscription option updated successfully!'})
+        except:
+            return JsonResponse({'success': False, 'message': 'Error updating subscription option!'})
