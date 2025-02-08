@@ -137,10 +137,10 @@ def update_subscribe(request):
             return JsonResponse({'success': False, 'message': 'Invalid email format!'})
         else:
             try:
-                user = request.user
-                emailcheck = Newsletter.objects.filter(email=emailVal).exists()
-                if emailcheck and user.is_authenticated:
-                    return JsonResponse({'success': False, 'message': 'Email already exists!'})
+                user = request.user                
+                if user.is_authenticated and user.email != emailVal:
+                    return JsonResponse({'success': False, 'message': 'Email is not associated with this account!'})
+                
                 elif user.is_authenticated:
                     subscribe = Newsletter.objects.get(user=user)
                     subscribe.subscribe = True

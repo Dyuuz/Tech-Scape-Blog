@@ -23,47 +23,21 @@ function axiosSubsribe(emailValue) {
     )
     .then(response => {
         if (response.data.success === true) {
-            const dialogBox = document.createElement('div');
-            dialogBox.style.position = 'fixed';
-            dialogBox.style.top = '50%';
-            dialogBox.style.left = '50%';
-            dialogBox.style.transform = 'translate(-50%, -50%)';
-            dialogBox.style.backgroundColor = '#333';
-            dialogBox.style.color = '#fff';
-            dialogBox.style.padding = '20px';
-            dialogBox.style.borderRadius = '8px';
-            dialogBox.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-            dialogBox.style.zIndex = '1000';
-            
-            const message = document.createElement('p');
-            message.textContent = response.data.message;
-            dialogBox.appendChild(message);
-            
-            const okButton = document.createElement('button');
-            okButton.textContent = 'Proceed';
-            okButton.style.marginTop = '10px';
-            okButton.style.padding = '5px 10px';
-            okButton.style.border = 'none';
-            okButton.style.borderRadius = '4px';
-            okButton.style.backgroundColor = '#007bff';
-            okButton.style.color = '#fff';
-            okButton.style.cursor = 'pointer';
-            okButton.addEventListener('click', () => {
-                dialogBox.remove();
-                window.location.reload();
+            Swal.fire({
+                title: 'Success',
+                text: 'You have successfully subscribed to our newsletter',  
+                iconHtml: '<img src="/static/sub4.png" class="custom-swal" >',
+                showConfirmButton: true,
+                confirmButtonText: 'Continue',
+                confirmButtonColor: 'rgb(58, 138, 222)', // Change this to your desired color
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
             });
-            dialogBox.appendChild(okButton);
-            
-            document.body.appendChild(dialogBox);
-            // setTimeout(() => {
-            //     suggestionBox.remove();
-                
-            //     // Delay the page reload by 5 more seconds after removal
-            //     setTimeout(() => {
-            //         window.location.reload();
-            //     }, 1000);  // 5 seconds delay before reload
-        
-            // }, 7000);  // Suggestion box stays for 7 seconds
 
         } else {
             // alert(response.data.success);
@@ -90,6 +64,30 @@ function axiosSubsribe(emailValue) {
     .catch(error => {
         console.error('Error:', error.response.data);
     });
+}
+
+function suboptions(suboption){
+    const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    if (suboption === 'Unsubscribe') {
+        axios.post('/subscribe-option/',
+            {
+                suboption: suboption,
+            },{
+                headers: {
+                    'X-CSRFToken': csrf_token
+                }
+            })
+        .then(response => {
+            if (response.data.success === true) {
+                
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error.response.data);
+        });      
+    } else {
+       
+    }
 }
 
 function toggleLike(postID) {
@@ -139,7 +137,7 @@ function toggleLike(postID) {
                 })
                 .catch(error => {
                     console.error('Error:', error.response.data);
-            });
+                });
         }
   
     } else {
