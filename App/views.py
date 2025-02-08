@@ -91,7 +91,7 @@ def home(request):
     
     # To test for query outputs if cached or not
     # cache.clear() 
-    topics_cache_key = f"Hot-Topics-{current_user}"
+    topics_cache_key = f"Hot-Topics--{current_user}"
     # Retrieves the value from the cache assigned with the custom key.
     images_data = cache.get(topics_cache_key)
     

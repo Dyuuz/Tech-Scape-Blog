@@ -8,6 +8,16 @@ function Subscribe() {
     }
 }
 
+function SubscribeFooter() {
+    const emailInput = document.querySelector('input[name="email_address2"]');
+    const emailValue = emailInput.value;
+    if (!emailValue) {
+        emailInput.placeholder = "Email is required";
+    } else {
+        axiosSubsribe(emailValue);
+    }
+}
+
 function axiosSubsribe(emailValue) {
     const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const emailInput = document.querySelector('input[name="email_address"]');
@@ -25,11 +35,12 @@ function axiosSubsribe(emailValue) {
         if (response.data.success === true) {
             Swal.fire({
                 title: 'Success',
-                text: 'You have successfully subscribed to our newsletter',  
+                text: 'You have successfully subscribed to our newsletter', 
+                icon: 'success', 
                 iconHtml: '<img src="/static/sub4.png" class="custom-swal" >',
                 showConfirmButton: true,
                 confirmButtonText: 'Continue',
-                confirmButtonColor: 'rgb(58, 138, 222)', // Change this to your desired color
+                confirmButtonColor: 'rgb(58, 138, 222)',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 allowEnterKey: false
@@ -41,24 +52,13 @@ function axiosSubsribe(emailValue) {
 
         } else {
             // alert(response.data.success);
-            const suggestionBox = document.createElement('div');
-            suggestionBox.textContent = response.data.message;
-            suggestionBox.style.position = 'absolute';
-            suggestionBox.style.backgroundColor = 'rgba(219, 105, 105, 0.96)';
-            suggestionBox.style.color = '#fff';
-            suggestionBox.style.fontSize = '14px';
-            suggestionBox.style.padding = '10px 20px';
-            suggestionBox.style.borderRadius = '8px';
-            suggestionBox.style.boxShadow = '0 4px 8px rgba(238, 254, 249, 0.1)';
-            suggestionBox.style.marginTop = '55px';
-            suggestionBox.style.marginRight = '50px';
-            suggestionBox.style.transition = 'opacity 0.3s ease';
-            suggestionBox.style.opacity = '0.9';
-            // suggestionBox.style.zIndex = '1000';
-            emailInput.insertAdjacentElement('afterend', suggestionBox);
-            setTimeout(() => {
-                suggestionBox.remove();
-            }, 2000);
+            Swal.fire({
+                title: 'Error',
+                text: response.data.message,
+                icon: 'error',
+                timer: 4000,
+                showConfirmButton: false
+            });
         }
     })
     .catch(error => {
@@ -68,26 +68,53 @@ function axiosSubsribe(emailValue) {
 
 function suboptions(suboption){
     const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    if (suboption === 'Unsubscribe') {
-        axios.post('/subscribe-option/',
-            {
-                suboption: suboption,
-            },{
-                headers: {
-                    'X-CSRFToken': csrf_token
-                }
-            })
-        .then(response => {
-            if (response.data.success === true) {
-                
+    
+    axios.post('/subscribe-option/',
+        {
+            suboption: suboption,
+        },{
+            headers: {
+                'X-CSRFToken': csrf_token
             }
         })
-        .catch(error => {
-            console.error('Error:', error.response.data);
-        });      
-    } else {
-       
-    }
+    .then(response => {
+        if (response.data.subscribe === true) {
+            Swal.fire({
+                title: 'Success',
+                text: 'You have successfully subscribed to our newsletter',  
+                iconHtml: '<img src="/static/sub4.png" class="custom-swal">',
+                showConfirmButton: true,
+                confirmButtonText: 'Continue',
+                confirmButtonColor: 'rgb(58, 138, 222)',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        } else {
+            Swal.fire({
+                title: 'Success',
+                text: 'You have successfully unsubscribed from our newsletter', 
+                iconHtml: '<img src="/static/unsubscribe.png" class="custom-swal">',
+                showConfirmButton: true,
+                confirmButtonText: 'Continue',
+                confirmButtonColor: 'rgb(58, 138, 222)',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error.response.data);
+    });      
 }
 
 function toggleLike(postID) {

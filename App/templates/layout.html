@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="{% static 'styles098.css'%}">
+  <link rel="stylesheet" href="{% static 'styles464.css'%}">
   <link rel="stylesheet" href="{% static 'related22.css'%}">
   <link rel="stylesheet" href="{% static 'postpag444.css'%}">
   <link rel="stylesheet" href="{% static 'staticlogin606.css'%}">
@@ -785,19 +785,34 @@
 
             <p class="footer-list-title">Newsletter</p>
 
+            {% if user_subscribed %}
+            <p class="footer-text">
+              You are already subscribed to our newsletter.
+            </p>
+            {% else %}
             <p class="footer-text">
               Sign up to be first to receive the latest stories inspiring us, case studies, and industry news.
             </p>
-            <form class="blog-register-form" action="register" method="POST">
-              {% csrf_token %}
-              <div class="input-wrapper">
-                <input type="text" name="name" placeholder="Your name" required class="input-field" autocomplete="off">
+            {% endif %}
+            {% comment %} <form class="blog-register-form" action="register" method="POST"> {% endcomment %}
+              
+              {% comment %} <div class="input-wrapper">
+                <input type="text" name="name" placeholder="Your name"  class="input-field" autocomplete="off">
 
                 <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-              </div>
+              </div> {% endcomment %}
 
+              {% if user_subscribed %}
+              <a class="btn btn-primary">
+                <button type="submit">
+                  <span class="span" onclick="suboptions('Unsubscribe')">Unubscribe</span>
+                </button>
+
+                <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+              </a>
+              {% else %}
               <div class="input-wrapper">
-                <input type="email" name="email_address" placeholder="Emaill address" required class="input-field"
+                <input type="email" name="email_address2" placeholder="Emaill address" required class="input-field"
                   autocomplete="off">
 
                 <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
@@ -805,12 +820,13 @@
               
               <a class="btn btn-primary">
                 <button type="submit">
-                  <span class="span">Subscribe</span>
+                  <span class="span" onclick="SubscribeFooter()">Subscribe</span>
                 </button>
 
                 <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
               </a>
-            </form>
+              {% endif %}
+            {% comment %} </form> {% endcomment %}
 
           </div>
 
@@ -876,7 +892,7 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{% static 'scriptHome.js'%}"></script>
-  <script src="{% static 'scriptUser12.js'%}"></script>
+  <script src="{% static 'scriptUser55.js'%}"></script>
   
   <script>
     window.userData = {

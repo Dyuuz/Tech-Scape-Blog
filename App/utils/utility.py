@@ -182,11 +182,16 @@ def update_suboption(request):
         data = request.body
         Ajax_data = json.loads(data.decode('utf-8'))
         user = request.user
-        suboption = Ajax_data.get('suboption')
+        suboption = Ajax_data.get('suboption').lower()
+    
         try:
             subscribe = Newsletter.objects.get(user=user)
-            subscribe.subscribe = True if suboption == 'true' else False
+            subscribe.subscribe = True if suboption == 'subscribe' else False
             subscribe.save()
-            return JsonResponse({'success': True, 'message': 'Subscription option updated successfully!'})
+            print(suboption)
+            if suboption == 'subscribe':
+                return JsonResponse({'subscribe': True, 'message': 'You have successfully subscribed'})
+            else:
+                return JsonResponse({'unsubscribe': True, 'message': 'You have successfully unsubscribed'})
         except:
             return JsonResponse({'success': False, 'message': 'Error updating subscription option!'})
