@@ -237,6 +237,12 @@
     /* border: 1px solid white; */
 }
 
+@media (min-width: 500px) {
+    .blog-register-body {
+        margin-top: 150px;
+    }
+}
+
 .blog-register-container {
     /* background: #ffffff; */
     padding: 2rem;
@@ -512,4 +518,7 @@ button:hover {
 	text-decoration: underline;
 	margin-left: 5px;
 	color: rgba(255, 255, 255, 0.848);
+}
+.anchor-t:hover{
+	color: #ffffffe7;
 }

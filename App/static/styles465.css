@@ -2022,3 +2022,9 @@ li .recent-post-card{
   }
 }
 
+
+@media (min-width: 500px) {
+  .footer{
+      margin-top: 70px;
+  }
+}
