@@ -17,6 +17,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Count
 import re
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 def home(request):        
@@ -201,8 +204,8 @@ def register(request):
         password = request.POST.get('password').strip()
         confirm_password = request.POST.get('confirm_password').strip()
         
-        userexists = User.object.filter(username=username).exists()
-        emailexists = User.object.filter(emmail=email).exists() 
+        userexists = User.objects.filter(username=username).exists()
+        emailexists = User.objects.filter(email=email).exists()
         
         try:
             if password != confirm_password:
@@ -212,20 +215,22 @@ def register(request):
                 return JsonResponse({'userexists': True, 'message': 'Username is taken'})
             
             elif emailexists:
-                return JsonResponse({'userexists': True, 'message': 'Email is taken'})
+                return JsonResponse({'emailexists': True, 'message': 'Email is taken'})
             
             else:
-                user = User.objects.create_user(
-                        username=username,
-                        email=email,
-                        )
-                user.set_password(password)
-                user.save()
-                Newsletter.objects.create(user=user, subscribe=False)
-                url =  redirect('login')
-                return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': url})
+                # return JsonResponse({'sucess': True, 'message': 'got to else condition'})
+                # user = User.objects.create_user(
+                #         username=username,
+                #         email=email,
+                # )
+                # user.set_password(password)
+                # user.save()
+                # Newsletter.objects.create(user=user, subscribe=False)
+                
+                return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
             
         except Exception as e:
+            logger.error(f"Exception occurred: {e}")
             return JsonResponse({'exceptionError': True, 'message': 'Exception error'})
         
     else:

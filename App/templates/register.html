@@ -32,6 +32,7 @@
         <p class="blog-register-text">
             Already have an account? <a href="{% url 'login' %}">Login</a>
         </p>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             var user = document.querySelector('input[name="username"]');
             var mail = document.querySelector('input[name="email"]');
@@ -74,6 +75,7 @@
                 } else {
                     this.action = getRegisterUrl(formData);
                 }
+                //this.action = getRegisterUrl(formData);
             };
     
             function getRegisterUrl(formData) {
@@ -87,28 +89,54 @@
                 }}
                 )
                 .then(response => {
-                    if (response.data.password === true) {
-                        alert.textContent = response.data.message;
-                    
+                    if (response.data.success === true) {
+                        Swal.fire({
+                            title: 'Registration Successful!',
+                            text: 'You have successfully created an account.',
+                            icon: 'success',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Proceed to Login',
+                            confirmButtonColor: 'rgb(58, 138, 222)' // Change this to your desired color
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = response.data.redirect_url;
+                            }
+                        });
+                         
                     } else if (response.data.userexists === true) {
                         alert.textContent = response.data.message;
         
-                    } else if(response.data.userexists === true) {
+                    } else if(response.data.emailexists === true) {
                         alert.textContent = response.data.message;
         
-                    } else if(response.data.success === true) {
-                        window.location.href = response.data.redirect_url;
+                    } else if(response.data.password === true) {
+                        //alert.textContent = response.data.redirect_url;
+                        alert.textContent = response.data.message;
         
                     } else if(response.data.exceptionError === true) {
                         window.location.href = response.data.message;
         
                     } else {
-                        console.log('Successful Sign up')
+                        alert.textContent = response.data.message;
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert.textContent = 'An error occurred. Please try again.';
+                    console.error(error);
+                    if (error.response) {
+                        Swal.fire({
+                            title: 'Registration Failed!',
+                            text: 'Request error, refresh page to sign up',
+                            icon: 'error',
+                            timer: 4000,
+                            showConfirmButton: false
+                        });
+                    } else if (error.request) {
+                    // The request was made but no response was received
+                    alert.textContent = 'Please check your network connection.';
+                    } else {
+                    // Something happened in setting up the request that triggered an Error
+                    alert.textContent = 'An error occurred while setting up the request: ' + error.message;
+                    }
                 });
                 event.preventDefault();
             }

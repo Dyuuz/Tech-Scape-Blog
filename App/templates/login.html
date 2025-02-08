@@ -31,6 +31,7 @@
       <p class="blog-register-password">
           <a href="{% url 'verify' %}">Forgot password?</a>
       </p>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script>
         var user = document.querySelector('input[name="username"]');
         var password = document.querySelector('input[name="password"]');
@@ -66,35 +67,16 @@
           )
           .then(response => {
             if (response.data.success === true) {
-              //alert.textContent = response.data.message;
-              // Show success dialog
-              var successDialog = document.createElement('div');
-              successDialog.style.position = 'fixed';
-              successDialog.style.top = '50%';
-              successDialog.style.left = '50%';
-              successDialog.style.transform = 'translate(-50%, -50%)';
-              successDialog.style.padding = '20px';
-              successDialog.style.backgroundColor = ' rgba(93, 97, 196, 0.95)';
-              successDialog.style.color = 'white';
-              successDialog.style.borderRadius = '20px';
-              successDialog.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-              successDialog.textContent = 'Login successful!';
-              successDialog.style.border = '2px solid rgb(255, 255, 255)';
-              successDialog.style.fontSize = '15px';
-              successDialog.style.fontWeight = 'bold';
-              successDialog.style.textAlign = 'center';
-              successDialog.style.width = '200px';
-              successDialog.style.height = '60px';
-              successDialog.style.display = 'flex';
-              successDialog.style.justifyContent = 'center';
-              successDialog.style.alignItems = 'center';
-              document.body.appendChild(successDialog);
-
-              // Redirect after a short delay
+              Swal.fire({
+                title: 'Login Successful',
+                text: 'Redirecting to homepage',
+                icon: 'success',
+                timer: 4000,
+                showConfirmButton: false
+            });
               setTimeout(function() {
-              document.body.removeChild(successDialog);
               window.location.href = response.data.redirect_url;
-              }, 3000);
+              }, 4000);
               
               //window.location.href = response.data.redirect_url;
               
@@ -111,9 +93,13 @@
             .catch(error => {
             console.error('Error:', error);
             if (error.response) {
-              // The request was made and the server responded with a status code
-              // that falls out of the range of 2xx
-              alert.textContent = 'Request error, refresh page and re-login ';
+              Swal.fire({
+                title: 'Login Failed!',
+                text: 'Request error, refresh page to login',
+                icon: 'error',
+                timer: 4000,
+                showConfirmButton: false
+            });
             } else if (error.request) {
               // The request was made but no response was received
               alert.textContent = 'Please check your network connection.';
