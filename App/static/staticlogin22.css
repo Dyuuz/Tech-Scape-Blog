@@ -274,29 +274,10 @@
 	border-radius: 2px;
 }
 
-.input-block-terms{
-	display: flex;
-	width: 100%;
-	margin-top: 8px;
-	gap: 10px;
-	color: #3b4465;
-	/* border: 1px solid brown; */
-	align-items: center;
-	justify-content: center;
-}
-
 #signup-terms{
 	display: flex;
 }
-h3{
-	font-size: 14px;
-	/* border: 1px solid brown; */
-	width: 95%;
-}
 
-.anchor-t{
-	text-decoration: underline;
-}
 .form [type='submit'] {
 	opacity: 0;
 	display: block;

@@ -24,6 +24,14 @@
             <input class="blog-register-input" type="password" name="password" placeholder="Password" required>
             <h6 class="newh6">Confirm Password</h6>
             <input class="blog-register-input" type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <div class="input-block-terms">
+                {% comment %} <h1>Terms and Conditions</h1> {% endcomment %}
+                {% comment %} <h1>By agreeing to the terms and conditions, you are agreeing to the following:</h1> {% endcomment %}
+                <label for="signup-terms" class="terms-label">
+                  <input id="signup-terms" type="checkbox" required>
+                </label>
+                <h3 class="h3">I agree to the <a href="#" class="anchor-t"> terms and conditions</a>&nbsp;</h3>
+            </div>
             <p class="blog-register-alert">
             
             </p>

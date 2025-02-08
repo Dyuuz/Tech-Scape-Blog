@@ -489,3 +489,27 @@ button:hover {
     width: 80px;
     height: 80px;
 }
+
+.input-block-terms{
+	display: flex;
+	width: 100%;
+	margin-top: 8px;
+	gap: 10px;
+	color: #3b4465;
+	align-items: center;
+	justify-content: center;
+}
+
+.h3{
+	display: flex;
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.848);
+	/* border: 1px solid brown; */
+	width: 95%;
+}
+
+.anchor-t{
+	text-decoration: underline;
+	margin-left: 5px;
+	color: rgba(255, 255, 255, 0.848);
+}
