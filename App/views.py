@@ -218,14 +218,13 @@ def register(request):
                 return JsonResponse({'emailexists': True, 'message': 'Email is taken'})
             
             else:
-                # return JsonResponse({'sucess': True, 'message': 'got to else condition'})
-                # user = User.objects.create_user(
-                #         username=username,
-                #         email=email,
-                # )
-                # user.set_password(password)
-                # user.save()
-                # Newsletter.objects.create(user=user, subscribe=False)
+                user = User.objects.create_user(
+                        username=username,
+                        email=email,
+                )
+                user.set_password(password)
+                user.save()
+                Newsletter.objects.create(user=user, subscribe=False)
                 
                 return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
             

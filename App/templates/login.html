@@ -69,7 +69,7 @@
             if (response.data.success === true) {
               Swal.fire({
                 title: 'Login Successful',
-                text: 'Redirecting to homepage',
+                text: 'Redirecting to homepage...',
                 icon: 'success',
                 timer: 4000,
                 showConfirmButton: false
@@ -99,13 +99,25 @@
                 icon: 'error',
                 timer: 4000,
                 showConfirmButton: false
-            });
+              });
             } else if (error.request) {
-              // The request was made but no response was received
-              alert.textContent = 'Please check your network connection.';
+              //if a request was made but no response was received
+              Swal.fire({
+                title: 'Login Failed!',
+                text: 'Please check your network connection.',
+                icon: 'error',
+                timer: 4000,
+                showConfirmButton: false
+              });
             } else {
               // Something happened in setting up the request that triggered an Error
-              alert.textContent = 'An error occurred while setting up the request: ' + error.message;
+              Swal.fire({
+                title: 'Login Failed!',
+                text: 'An error occurred while setting up the request: ' + error.message,
+                icon: 'error',
+                timer: 4000,
+                showConfirmButton: false
+              });
             }
             });
           event.preventDefault();
