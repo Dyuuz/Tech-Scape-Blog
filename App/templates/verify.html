@@ -10,19 +10,21 @@
     <div class="blog-register-container">
         <section class="forms-section">
             <h1 class="section-title-login">Email Verification</h1>
-            <p class="log-title">Please enter the verification code sent to lekanoyesunle@gmail.com {{email}}.</p>
+            <p class="log-title">You will receive a password reset link via your mail.</p>
         </section>
-        <div class="container">
-            <p class="timer">60</p>
-            <form action="otp" method="POST">
-                {% csrf_token %}
-                <input name="otp" type="text" placeholder="Enter verification code" required>
-                <p class='customalert'>{{alert}}</p>
-                <p class='customalert'>{{pk}}</p>
-                <button type="submit">Verify</button>
-            </form>
-            <p class="resend">Didn't receive a code? <a href="{% url 'verify'%}">Resend code</a></p>
-        </div>
+        <form class="blog-register-form" id="loginForm" method="POST">
+            {% csrf_token %}
+            <h6 class="newh6">Email</h6>
+            <input class="blog-register-input" id="password" type="email" name="password" placeholder="Input email address" autocomplete="on" required>
+            
+            <p class="blog-register-alert">
+              
+            </p>
+              <button class="blog-register-button" type="submit" >Send Reset Link</button>
+        </form>
+        <p class="blog-register-text">
+            Don't need to reset your password?<a href="{% url 'login' %}">Sign in</a>
+        </p>
     </div>
     <script>
         let timer = 60;

@@ -9,8 +9,8 @@
 <div class="blog-register-body">
     <div class="blog-register-container">
         <section class="forms-section">
-            <h1 class="section-title-login">Welcome to Tech-Scape </h1>
-            <p class="log-title">Input credentials to sign up</p>
+            <h1 class="section-title-login">REGISTER</h1>
+            <p class="log-title">Fill in your details to create an account</p>
         </section>
         <form class="blog-register-form" id="registerForm" method="POST">
             {% csrf_token %}
@@ -36,12 +36,12 @@
                 <h3 class="h3">I agree to the <a href="#" class="anchor-t" onclick="termsopen()"> terms and conditions</a>&nbsp;</h3>
             </div>
             <p class="blog-register-alert">
-            
+                
             </p>
             <button class="blog-register-button" type="submit">Register</button>
         </form>
         <p class="blog-register-text">
-            Already have an account? <a href="{% url 'login' %}">Login</a>
+            Already have an account? <a href="{% url 'login' %}">Sign in</a>
         </p>
         <body class="modal-open">
             <!-- partial:index.partial.html -->
@@ -53,7 +53,7 @@
                                 <path fill="none" d="M0 0h24v24H0z" />
                                 <path fill="currentColor" d="M14 9V4H5v16h6.056c.328.417.724.785 1.18 1.085l1.39.915H3.993A.993.993 0 0 1 3 21.008V2.992C3 2.455 3.449 2 4.002 2h10.995L21 8v1h-7zm-2 2h9v5.949c0 .99-.501 1.916-1.336 2.465L16.5 21.498l-3.164-2.084A2.953 2.953 0 0 1 12 16.95V11zm2 5.949c0 .316.162.614.436.795l2.064 1.36 2.064-1.36a.954.954 0 0 0 .436-.795V13h-5v3.949z" />
                             </svg>
-                            Terms and Services
+                            Terms and Conditions
                         </h1>
                         <button class="icon-button" onclick="termsclose()">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -136,7 +136,7 @@
                 var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
                 if (password !== confirm_password) {
                     alert.style.display = 'block';
-                    alert.textContent = 'Password does not match';
+                    alert.textContent = 'Passwords does not match';
                     event.preventDefault(); 
                 } else if (!passwordPattern.test(password)) {
                     alert.style.display = 'block';

@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.home , name = 'home'),
     path('login', views.login_view, name = 'login'),
     path('logout', views.logout_view, name = 'logout'),
-    path('forgot-password', views.verify, name = 'verify'),
+    path('reset-link', views.verify, name = 'verify'),
     path('comment', views.comment, name = 'comment'),
     path('profile', views.profile, name = 'profile'),
     path('recent-posts', views.recentposts, name = 'recentposts'),
@@ -21,7 +21,7 @@ urlpatterns = [
     path('category/<str:cat>', views.category, name = 'category'),
     path('categories', views.categories, name = 'categories'),
     path('categories/<str:name>', views.category_detail, name = 'category_detail'),
-    path('<slug:name>/<slug:slug>', views.postpage, name = 'postpage')
+    path('<slug:name>/<slug:slug>', views.postpage, name = 'postpage'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

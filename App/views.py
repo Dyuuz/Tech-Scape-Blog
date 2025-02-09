@@ -209,7 +209,7 @@ def register(request):
         
         try:
             if password != confirm_password:
-                return JsonResponse({'password': True, 'message': 'Password does not match'})
+                return JsonResponse({'password': True, 'message': 'Passwords does not match'})
             
             elif userexists:
                 return JsonResponse({'userexists': True, 'message': 'Username is taken'})

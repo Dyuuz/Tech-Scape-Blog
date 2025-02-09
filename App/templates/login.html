@@ -9,7 +9,7 @@
 <div class="blog-register-body">
     <div class="blog-register-container">
       <section class="forms-section">
-        <h1 class="section-title-login">Welcome to Tech-Scape </h1>
+        <h1 class="section-title-login">LOGIN</h1>
         <p class="log-title">Input credentials to continue</p>
       </section>
       <form class="blog-register-form" id="loginForm" method="POST">
@@ -17,7 +17,7 @@
           <h6 class="newh6">Username</h6> 
           <input class="blog-register-input" type="text" name="username" placeholder="Input username" autocomplete="on" required>
           
-          <h6 class="newh6">Password</h6> 
+          <h6 class="newh6">Password</h6>
           <input class="blog-register-input" id="password" type="password" name="password" placeholder="Input password" autocomplete="on" required>
           
           <p class="blog-register-alert">
@@ -25,11 +25,14 @@
           </p>
             <button class="blog-register-button" type="submit" >Login</button>
       </form>
+      {% comment %} <p class="blog-register-password">
+        <a href="{% url 'verify' %}">Forgot password?</a>
+      </p> {% endcomment %}
       <p class="blog-register-text">
-          Don't have an account? <a href="{% url 'register' %}">Register</a>
+          Forgot password? <a href="{% url 'verify' %}">Reset password</a>
       </p>
-      <p class="blog-register-password">
-          <a href="{% url 'verify' %}">Forgot password?</a>
+      <p class="blog-register-text">
+          New to Tech Scape? <a href="{% url 'register' %}">Sign up</a>
       </p>
       <script>
         var user = document.querySelector('input[name="username"]');

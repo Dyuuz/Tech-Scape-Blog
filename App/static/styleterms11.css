@@ -146,7 +146,7 @@ a {
   right: 24px;
   height: 50px;
   flex-shrink: 0;
-  background-image: linear-gradient(to top, rgba(255, 255, 255, 0.186), transparent);
+  /* background-image: linear-gradient(to top, rgba(255, 255, 255, 0.186), transparent); */
   pointer-events: none;
 }
 
