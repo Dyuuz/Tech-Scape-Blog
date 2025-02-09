@@ -359,8 +359,8 @@
 .forms-section {
 	display: flex;
 	flex-direction: column;
-	/* justify-content: center; */
-	/* align-items: center; */
+	justify-content: center;
+	align-items: center;
 	width: 100%;
 }
 
@@ -493,9 +493,9 @@ button {
     font-size: 16px;
 }
 
-button:hover {
+/* button:hover {
     
-}
+} */
 
 .resend {
     margin-top: 20px;

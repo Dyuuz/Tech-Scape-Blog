@@ -1,4 +1,5 @@
 import json
+from django.conf import settings
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator
@@ -16,6 +17,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Count
+from django.core.mail import send_mail
 import re
 import logging
 
@@ -200,7 +202,7 @@ def register(request):
     all_categ = Category.objects.all()
     if request.method == 'POST':
         username = request.POST.get('username').strip().title()
-        email = request.POST.get('email').strip()
+        email = request.POST.get('email').strip().lower()
         password = request.POST.get('password').strip()
         confirm_password = request.POST.get('confirm_password').strip()
         
@@ -269,7 +271,7 @@ def login_view(request):
                 
                 if post_slug and cat_name:
                     url = reverse('postpage', kwargs={'name': cat_name, 'slug': post_slug})
-                    return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': url})
+                    return JsonResponse({'successpostpage': True, 'message': 'Login successful', 'redirect_url': url})
                     # return redirect(url)
                 
                     # response = postpage(request, name=cat_name, slug=post_slug)
@@ -406,4 +408,34 @@ def profile(request):
     
 def verify(request):
     all_categ = Category.objects.all()
-    return render(request, 'verify.html', locals())
+    try:
+        if request.method == 'POST':
+            
+            email = request.POST.get('email')
+            user = User.objects.filter(email=email).first()
+
+            if user:
+                token = PasswordResetToken.objects.create(user=user)
+                reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'token': str(token.token)}))
+
+                send_mail(
+                    subject='Password Reset Link',
+                    message=f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}',
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
+
+                return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
+            else:
+                return JsonResponse({'fail': True, 'message': 'Mail is not available'})
+        
+        return render(request, 'verify.html', locals())
+        
+    except Exception as e:
+        # logger.error(f"Exception occurred: {e}")
+        return JsonResponse({'error': True, 'message': f'An error occurred: {e}'})
+
+def reset_password(request, token):
+    all_categ = Category.objects.all()
+    return redirect('home')

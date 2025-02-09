@@ -29,7 +29,7 @@
         <a href="{% url 'verify' %}">Forgot password?</a>
       </p> {% endcomment %}
       <p class="blog-register-text">
-          Forgot password? <a href="{% url 'verify' %}">Reset password</a>
+          Forgot password? <a href="{% url 'reset-link' %}">Reset password</a>
       </p>
       <p class="blog-register-text">
           New to Tech Scape? <a href="{% url 'register' %}">Sign up</a>
@@ -41,12 +41,10 @@
 
         user.addEventListener('input', function() {
           alert.textContent = '';
-          //alert.style.display = 'none';
         });
 
         password.addEventListener('input', function() {
           alert.textContent = '';
-          //alert.style.display = 'none';
         });
 
         document.getElementById('loginForm').onsubmit = function(event) {
@@ -70,12 +68,32 @@
           .then(response => {
             if (response.data.success === true) {
               Swal.fire({
-                title: 'Login Successful',
-                text: 'Redirecting to homepage...',
-                icon: 'success',
-                timer: 4000,
-                showConfirmButton: false
-            });
+              title: 'Login Successful',
+              text: 'Redirecting to homepage...',
+              icon: 'success',
+              timer: 4000,
+              showConfirmButton: false,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              allowEnterKey: false
+              });
+              setTimeout(function() {
+              window.location.href = response.data.redirect_url;
+              }, 4000);
+              
+              //window.location.href = response.data.redirect_url;
+              
+            } else if (response.data.successpostpage === true) {
+              Swal.fire({
+              title: 'Login Successful',
+              text: 'Redirecting to previous page...',
+              icon: 'success',
+              timer: 4000,
+              showConfirmButton: false,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              allowEnterKey: false
+              });
               setTimeout(function() {
               window.location.href = response.data.redirect_url;
               }, 4000);
@@ -92,7 +110,7 @@
               alert.textContent = response.data.message;
             }
           })
-            .catch(error => {
+          .catch(error => {
             console.error('Error:', error);
             if (error.response) {
               Swal.fire({
@@ -121,7 +139,7 @@
                 showConfirmButton: false
               });
             }
-            });
+          });
           event.preventDefault();
         }
 

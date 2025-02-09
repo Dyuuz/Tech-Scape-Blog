@@ -1,3 +1,5 @@
+from datetime import timedelta, timezone
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -47,3 +49,12 @@ class Comments(models.Model):
 
     def __str__(self) -> None:
         return self.name
+    
+class PasswordResetToken(models.Model):
+    user = models.ForeignKey(User, related_name='token_list', on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    time = models.DateTimeField(auto_now_add=True)
+    
+    def is_valid(self):
+        # Token expires after 15 minutes
+        return self.time + timedelta(minutes=15) > timezone.now()
