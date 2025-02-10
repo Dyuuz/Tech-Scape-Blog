@@ -416,7 +416,7 @@ def verify(request):
 
             if user:
                 token = PasswordReset.objects.create(user=user)
-                reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'token': str(token.token)}))
+                reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'tokenID': str(token.token)}))
 
                 send_mail(
                     subject='Password Reset Link',
@@ -438,30 +438,34 @@ def verify(request):
 
 def reset_password(request, tokenID):
     all_categ = Category.objects.all()
-    
+
     if request.method == "POST":
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
-        
+
         if password != confirm_password:
-            return JsonResponse({'password': True, 'message': 'Passwords does not match'})
-        
+            return JsonResponse({'password': True, 'message': 'Passwords do not match'})
+
         try:
-            token = PasswordReset.objects.filter(token=tokenID).first()
-            if token:
-                if token.is_valid():
-                    user = token.user
-                    user.set_password(password)
-                    user.save()
-                    # token.delete()
-                    return JsonResponse({'success': True, 'message': 'Password reset successful', 'redirect_url': reverse('login')})
-                else:
-                    return JsonResponse({'fail': True, 'message': 'Token link has expired'})
+            token = PasswordReset.objects.get(token=tokenID)
+            if token.is_valid():
+                user = token.user
+                # user.set_password(password)
+                # user.save()
+                # token.delete() 
+                
+                return JsonResponse({
+                    'success': True, 
+                    'message': 'Password reset successful', 
+                    'redirect_url': reverse('login')
+                })
             else:
-                return JsonResponse({'fail': True, 'message': 'Token does not exist'})
+                return JsonResponse({'fail': True, 'message': 'Token link has expired'})
+
+        except PasswordReset.DoesNotExist:
+            return JsonResponse({'fail': True, 'message': 'Token does not exist'})
         except Exception as e:
-            return JsonResponse({'fail': True, 'message': e})
-    
+            return JsonResponse({'fail': True, 'message': str(e)})
+
     return render(request, 'passwordreset.html', locals())
 
-# Newausgjs1!
