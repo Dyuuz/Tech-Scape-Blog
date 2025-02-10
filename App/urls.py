@@ -1,3 +1,4 @@
+from App import admin
 from Blog.urls import path
 from . import views
 from django.conf import settings
@@ -8,8 +9,8 @@ urlpatterns = [
     path('login', views.login_view, name = 'login'),
     path('logout', views.logout_view, name = 'logout'),
     path('reset-link', views.verify, name = 'reset-link'),
-    path('reset-password/<uuid:token>/', views.reset_password, name = 'reset-password'),
-    path('comment', views.comment, name = 'comment'),
+    path('reset-password/<uuid:tokenID>/', views.reset_password, name = 'reset-password'),
+    # path('comment', views.comment, name = 'comment'),
     path('profile', views.profile, name = 'profile'),
     path('recent-posts', views.recentposts, name = 'recentposts'),
     path('update-like/', views.update_like, name = 'update-like'),

@@ -47,6 +47,8 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    # 'suit',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'App',
 ]
+
+# INSTALLED_APPS += ['admin_tools_stats']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,7 +75,7 @@ ROOT_URLCONF = 'Blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -97,6 +101,34 @@ DATABASES = {
     }
 }
 
+JAZZMIN_SETTINGS = {
+    "site_title": "Tech Scape",
+    "site_header": "Tech Scape Admin",
+    "site_brand": "Tech Scape",
+    "welcome_sign": "Welcome to Tech Scape",
+    "copyright": "Tech Scape",
+    "search_model": "auth.User",
+    "user_avatar": None,
+}
+
+SUIT_CONFIG = {
+    'ADMIN_NAME': 'My Custom Admin',
+    'SHOW_REQUIRED_ASTERISK': True,
+    'CONFIRM_UNSAVED_CHANGES': True,
+    'MENU_OPEN_FIRST_CHILD': True,
+    'SEARCH_URL': '',
+    'LIST_PER_PAGE': 20,
+    'MENU': (
+        {'label': 'Users', 'icon': 'icon-user', 'models': ('auth.user', 'auth.group')},
+        {'label': 'Content Management', 'icon': 'icon-folder-open', 'models': ('App.Category', 'myapp.Blog')},
+        {'label': 'Subscriptions', 'icon': 'icon-envelope', 'models': ('App.Newsletter',)},
+        {'label': 'Security', 'icon': 'icon-lock', 'models': ('App.PasswordReset',)},
+    ),
+}
+
+SUIT_CONFIG['DASHBOARD'] = 'App.dashboard.CustomDashboard'
+
+ADMIN_TOOLS_INDEX_DASHBOARD = 'myapp.dashboard.CustomIndexDashboard'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

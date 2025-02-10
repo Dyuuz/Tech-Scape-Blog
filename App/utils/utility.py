@@ -27,17 +27,17 @@ def subscribe_check(request):
         return False
 
 # Pending 
-def comment(request):
-    if request.method == "POST":
-        name = request.POST.get('name')
-        comment = request.POST.get('comment')
-        pk = request.POST.get('pk')
-        pk = int(pk)
-        blog = Blog.objects.get(pk=pk)
+# def comment(request):
+#     if request.method == "POST":
+#         name = request.POST.get('name')
+#         comment = request.POST.get('comment')
+#         pk = request.POST.get('pk')
+#         pk = int(pk)
+#         blog = Blog.objects.get(pk=pk)
         
-        protocol = Comments(name=name, comment=comment,category=blog)
-        return HttpResponse("Comment saved!")
-    return HttpResponse("Error Loading page")
+#         protocol = Comments(name=name, comment=comment,category=blog)
+#         return HttpResponse("Comment saved!")
+#     return HttpResponse("Error Loading page")
 
 # Caching operation of converting serialized data to a default data structure 
 def deserial(data):
