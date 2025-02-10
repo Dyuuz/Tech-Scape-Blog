@@ -9,4 +9,5 @@ class NewsletterAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Blog)
 admin.site.register(Comments)
+admin.site.register(PasswordResetToken)
 admin.site.register(Newsletter,NewsletterAdmin)

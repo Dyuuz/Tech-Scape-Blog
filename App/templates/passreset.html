@@ -1,0 +1,148 @@
+{% extends 'layout.html' %}
+{%load static%}
+
+{% block hero %}
+
+{% endblock  %}
+
+{%block featured%}
+<div class="blog-register-body">
+    <div class="blog-register-container">
+        <section class="forms-section">
+            <h1 class="section-title-login">Reset Account Password</h1>
+            <p class="log-title">Input new password</p>
+        </section>
+        <form class="blog-register-form" id="registerForm" method="POST">
+            {% csrf_token %}
+            <h6 class="newh6">Password</h6> 
+            <input class="blog-register-input" type="password" name="password" placeholder="Password" autocomplete="on" required>
+            <h6 class="newh6">Confirm Password</h6>
+            <input class="blog-register-input" type="password" name="confirm_password" placeholder="Confirm Password" autocomplete="on" required>
+            <p class="blog-register-alert">
+            
+            </p>
+            <button class="blog-register-button" type="submit">Reset password</button>
+        </form>
+        <p class="blog-register-text">
+            Token expired? <a href="{% url 'reset-link' %}">Request a new reset link</a>
+        </p>
+        
+        <script>
+            var password = document.querySelector('input[name="password"]');
+            var confirmpassword = document.querySelector('input[name="confirm_password"]');
+            var alert = document.querySelector('.blog-register-alert');
+
+            password.addEventListener('input', function() {
+            alert.textContent = '';
+            });
+
+            confirmpassword.addEventListener('input', function() {
+            alert.textContent = '';
+            });
+
+            document.getElementById('registerForm').onsubmit = function(event) {
+                var password = document.querySelector('input[name="password"]').value;
+                var confirm_password = document.querySelector('input[name="confirm_password"]').value;
+                var alert = document.querySelector('.blog-register-alert');
+                var form = document.getElementById('registerForm');
+                var formData = new FormData(form);
+                
+                var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+                if (password !== confirm_password) {
+                    alert.style.display = 'block';
+                    alert.textContent = 'Passwords does not match';
+                    event.preventDefault(); 
+                } else if (!passwordPattern.test(password)) {
+                    alert.style.display = 'block';
+                    alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
+                    event.preventDefault(); 
+                } else {
+                    this.action = getResetPasswordUrl(formData);
+                }
+                //this.action = getRegisterUrl(formData);
+            };
+
+            function getResetPasswordUrl(formData){
+                var alert =  document.querySelector('.blog-register-alert');
+                alert.style.display = 'block';
+                const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value; 
+
+                axios.post('reset-password', formData,
+                { headers: {
+                    'X-CSRFToken': csrf_token
+                }
+                }).then((response) => {
+
+                }).catch((error) => {
+                    alert.textContent = 'An error occurred while setting up the request: ' + error.message;
+                });
+                event.preventDefault();
+            }
+    
+            function get(formData) {
+                var alert =  document.querySelector('.blog-register-alert');
+                alert.style.display = 'block';
+                const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        
+                axios.post('reset-password', formData,
+                { headers: {
+                    'X-CSRFToken': csrf_token
+                }}
+                )
+                .then(function(response) {
+                    if (response.data.success === true) {
+                        alert.textContent = response.data.message;
+                         
+                    } else {
+                        alert.textContent = response.data.message;
+                    }
+                })
+                .catch(error => {
+                    if (error.response) {
+                        Swal.fire({
+                            title: 'Password Reset Failed!',
+                            text: 'Request error, refresh page to change password' + error.message,
+                            icon: 'error',
+                            timer: 4000,
+                            showConfirmButton: false
+                        });
+                    } else if (error.request) {
+                    //if a request was made but no response was received
+                        Swal.fire({
+                            title: 'Password Reset Failed!',
+                            text: 'Please check your network connection.',
+                            icon: 'error',
+                            timer: 4000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                    // Something happened in setting up the request that triggered an Error
+                        Swal.fire({
+                            title: 'Password Reset Failed!',
+                            text: 'An error occurred while setting up the request: ' + error.message,
+                            icon: 'error',
+                            timer: 4000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+                event.preventDefault();
+            }
+          
+        </script>
+        
+    </div>
+</div>
+{% endblock  %}
+
+{% block usercontents %}
+
+{% endblock  %}
+
+{% block populartags %}
+
+{% endblock  %}
+
+{% block recents %}
+
+{% endblock  %}

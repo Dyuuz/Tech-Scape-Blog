@@ -438,4 +438,27 @@ def verify(request):
 
 def reset_password(request, token):
     all_categ = Category.objects.all()
-    return redirect('home')
+    
+    if request.method == "POST":
+        return redirect('home')
+        password = request.POST.get('password')
+        print(password)
+        confirm_password = request.POST.get('confirm_password')
+        
+        if password != confirm_password:
+            return JsonResponse({'password': True, 'message': 'Passwords does not match'})
+        
+        try:
+            token = PasswordResetToken.objects.get(token=token)
+            if token.is_valid():
+                user = token.user
+                user.set_password(password)
+                user.save()
+                token.delete()
+                return JsonResponse({'success': True, 'message': 'Password reset successful', 'redirect_url': reverse('login')})
+            else:
+                return JsonResponse({'fail': True, 'message': 'Token link has expired'})
+        except:
+            return JsonResponse({'fail': True, 'message': 'Invalid requqest, try again.'})
+    
+    return render(request, 'passreset.html', locals())
