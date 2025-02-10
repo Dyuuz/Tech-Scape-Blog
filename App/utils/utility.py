@@ -141,6 +141,9 @@ def update_subscribe(request):
                 if user.is_authenticated and user.email != emailVal:
                     return JsonResponse({'success': False, 'message': 'Email is not associated with this account!'})
                 
+                elif not Newsletter.objects.filter(email=emailVal).exists():
+                    return JsonResponse({'success': False, 'message': 'Email is not on subscribtion list. Send us a mail to fix the issue.'})
+                
                 elif user.is_authenticated:
                     subscribe = Newsletter.objects.get(user=user)
                     subscribe.subscribe = True
