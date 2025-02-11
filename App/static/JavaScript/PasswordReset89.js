@@ -37,19 +37,17 @@ function getResetPasswordUrl(formData) {
     const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
     const urlParts = window.location.pathname.split('/');  
     const userToken = urlParts[urlParts.length - 2];
-    alertmsg.textContent = csrf_token;
     
     fetch(`/reset-password/${userToken}/`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'X-CSRFToken': csrf_token,
         },
         body: formData
-    }).then(response => response.json())
-    .then(data => {
+    }).then((response) => {
         if (data.success === true) {
             Swal.fire({
-                title: 'Password successfully changed',
+                title: response.data.message,
                 text: 'You can now log in with your new password',
                 icon: 'success',
                 showConfirmButton: true,
@@ -64,7 +62,7 @@ function getResetPasswordUrl(formData) {
                 }
             });
         } else {
-            document.getElementById("alert").textContent = data.message;
+            alertmsg.textContent = response.data.message;
         }
     }).catch((error) => {
         let errorMessage = 'An error occurred. Please try again.';

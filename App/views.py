@@ -444,29 +444,34 @@ def verify(request):
 def reset_password(request, tokenID):
     all_categ = Category.objects.all()
 
-    if request.method == "GET":
-        password = request.GET.get('password')
-        confirm_password = request.GET.get('confirm_password')
+    if request.method == "POST":
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
 
         if password != confirm_password:
             return JsonResponse({'password': True, 'message': 'Passwords do not match'})
 
         try:
             token = PasswordReset.objects.filter(token=tokenID).first()
-            # return JsonResponse({'fail': True, 'message': token.user.username})
+            allRelated_tokens = PasswordReset.objects.filter(user__username=token.user.username)
+            # allRelated_json = json.loads(serializers.serialize('json', allRelated_tokens ))
             
             if token.is_valid():
                 user = token.user.username
                 user_instance = User.objects.get(username=user)
+                
+                if check_password(password, user_instance.password):
+                    return JsonResponse({'fail': True, 'message': 'You cannot reuse old password'})
+                
                 user_instance.set_password(password)
                 user_instance.save()
-                # token.delete()
+                # allRelated_tokens.delete()
                 
                 return JsonResponse({
                     'success': True, 
                     'message': 'Password reset successful', 
                     'redirect_url': reverse('login'),
-                    'user' : user_instance.username,
+                    # 'related_token' : allRelated_json,
                 })
             else:
                 return JsonResponse({'fail': True, 'message': 'Token link has expired'})
