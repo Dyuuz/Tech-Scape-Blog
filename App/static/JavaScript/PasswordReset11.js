@@ -37,10 +37,10 @@ function getResetPasswordUrl(formData) {
     const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
     const urlParts = window.location.pathname.split('/');  
     const userToken = urlParts[urlParts.length - 2];
-    alertmsg.textContent = userToken;
+    alertmsg.textContent = csrf_token;
     
     fetch(`/reset-password/${userToken}/`, {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'X-CSRFToken': csrf_token,
         },

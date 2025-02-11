@@ -21,6 +21,7 @@ alert.textContent = '';
 });
 
 document.getElementById('registerForm').onsubmit = function(event) {
+    var username = document.querySelector('input[name="username"]').value;
     var password = document.querySelector('input[name="password"]').value;
     var confirm_password = document.querySelector('input[name="confirm_password"]').value;
     var alert = document.querySelector('.blog-register-alert');
@@ -28,6 +29,8 @@ document.getElementById('registerForm').onsubmit = function(event) {
     var formData = new FormData(form);
     
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    var usernamePattern = /^[0-9]+$/;
+    var containsSymbol = /[!@#$%^&*():;'",.<>?/\\|`~+=-{}]/;
     if (password !== confirm_password) {
         alert.style.display = 'block';
         alert.textContent = 'Passwords does not match';
@@ -35,7 +38,7 @@ document.getElementById('registerForm').onsubmit = function(event) {
     } else if (!passwordPattern.test(password)) {
         alert.style.display = 'block';
         alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
-        event.preventDefault(); 
+        event.preventDefault();  
     } else {
         this.action = getRegisterUrl(formData);
     }

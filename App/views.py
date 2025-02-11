@@ -219,6 +219,11 @@ def register(request):
             elif emailexists:
                 return JsonResponse({'emailexists': True, 'message': 'Email is taken'})
             
+            elif re.match(r'^[^a-zA-Z]', username):
+                return JsonResponse({'invalidusername': True, 'message': 'Username cannot start with a digit/symbol'})
+            
+            elif re.search(r'[^\w]', username):
+                return JsonResponse({'invalidusername': True, 'message': 'Username cannot contain symbols'})
             else:
                 user = User.objects.create_user(
                         username=username,
@@ -251,14 +256,14 @@ def login_view(request):
         # data = request.body
         # Ajax_data = json.loads(data.decode('utf-8'))
         
-        username = request.POST.get('username').strip().title()
+        username = request.POST.get('username').strip()
         password = request.POST.get('password').strip()
         
         user_check = User.objects.filter(username=username).exists()
         if user_check:
             usid = user_check
         else:
-            return JsonResponse({'userError': True, 'message': 'Username or Password is incorrect'})
+            return JsonResponse({'userError': True, 'message': 'User does not exist'})
         
         try:
             user = authenticate(request, username=username, password=password)
@@ -439,25 +444,29 @@ def verify(request):
 def reset_password(request, tokenID):
     all_categ = Category.objects.all()
 
-    if request.method == "POST":
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
+    if request.method == "GET":
+        password = request.GET.get('password')
+        confirm_password = request.GET.get('confirm_password')
 
         if password != confirm_password:
             return JsonResponse({'password': True, 'message': 'Passwords do not match'})
 
         try:
-            token = PasswordReset.objects.get(token=tokenID)
+            token = PasswordReset.objects.filter(token=tokenID).first()
+            # return JsonResponse({'fail': True, 'message': token.user.username})
+            
             if token.is_valid():
-                user = token.user
-                # user.set_password(password)
-                # user.save()
-                # token.delete() 
+                user = token.user.username
+                user_instance = User.objects.get(username=user)
+                user_instance.set_password(password)
+                user_instance.save()
+                # token.delete()
                 
                 return JsonResponse({
                     'success': True, 
                     'message': 'Password reset successful', 
-                    'redirect_url': reverse('login')
+                    'redirect_url': reverse('login'),
+                    'user' : user_instance.username,
                 })
             else:
                 return JsonResponse({'fail': True, 'message': 'Token link has expired'})
