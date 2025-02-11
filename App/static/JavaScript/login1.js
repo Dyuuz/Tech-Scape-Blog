@@ -16,6 +16,18 @@ document.getElementById('loginForm').onsubmit = function(event) {
     var form = document.getElementById('loginForm');
     var formData = new FormData(form);
     this.action = getLoginUrl(formData);
+    Swal.fire({
+        title: 'Logging In...',
+        text: 'Please wait while we process you credentials',
+        icon: 'info',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        showConfirmButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        }
+    });
 };
 
 function getLoginUrl(formData) {

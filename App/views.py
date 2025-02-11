@@ -465,7 +465,7 @@ def reset_password(request, tokenID):
                 
                 user_instance.set_password(password)
                 user_instance.save()
-                # allRelated_tokens.delete()
+                allRelated_tokens.delete()
                 
                 return JsonResponse({
                     'success': True, 

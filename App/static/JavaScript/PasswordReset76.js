@@ -27,7 +27,20 @@ document.getElementById('registerForm1').onsubmit = function(event) {
         alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
         event.preventDefault();
     } else {
+        Swal.fire({
+            title: 'Activating New Password',
+            text: 'Please wait...',
+            icon: 'info',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
         this.action = getResetPasswordUrl(formData);
+        event.preventDefault();
     }
 };
 
@@ -38,14 +51,12 @@ function getResetPasswordUrl(formData) {
     const urlParts = window.location.pathname.split('/');  
     const userToken = urlParts[urlParts.length - 2];
     
-    fetch(`/reset-password/${userToken}/`, {
-        method: 'POST',
+    axios.post(`/reset-password/${userToken}/`, formData, {
         headers: {
             'X-CSRFToken': csrf_token,
-        },
-        body: formData
+        }
     }).then((response) => {
-        if (data.success === true) {
+        if (response.data.success === true) {
             Swal.fire({
                 title: response.data.message,
                 text: 'You can now log in with your new password',
@@ -58,23 +69,24 @@ function getResetPasswordUrl(formData) {
                 allowEnterKey: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = data.redirect_url;  // Redirect user to login page
+                    window.location.href = response.data.redirect_url;  // Redirect user to login page
                 }
             });
         } else {
+            Swal.close();
             alertmsg.textContent = response.data.message;
         }
     }).catch((error) => {
         let errorMessage = 'An error occurred. Please try again.';
         if (error.response) {
-            errorMessage = `Request error, please refresh and try again. Error: ${error.message}`;
+            errorMessage = `Request error, please refresh and try again.`;
         } else if (error.request) {
             errorMessage = 'Please check your network connection.';
         }
     
         Swal.fire({
             title: 'Reset Link Failed!',
-            text: errorMessage + error,
+            text: errorMessage,
             icon: 'error',
             timer: 4000,
             showConfirmButton: false

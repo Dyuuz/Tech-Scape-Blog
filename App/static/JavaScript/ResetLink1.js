@@ -8,7 +8,18 @@ mail.addEventListener('input', function() {
 document.getElementById('loginForm').onsubmit = function(event) {         
     var form = document.getElementById('loginForm');
     var formData = new FormData(form);
-
+    Swal.fire({
+        title: 'Processing Reset Link...',
+        text: 'Please wait...',
+        icon: 'info',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        showConfirmButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        }
+    });
     this.action = getMailResetUrl(formData);
 };
 
@@ -18,7 +29,7 @@ function getMailResetUrl(formData) {
     var mail = document.querySelector('input[name="email"]');
     const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
-    axios.post('reset-link', formData, {
+    axios.post('reset-link', formData, {    
         headers: {
             'X-CSRFToken': csrf_token,
         }
