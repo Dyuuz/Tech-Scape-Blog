@@ -27,6 +27,7 @@ document.getElementById('registerForm').onsubmit = function(event) {
     var alert = document.querySelector('.blog-register-alert');
     var form = document.getElementById('registerForm');
     var formData = new FormData(form);
+    var submit = document.querySelector('.blog-register-button');
     
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     var usernamePattern = /^[0-9]+$/;
@@ -40,6 +41,7 @@ document.getElementById('registerForm').onsubmit = function(event) {
         alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
         event.preventDefault();  
     } else {
+        disableSubmitRegister();
         this.action = getRegisterUrl(formData);
     }
     //this.action = getRegisterUrl(formData);
@@ -72,18 +74,23 @@ function getRegisterUrl(formData) {
                 
         } else if (response.data.userexists === true) {
             alert.textContent = response.data.message;
+            activateSubmitRegister();
 
         } else if(response.data.emailexists === true) {
             alert.textContent = response.data.message;
+            activateSubmitRegister();
 
         } else if(response.data.password === true) {
             alert.textContent = response.data.message;
+            activateSubmitRegister();
 
         } else if(response.data.exceptionError === true) {
-            window.location.href = response.data.message;
+            alert.textContentz = response.data.message;
+            activateSubmitRegister();
 
         } else {
             alert.textContent = response.data.message;
+            activateSubmitRegister();
         }
     })
     .catch(error => {
@@ -96,6 +103,7 @@ function getRegisterUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            activateSubmitRegister();
         } else if (error.request) {
         //if a request was made but no response was received
             Swal.fire({
@@ -105,6 +113,7 @@ function getRegisterUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            activateSubmitRegister();
         } else {
         // Something happened in setting up the request that triggered an Error
             Swal.fire({
@@ -114,9 +123,22 @@ function getRegisterUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            activateSubmitRegister();
         }
     });
     event.preventDefault();
+}
+
+function disableSubmitRegister(){
+    var submit = document.querySelector('.blog-register-button');
+    submit.disabled = true;
+    submit.classList.add("disabled");
+}
+
+function activateSubmitRegister(){
+    var submit = document.querySelector('.blog-register-button');
+    submit.disabled = false;
+    submit.classList.remove("disabled");
 }
 
 function submitForm() {

@@ -15,6 +15,7 @@ document.getElementById('registerForm1').onsubmit = function(event) {
     var confirm_password = document.querySelector('input[name="confirm_password"]').value;
     var alert = document.querySelector('.blog-register-alert');
     var form = document.getElementById('registerForm1');
+    var submit = document.querySelector('.blog-register-button');
     var formData = new FormData(form);
     
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
@@ -27,18 +28,7 @@ document.getElementById('registerForm1').onsubmit = function(event) {
         alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
         event.preventDefault();
     } else {
-        Swal.fire({
-            title: 'Activating New Password',
-            text: 'Please wait...',
-            icon: 'info',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            allowEnterKey: false,
-            showConfirmButton: false,
-            onBeforeOpen: () => {
-                Swal.showLoading();
-            }
-        });
+        disablesubmitPassword();
         this.action = getResetPasswordUrl(formData);
         event.preventDefault();
     }
@@ -47,6 +37,7 @@ document.getElementById('registerForm1').onsubmit = function(event) {
 function getResetPasswordUrl(formData) {
     var alertmsg =  document.querySelector('.blog-register-alert');
     alertmsg.style.display = 'block';
+    var submit = document.querySelector('.blog-register-button');
     const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
     const urlParts = window.location.pathname.split('/');  
     const userToken = urlParts[urlParts.length - 2];
@@ -73,8 +64,8 @@ function getResetPasswordUrl(formData) {
                 }
             });
         } else {
-            Swal.close();
             alertmsg.textContent = response.data.message;
+            activatesubmitPassword();
         }
     }).catch((error) => {
         let errorMessage = 'An error occurred. Please try again.';
@@ -91,8 +82,21 @@ function getResetPasswordUrl(formData) {
             timer: 4000,
             showConfirmButton: false
         });
+        activatesubmitPassword();
     });
 
     
     event.preventDefault();
+}
+
+function disablesubmitPassword(){
+    var submit = document.querySelector('.blog-register-button');
+    submit.disabled = true;
+    submit.classList.add("disabled");
+}
+
+function activatesubmitPassword(){
+    var submit = document.querySelector('.blog-register-button');
+    submit.disabled = false;
+    submit.classList.remove("disabled");
 }

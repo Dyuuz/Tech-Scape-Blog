@@ -8,18 +8,7 @@ mail.addEventListener('input', function() {
 document.getElementById('loginForm').onsubmit = function(event) {         
     var form = document.getElementById('loginForm');
     var formData = new FormData(form);
-    Swal.fire({
-        title: 'Processing Reset Link...',
-        text: 'Please wait...',
-        icon: 'info',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        allowEnterKey: false,
-        showConfirmButton: false,
-        onBeforeOpen: () => {
-            Swal.showLoading();
-        }
-    });
+    disablesubmitReset();
     this.action = getMailResetUrl(formData);
 };
 
@@ -52,6 +41,8 @@ function getMailResetUrl(formData) {
             });
         } else {
             alert.textContent = response.data.message;
+            activatesubmitReset();
+            
         }
     }).catch((error) => {
         if (error.response) {
@@ -62,6 +53,8 @@ function getMailResetUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            activatesubmitReset();
+            
         } else if (error.request) {
         //if a request was made but no response was received
             Swal.fire({
@@ -71,6 +64,8 @@ function getMailResetUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            activatesubmitReset();
+            
         } else {
         // Something happened in setting up the request that triggered an Error
             Swal.fire({
@@ -80,9 +75,22 @@ function getMailResetUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            activatesubmitReset();
         }
     });
     event.preventDefault();
+}
+
+function disablesubmitReset(){
+    var submit = document.querySelector('.blog-register-button');
+    submit.disabled = true;
+    submit.classList.add("disabled");
+}
+
+function activatesubmitReset(){
+    var submit = document.querySelector('.blog-register-button');
+    submit.disabled = false;
+    submit.classList.remove("disabled");
 }
 
 function countdown() {
@@ -96,5 +104,5 @@ function countdown() {
             clearInterval(countdown);
             texttimer.innerText = 'Time is up!';
         }
-    } , 1000);
+    } , 1000);  
 }

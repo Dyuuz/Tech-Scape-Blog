@@ -15,19 +15,8 @@ document.getElementById('loginForm').onsubmit = function(event) {
     var alert = document.querySelector('.blog-register-alert');
     var form = document.getElementById('loginForm');
     var formData = new FormData(form);
+    disablesubmitLogin();
     this.action = getLoginUrl(formData);
-    Swal.fire({
-        title: 'Logging In...',
-        text: 'Please wait while we process you credentials',
-        icon: 'info',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        allowEnterKey: false,
-        showConfirmButton: false,
-        onBeforeOpen: () => {
-            Swal.showLoading();
-        }
-    });
 };
 
 function getLoginUrl(formData) {
@@ -77,12 +66,15 @@ function getLoginUrl(formData) {
             
         } else if (response.data.exceptionError === true) {
             alert.textContent = response.data.message;
+            activatesubmitLogin();
 
         } else if(response.data.userError === true) {
             alert.textContent = response.data.message;
+            activatesubmitLogin();
 
         } else if(response.data.passworderror === true) {
             alert.textContent = response.data.message;
+            activatesubmitLogin();  
         }
     })
     .catch(error => {
@@ -95,6 +87,8 @@ function getLoginUrl(formData) {
             timer: 4000,
             showConfirmButton: false
             });
+            activatesubmitLogin();
+
         } else if (error.request) {
             //if a request was made but no response was received
             Swal.fire({
@@ -104,6 +98,7 @@ function getLoginUrl(formData) {
             timer: 4000,
             showConfirmButton: false
             });
+            activatesubmitLogin();
         } else {
             // Something happened in setting up the request that triggered an Error
             Swal.fire({
@@ -113,7 +108,20 @@ function getLoginUrl(formData) {
             timer: 4000,
             showConfirmButton: false
             });
+            activatesubmitLogin();
         }
     });
     event.preventDefault();
+}
+
+function disablesubmitLogin(){
+    var submit = document.querySelector('.blog-register-button');
+    submit.disabled = true;
+    submit.classList.add("disabled");
+}
+
+function activatesubmitLogin(){
+    var submit = document.querySelector('.blog-register-button');
+    submit.disabled = false;
+    submit.classList.remove("disabled");
 }

@@ -37,7 +37,7 @@ function axiosSubsribe(emailValue) {
                 title: 'Success',
                 text: 'You have successfully subscribed to our newsletter', 
                 icon: 'success', 
-                iconHtml: '<img src="/static/Images/sub4.png" class="custom-swal" >',
+                iconHtml: '<img src="/static/Images/sub4.png" id="custom-swalalert">',
                 showConfirmButton: true,
                 confirmButtonText: 'Continue',
                 confirmButtonColor: 'rgb(58, 138, 222)',
@@ -82,7 +82,7 @@ function suboptions(suboption){
             Swal.fire({
                 title: 'Success',
                 text: 'You have successfully subscribed to our newsletter',  
-                iconHtml: '<img src="/static/Images/sub4.png" class="custom-swal">',
+                iconHtml: '<img src="/static/Images/sub4.png" id="custom-swalalert">',
                 showConfirmButton: true,
                 confirmButtonText: 'Continue',
                 confirmButtonColor: 'rgb(58, 138, 222)',
@@ -98,7 +98,7 @@ function suboptions(suboption){
             Swal.fire({
                 title: 'Success',
                 text: 'You have successfully unsubscribed from our newsletter', 
-                iconHtml: '<img src="/static/Images/unsubscribe.png" class="custom-swal">',
+                iconHtml: '<img src="/static/Images/unsubscribe.png" id="custom-swalalert">',
                 showConfirmButton: true,
                 confirmButtonText: 'Continue',
                 confirmButtonColor: 'rgb(58, 138, 222)',
