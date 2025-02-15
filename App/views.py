@@ -478,8 +478,10 @@ def reset_password(request, tokenID):
 
         except PasswordReset.DoesNotExist:
             return JsonResponse({'fail': True, 'message': 'Token does not exist'})
+        except token.DoesNotExist:
+            return JsonResponse({'fail': True, 'message': 'Does not exist'})
         except Exception as e:
-            return JsonResponse({'fail': True, 'message': str(e)})
+            return JsonResponse({'fail': True, 'message': f"Error: {str(e)}"})
 
     return render(request, 'passwordreset.html', locals())
 
