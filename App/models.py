@@ -2,14 +2,13 @@ from datetime import timedelta
 from django.utils import timezone
 import uuid
 from django.db import models
-from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
-from Blog import settings
+from django.conf import settings
 
 # Create your models here.
 class Client(AbstractUser):
     account_verified = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return self.username
 
@@ -39,8 +38,8 @@ class Blog(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(default='test.jpg', blank=True)
     dp = models.ImageField(default='test.jpg', blank=True)
-    likes = models.ManyToManyField(User, related_name='like_post', blank=True)
-    bookmarks = models.ManyToManyField(User, related_name='bookmark_post', blank=True)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_post', blank=True)
+    bookmarks = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bookmark_post', blank=True)
     dislikes = models.IntegerField(default=0)
     views_count = models.IntegerField(default=0)
     shares_count = models.IntegerField(default=0)

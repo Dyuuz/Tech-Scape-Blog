@@ -45,6 +45,8 @@ function getLoginUrl(formData) {
             setTimeout(function() {
             window.location.href = response.data.redirect_url;
             }, 4000);
+            disableLoadingLogin();
+            activatesubmitLogin();
             
             //window.location.href = response.data.redirect_url;
             
@@ -62,6 +64,8 @@ function getLoginUrl(formData) {
             setTimeout(function() {
             window.location.href = response.data.redirect_url;
             }, 4000);
+            disableLoadingLogin();
+            activatesubmitLogin();
             
             //window.location.href = response.data.redirect_url;
             

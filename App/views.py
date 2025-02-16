@@ -206,8 +206,8 @@ def register(request):
         password = request.POST.get('password').strip()
         confirm_password = request.POST.get('confirm_password').strip()
         
-        userexists = User.objects.filter(username=username).exists()
-        emailexists = User.objects.filter(email=email).exists()
+        userexists = Client.objects.filter(username=username).exists()
+        emailexists = Client.objects.filter(email=email).exists()
         
         try:
             if password != confirm_password:
@@ -225,7 +225,7 @@ def register(request):
             elif re.search(r'[^\w]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot contain symbols'})
             else:
-                user = User.objects.create_user(
+                user = Client.objects.create_user(
                         username=username,
                         email=email,
                 )
@@ -259,7 +259,7 @@ def login_view(request):
         username = request.POST.get('username').strip()
         password = request.POST.get('password').strip()
         
-        user_check = User.objects.filter(username=username).exists()
+        user_check = Client.objects.filter(username=username).exists()
         if user_check:
             usid = user_check
         else:
@@ -417,7 +417,7 @@ def verify(request):
         if request.method == 'POST':
             
             email = request.POST.get('email')
-            user = User.objects.filter(email=email).first()
+            user = Client.objects.filter(email=email).first()
 
             if user:
                 token = PasswordReset.objects.create(user=user)
@@ -458,7 +458,7 @@ def reset_password(request, tokenID):
             
             if token.is_valid():
                 user = token.user.username
-                user_instance = User.objects.get(username=user)
+                user_instance = Client.objects.get(username=user)
                 
                 if check_password(password, user_instance.password):
                     return JsonResponse({'fail': True, 'message': 'You cannot reuse old password'})
