@@ -1,0 +1,173 @@
+{% extends 'layout.html' %}
+{%load static%}
+
+{% block hero %}
+
+{% endblock  %}
+
+{%block featured%}
+    <section class="postpage" aria-label="feature" id="featured">
+        <div class="container">
+
+                    <h2 class="headline headline-2 section-title">
+                        {% comment %} <span class="span">{{blog.category}}</span> {% endcomment %}
+                    </h2>
+             
+                <div class="post-container">
+                    <!-- Blog Image Section -->
+                    <div class="post-image">
+                        <img src="{{blog.image.url}}" alt="Blog Featured Image">
+                    </div>
+                
+                    <!-- Blog Header Section -->
+                    <header class="post-header">
+                        <h1 class="post-title">{{blog.title}}</h1>
+                        <div class="post-meta">
+                            <span class="post-views">👁️ {{blog.views_count}}</span>
+                            <span class="post-date-read">{{blog.time | date:"F j, Y h:i a"}}</span>
+                            <span class="post-date-read">{{blog.mins_read}} mins read</span>
+                        </div>
+                    </header>
+                
+                    <!-- Interactive Buttons Section -->
+                    <div class="post-actions">
+
+                        <button class="post-likes" onclick="toggleLikePost()" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-liked="{{ is_liked|yesno:"true,false" }}">
+                            ❤️ <span id="like-count">{{blog.likes.count}}</span>
+                        </button>
+
+                        <button class="post-bookmark" onclick="toggleBookmarkPost()"  data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-bookmarked="{{ is_bookmarked|yesno:"true,false" }}">
+                            🔖 Bookmark
+                        </button>
+                        
+                        <div class="post-share-container">
+                            <button class="post-shares-home" onclick="toggleShareDropdown()" title="Share this post">🚀 
+                                <span id="share-count">{{blog.shares_count}}</span> Shares
+                            </button>
+                            
+                        </div>
+                        <div class="post-shares-home">
+                            <span class="post-date-read"><a href="{% url 'category_detail' name=blog.category.name %}" class="hero-text2">#{{blog.category.name}}</a></span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        
+                    </div>
+                
+                    <!-- Blog Content Section -->
+                    <article class="post-content">
+                        {% if user.is_authenticated  %}
+                        <p>{{blog.body|linebreaks}}</p>
+                        {% else %}
+                        {{blog.body|slice:':500'}}...
+                        <h4 class="borderh4"><a class="logintag" href="{% url 'loginsession' name=blog.category.name slug=blog.slug %}">Login </a>to read full article</h4>
+                        {% endif %}
+                        
+                    </article>
+                </div>
+
+            {% comment %} <div class="comment-section">
+                <div class="comment-section">
+                    <h2 class="comments">Comments(12)</h2>
+                    <form class="comment-form">
+                        <div class="form-groupp">
+                            <label for="name">Stakeholders pushing for regulation aim to safeguard privacy, promote trust, and foster innovation.</label>
+                            <label for="name">Adejumo Dorcas</label>
+                            <label for="name">15 minutes ago</label>
+                            <hr>
+                            <label for="name">Stakeholders pushing for regulation aim to safeguard privacy, promote trust, and foster innovation, preventing exploitation while enabling responsible growth in AI.</label>
+                            <label for="name">Adejumo Dorcas</label>
+                            <label for="name">October 13, 2024</label>
+                            <hr>
+                            <label for="name">Stakeholders pushing for regulation aim to safeguard privacy, promote trust, and foster innovation, preventing exploitation while enabling responsible growth in AI.</label>
+                            <label for="name">Adejumo Dorcas</label>
+                            <label for="name">October 13, 2024</label>
+                            <hr>
+                            <h5>View all comments</h5>
+                        </div>
+                    </form>
+                </div>
+
+                <h2>Leave a Comment</h2>
+                <form class="comment-form" method="POST" action="comment">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea id="comment" name="comment" rows="4" placeholder="Your Comment" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Submit</button>
+                </form>
+            </div> {% endcomment %}
+
+            <div class="related-section-2">
+                <div class="related-posts-container">
+                    <h2>Related {{ blog.category }} Posts</h2>
+
+                    <div class="related-posts">    
+                    {% for myblog in blog_postpage %}
+                        <div class="post-card">
+                            <img src="{{myblog.image.url}}" alt="Post Thumbnail">
+                            <div class="post-info">
+                            <h3>{{myblog.title}}</h3>
+                            <p>{{myblog.body|slice:':80'}}...</p>
+                            <a href="{% url 'postpage' name=myblog.category.name slug=myblog.slug %}">Read more</a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <li>No posts available.</li>
+                    {% endfor %}
+                    </div>
+            
+                </div>
+            </div>
+
+        </div> 
+        <!-- 
+            - custom js link
+        -->
+        <script>
+            window.userData = {
+                post_id: "{{ blog.id }}",
+            };
+            
+            let isLiked = false;
+            let isBookmarked = false;
+            const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            window.onload = function() {
+                const likeButton = document.querySelector('.post-likes');
+                const authStatusLike = likeButton.dataset.isLiked;
+            
+                const bookmarkButton = document.querySelector('.post-bookmark');
+                const authStatusBookmark = bookmarkButton.dataset.isBookmarked;
+            
+                if (authStatusLike === "true") {
+                    isLiked = !isLiked;
+                    likeButton.classList.toggle('active', isLiked);
+                }
+                
+                if ( authStatusBookmark === "true") {
+                    isBookmarked = !isBookmarked;
+                    bookmarkButton.classList.toggle('active', isBookmarked);
+                }
+            };
+
+            function redirectUrl() {
+                const redirectUrl = "{% url 'loginsession' name=blog.category.name slug=blog.slug %}";
+                window.location.href = redirectUrl;
+            }
+            
+        </script>
+    </section>
+{% endblock  %}
+
+{% block usercontents %}
+
+{% endblock  %}
+
+{% block populartags %}
+
+{% endblock  %}
+
+{% block recents %}
+
+{% endblock  %}

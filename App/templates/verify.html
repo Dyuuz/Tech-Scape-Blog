@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{%load static%}
+
+{% block hero %}
+
+{% endblock  %}
+
+{%block featured%}
+<div class="blog-register-body">
+    <div class="blog-register-container">
+        <section class="forms-section">
+            <h1 class="section-title-login">Email Verification</h1>
+            <p class="log-title">You will receive a password reset link via your mail.</p>
+        </section>
+        <form class="blog-register-form" id="loginForm" method="POST">
+            {% csrf_token %}
+            <h6 class="newh6">Email</h6>
+            <input class="blog-register-input" id="password" type="email" name="email" placeholder="Input email address" autocomplete="off" required>
+            
+            <p class="blog-register-alert">
+              
+            </p>
+              <button class="blog-register-button" type="submit" >Send Reset Link</button>
+        </form>
+        <p class="blog-register-text">
+            Don't need to reset your password?<a href="{% url 'login' %}">Sign in</a>
+        </p>
+    </div>
+    <script src="{% static 'JavaScript/ResetLink2.js'%}"></script>
+</div>
+{% endblock  %}
+
+{% block usercontents %}
+
+{% endblock  %}
+
+{% block populartags %}
+
+{% endblock  %}
+
+{% block recents %}
+
+{% endblock  %}
