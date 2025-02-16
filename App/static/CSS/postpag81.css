@@ -576,7 +576,7 @@ button {
 }
 
 .loading span {
-    margin-left: 1px;
+    margin-left: 2px;
     height: fit-content;
     /* background-color: red; */
     border-radius: 30px;
