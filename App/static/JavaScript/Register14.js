@@ -41,6 +41,7 @@ document.getElementById('registerForm').onsubmit = function(event) {
         alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
         event.preventDefault();  
     } else {
+        activateLoadingRegister();
         disableSubmitRegister();
         this.action = getRegisterUrl(formData);
     }
@@ -75,22 +76,27 @@ function getRegisterUrl(formData) {
         } else if (response.data.userexists === true) {
             alert.textContent = response.data.message;
             activateSubmitRegister();
+            disableLoadingRegister();
 
         } else if(response.data.emailexists === true) {
             alert.textContent = response.data.message;
             activateSubmitRegister();
+            disableLoadingRegister();
 
         } else if(response.data.password === true) {
             alert.textContent = response.data.message;
             activateSubmitRegister();
+            disableLoadingRegister();
 
         } else if(response.data.exceptionError === true) {
             alert.textContentz = response.data.message;
             activateSubmitRegister();
+            disableLoadingRegister();
 
         } else {
             alert.textContent = response.data.message;
             activateSubmitRegister();
+            disableLoadingRegister();
         }
     })
     .catch(error => {
@@ -104,6 +110,7 @@ function getRegisterUrl(formData) {
                 showConfirmButton: false
             });
             activateSubmitRegister();
+            disableLoadingRegister();
         } else if (error.request) {
         //if a request was made but no response was received
             Swal.fire({
@@ -114,6 +121,7 @@ function getRegisterUrl(formData) {
                 showConfirmButton: false
             });
             activateSubmitRegister();
+            disableLoadingRegister();
         } else {
         // Something happened in setting up the request that triggered an Error
             Swal.fire({
@@ -123,6 +131,7 @@ function getRegisterUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            disableLoadingRegister();
             activateSubmitRegister();
         }
     });
@@ -139,6 +148,16 @@ function activateSubmitRegister(){
     var submit = document.querySelector('.blog-register-button');
     submit.disabled = false;
     submit.classList.remove("disabled");
+}
+
+function activateLoadingRegister(){
+    var loading = document.querySelector('.loading');
+    loading.style.display = "flex";
+}
+
+function disableLoadingRegister(){
+    var loading = document.querySelector('.loading');
+    loading.style.display = "none";
 }
 
 function submitForm() {

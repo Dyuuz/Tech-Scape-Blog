@@ -28,6 +28,7 @@ document.getElementById('registerForm1').onsubmit = function(event) {
         alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
         event.preventDefault();
     } else {
+        activateLoadingPassReset();
         disablesubmitPassword();
         this.action = getResetPasswordUrl(formData);
         event.preventDefault();
@@ -65,6 +66,7 @@ function getResetPasswordUrl(formData) {
             });
         } else {
             alertmsg.textContent = response.data.message;
+            disableLoadingPassReset();
             activatesubmitPassword();
         }
     }).catch((error) => {
@@ -82,6 +84,7 @@ function getResetPasswordUrl(formData) {
             timer: 4000,
             showConfirmButton: false
         });
+        disableLoadingPassReset();
         activatesubmitPassword();
     });
 
@@ -99,4 +102,14 @@ function activatesubmitPassword(){
     var submit = document.querySelector('.blog-register-button');
     submit.disabled = false;
     submit.classList.remove("disabled");
+}
+
+function activateLoadingPassReset(){
+    var loading = document.querySelector('.loading');
+    loading.style.display = "flex";
+}
+
+function disableLoadingPassReset(){
+    var loading = document.querySelector('.loading');
+    loading.style.display = "none";
 }

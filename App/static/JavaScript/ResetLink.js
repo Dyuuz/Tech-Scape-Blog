@@ -9,6 +9,7 @@ document.getElementById('loginForm').onsubmit = function(event) {
     var form = document.getElementById('loginForm');
     var formData = new FormData(form);
     disablesubmitReset();
+    activateLoadingResetLink();
     this.action = getMailResetUrl(formData);
 };
 
@@ -41,6 +42,7 @@ function getMailResetUrl(formData) {
             });
         } else {
             alert.textContent = response.data.message;
+            disableLoadingResetLink();
             activatesubmitReset();
             
         }
@@ -53,6 +55,7 @@ function getMailResetUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            disableLoadingResetLink();
             activatesubmitReset();
             
         } else if (error.request) {
@@ -64,6 +67,7 @@ function getMailResetUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            disableLoadingResetLink();
             activatesubmitReset();
             
         } else {
@@ -75,6 +79,7 @@ function getMailResetUrl(formData) {
                 timer: 4000,
                 showConfirmButton: false
             });
+            disableLoadingResetLink();
             activatesubmitReset();
         }
     });
@@ -91,6 +96,16 @@ function activatesubmitReset(){
     var submit = document.querySelector('.blog-register-button');
     submit.disabled = false;
     submit.classList.remove("disabled");
+}
+
+function activateLoadingResetLink(){
+    var loading = document.querySelector('.loading');
+    loading.style.display = "flex";
+}
+
+function disableLoadingResetLink(){
+    var loading = document.querySelector('.loading');
+    loading.style.display = "none";
 }
 
 function countdown() {
