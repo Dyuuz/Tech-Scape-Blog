@@ -565,22 +565,19 @@ button {
 }
 
 .loading {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
     height: 5px;
-    color: #ced7de;
+    color: #3498db;
     display: flex;
     align-items: center;
     justify-content: center;
-    display: none;
 }
 
 .loading span {
-    margin-left: 1px;
     height: fit-content;
     /* background-color: red; */
-    border-radius: 30px;
-    margin-bottom:8px;
+    margin-bottom:5px;
     animation: blink 1.5s infinite;
 }
 
@@ -599,5 +596,5 @@ animation-delay: 0.6s;
 50% { opacity: 0.3; }
 100% { opacity: 1; }
 }
-
+  
 
