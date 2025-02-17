@@ -280,27 +280,29 @@ def login_view(request):
         try:
             user = authenticate(request, username=username, password=password)
             
-            print(user.username )
-            if user.is_authenticated:
-                login(request, user)
+            if user.is_verified == True:
+                if user.is_authenticated:
+                    login(request, user)
+                    
+                    post_slug = request.session.get('post_slug')
+                    cat_name = request.session.get('cat_name')
+                    
+                    if post_slug and cat_name:
+                        url = reverse('postpage', kwargs={'name': cat_name, 'slug': post_slug})
+                        return JsonResponse({'successpostpage': True, 'message': 'Login successful', 'redirect_url': url})
+                        # return redirect(url)
+                    
+                        # response = postpage(request, name=cat_name, slug=post_slug)
+                        # request.session.flush()
+                        # return response
+                    
+                    # return JsonResponse({'success': True, 'message': 'Login successful'})
+                    return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': reverse('home')})
                 
-                post_slug = request.session.get('post_slug')
-                cat_name = request.session.get('cat_name')
-                
-                if post_slug and cat_name:
-                    url = reverse('postpage', kwargs={'name': cat_name, 'slug': post_slug})
-                    return JsonResponse({'successpostpage': True, 'message': 'Login successful', 'redirect_url': url})
-                    # return redirect(url)
-                
-                    # response = postpage(request, name=cat_name, slug=post_slug)
-                    # request.session.flush()
-                    # return response
-                
-                # return JsonResponse({'success': True, 'message': 'Login successful'})
-                return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': reverse('home')})
-            
+                else:
+                    return JsonResponse({'passworderror': True, 'message': 'Username or Password is incorrect'})
             else:
-                return JsonResponse({'passworderror': True, 'message': 'Username or Password is incorrect'})
+                return JsonResponse({'passworderror': True, 'message': 'Account is not verified'})
         
         except Exception as e:
             # return HttpResponse(str(e))
