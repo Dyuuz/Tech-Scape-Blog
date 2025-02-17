@@ -35,7 +35,10 @@
                 </label>
                 <h3 class="h3">I agree to the <a href="#" class="anchor-t" onclick="termsopen()"> terms and conditions</a>&nbsp;</h3>
             </div>
-            <button class="blog-register-button" type="submit">Register</button>
+            <button class="blog-register-button" type="submit">
+                Register
+                <div class="loading"><span>.</span><span>.</span><span>.</span></div>
+            </button>
         </form>
         <p class="blog-register-text">
             Already have an account? <a href="{% url 'login' %}">Sign in</a>
@@ -97,7 +100,7 @@
             </div>
         
         </body>
-        <script src="{% static 'JavaScript/Register14.js'%}"></script>
+        <script src="{% static 'JavaScript/Register78.js'%}?v={{ timestamp }}"></script>
         
     </div>
 </div>

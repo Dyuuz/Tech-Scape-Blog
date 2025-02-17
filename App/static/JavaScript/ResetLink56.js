@@ -5,7 +5,8 @@ mail.addEventListener('input', function() {
     alert.textContent = '';
     });
 
-document.getElementById('loginForm').onsubmit = function(event) {         
+document.querySelector('#loginForm').onsubmit = function(event) {  
+    event.preventDefault();        
     var form = document.getElementById('loginForm');
     var formData = new FormData(form);
     disablesubmitReset();
@@ -24,6 +25,7 @@ function getMailResetUrl(formData) {
             'X-CSRFToken': csrf_token,
         }
     }).then((response) => {
+        
         if (response.data.success === true) {
             Swal.fire({
                 title: 'Reset Link Sent!',

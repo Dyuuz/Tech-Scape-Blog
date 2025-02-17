@@ -200,6 +200,7 @@ def recentposts(request):
 # Create operation for new users
 def register(request):
     all_categ = Category.objects.all()
+    timestamp = datetime.now().timestamp()
     if request.method == 'POST':
         username = request.POST.get('username').strip().title()
         email = request.POST.get('email').strip().lower()
@@ -251,6 +252,7 @@ def loginsession(request, name, slug):
 
 # Read operation for existing users 
 def login_view(request):
+    timestamp = datetime.now().timestamp()
     all_categ = Category.objects.all()
     if request.method == 'POST':
         # data = request.body
@@ -413,11 +415,13 @@ def profile(request):
     
 def verify(request):
     all_categ = Category.objects.all()
+    timestamp = datetime.now().timestamp()
     try:
         if request.method == 'POST':
             
             email = request.POST.get('email')
             user = Client.objects.filter(email=email).first()
+            print(user)
 
             if user:
                 token = PasswordReset.objects.create(user=user)
@@ -443,7 +447,7 @@ def verify(request):
 
 def reset_password(request, tokenID):
     all_categ = Category.objects.all()
-
+    timestamp = datetime.now().timestamp()
     if request.method == "POST":
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')

@@ -20,13 +20,16 @@
             <p class="blog-register-alert">
               
             </p>
-              <button class="blog-register-button" type="submit" >Send Reset Link</button>
+              <button class="blog-register-button" type="submit" >
+                Send Reset Link
+                <div class="loading"><span>.</span><span>.</span><span>.</span></div>
+            </button>
         </form>
         <p class="blog-register-text">
             Don't need to reset your password?<a href="{% url 'login' %}">Sign in</a>
         </p>
     </div>
-    <script src="{% static 'JavaScript/ResetLinkTS1.js'%}"></script>
+    <script src="{% static 'JavaScript/ResetLink56.js'%}?v={{ timestamp }}"></script>
 </div>
 {% endblock  %}
 
