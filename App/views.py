@@ -237,16 +237,17 @@ def register(request):
                 Newsletter.objects.create(user=user, subscribe=False)
 
                 userVerificationToken = VerifyUser.objects.create(user=user)
-
+                print("Verification lauched")
                 verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
-
-                send_mail(
-                    subject='Verify Your Account',
-                    message=f'Click the link to verify your account: {verify_account_link}',
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[email],
-                    fail_silently=False,
-                )
+                # print(verify_account_link)
+                # send_mail(
+                #     subject='Verify Your Account',
+                #     message=f'Click the link to verify your account: {verify_account_link}',
+                #     from_email=settings.EMAIL_HOST_USER,
+                #     recipient_list=[email],
+                #     fail_silently=False,
+                # )
+                # print("I didnt make it here")
                 
                 return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
             
