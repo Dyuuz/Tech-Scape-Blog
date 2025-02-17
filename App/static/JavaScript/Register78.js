@@ -27,7 +27,6 @@ document.getElementById('registerForm').onsubmit = function(event) {
     var alert = document.querySelector('.blog-register-alert');
     var form = document.getElementById('registerForm');
     var formData = new FormData(form);
-    alert.textContent = '';
     var submit = document.querySelector('.blog-register-button');
     
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
@@ -67,8 +66,13 @@ function getRegisterUrl(formData) {
                 icon: 'success',
                 showConfirmButton: true,
                 confirmButtonText: 'Proceed to Login',
-                confirmButtonColor: 'rgb(58, 138, 222)' // Change this to your desired color
+                confirmButtonColor: 'rgb(58, 138, 222)', // Change this to your desired color
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false
             }).then((result) => {
+                activateSubmitRegister();
+                disableLoadingRegister();
                 if (result.isConfirmed) {
                     window.location.href = response.data.redirect_url;
                 }

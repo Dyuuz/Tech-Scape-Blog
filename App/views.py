@@ -232,6 +232,7 @@ def register(request):
                 )
                 user.set_password(password)
                 user.save()
+                    
                 Newsletter.objects.create(user=user, subscribe=False)
                 
                 return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})

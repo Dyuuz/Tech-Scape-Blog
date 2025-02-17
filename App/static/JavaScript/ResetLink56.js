@@ -11,7 +11,6 @@ document.querySelector('#loginForm').onsubmit = function(event) {
     var formData = new FormData(form);
     disablesubmitReset();
     activateLoadingResetLink();
-    alert.textContent = '';
     this.action = getMailResetUrl(formData);
 };
 
@@ -39,6 +38,8 @@ function getMailResetUrl(formData) {
                 allowEscapeKey: false,
                 allowEnterKey: false
             }).then((result) => {
+                disableLoadingResetLink();
+                activatesubmitReset();
                 if (result.isConfirmed) {
                     window.location.reload();
                 }

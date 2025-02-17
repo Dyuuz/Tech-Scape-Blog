@@ -16,7 +16,6 @@ document.getElementById('registerForm1').onsubmit = function(event) {
     var alert = document.querySelector('.blog-register-alert');
     var form = document.getElementById('registerForm1');
     var submit = document.querySelector('.blog-register-button');
-    alert.textContent = '';
     var formData = new FormData(form);
     
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
@@ -61,6 +60,8 @@ function getResetPasswordUrl(formData) {
                 allowEscapeKey: false,
                 allowEnterKey: false
             }).then((result) => {
+                disableLoadingPassReset();
+                activatesubmitPassword();
                 if (result.isConfirmed) {
                     window.location.href = response.data.redirect_url;  // Redirect user to login page
                 }
