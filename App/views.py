@@ -11,6 +11,7 @@ from django import template
 from django.urls import reverse
 from .models import *
 from App.utils.utility import *
+from App.utils.Smtp_Templates import *
 import random
 from itertools import chain
 from django.contrib.auth import authenticate, login, logout
@@ -238,11 +239,12 @@ def register(request):
                 verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
 
                 send_mail(
-                    subject='Verify Your Account',
+                    subject='🔐 Confirm Your Account - TechScapeBlog',
                     message=f'Click the link to verify your account: {verify_account_link}',
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[email],
                     fail_silently=False,
+                    html_message=send_verification_email(username, verify_account_link)
                 )
                 return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
             
@@ -443,15 +445,16 @@ def verify(request):
 
             if user:
                 token = PasswordReset.objects.create(user=user)
+                username = token.user.username
                 reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'tokenID': str(token.token)}))
-                print(token.token)
+                
                 send_mail(
-                    subject='Password Reset Link',
+                    subject='🔑 Password Reset Request',
                     message=f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}',
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[email],
                     fail_silently=False,
-                    # html_message=html_content
+                    html_message=send_password_reset_email(username, reset_link)
                 )
 
                 return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
@@ -468,14 +471,26 @@ def verify_user(request, User, tokenID):
     try:
         verify_user_is_verified = VerifyUser.objects.get(user__username=User)
         
-        if verify_user_is_verified:
+        if verify_user_is_verified.user.is_verified == False:
             verify_user_is_verified.user.is_verified = True
             verify_user_is_verified.activate_verification()
+
+            email = verify_user_is_verified.user.email
+            username = verify_user_is_verified.user.username
+
+            send_mail(
+                subject="🎉 Welcome to TechScapeBlog!",
+                message=f"Welcome to Your App Name! We're excited to have you.",
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[email],
+                fail_silently=False,
+                html_message=send_welcome_email(username)
+            )
             return render(request, 'userVerify.html')
+        return render(request, 'userVerify.html')
         
-        return HttpResponse("Invalid request")
-    except:
-        return HttpResponse("Invalid request")
+    except Exception as e:
+        return HttpResponse(str(e))
 
 def reset_password(request, tokenID):
     try:

@@ -62,7 +62,7 @@ function getRegisterUrl(formData) {
         if (response.data.success === true) {
             Swal.fire({
                 title: 'Verify your account',
-                text: 'We sent a verification link to your mail to finalize your registration.',
+                text: 'We sent a verification link to your mail to activate your account.',
                 icon: 'success',
                 showConfirmButton: true,
                 confirmButtonText: 'Continue',

@@ -8,6 +8,7 @@ from django.urls import reverse
 from requests import request
 from django.http import JsonResponse, HttpResponse
 from App.models import *
+from App.utils.Smtp_Templates import *
 import random
 from itertools import chain
 from django.contrib.auth import authenticate, login, logout
@@ -200,88 +201,3 @@ def update_suboption(request):
         except:
             return JsonResponse({'success': False, 'message': 'Error updating subscription option!'})
         
-html_content = """
-    <html>
-        <head>
-            <style>
-                body {{
-                    font-family: 'Arial', sans-serif;
-                    margin: 0;
-                    padding: 0;
-                    background-color: #f4f4f4;
-                }}
-                .email-container {{
-                    width: 100%;
-                    max-width: 600px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background-color: #ffffff;
-                    border-radius: 8px;
-                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                }}
-                .header {{
-                    text-align: center;
-                    background-color: #3498db;
-                    color: #ffffff;
-                    padding: 20px;
-                    border-radius: 8px 8px 0 0;
-                }}
-                .header h1 {{
-                    margin: 0;
-                    font-size: 24px;
-                }}
-                .body {{
-                    padding: 20px;
-                    color: #333;
-                }}
-                .body p {{
-                    font-size: 16px;
-                    line-height: 1.6;
-                }}
-                .btn {{
-                    display: inline-block;
-                    padding: 12px 20px;
-                    margin: 20px 0;
-                    background-color: #3498db;
-                    color: #ffffff;
-                    text-decoration: none;
-                    font-size: 18px;
-                    border-radius: 5px;
-                    text-align: center;
-                    transition: background-color 0.3s ease;
-                }}
-                .btn:hover {{
-                    background-color: #2980b9;
-                }}
-                .footer {{
-                    text-align: center;
-                    font-size: 14px;
-                    color: #7f8c8d;
-                    margin-top: 20px;
-                }}
-                .footer a {{
-                    color: #3498db;
-                    text-decoration: none;
-                }}
-            </style>
-        </head>
-        <body>
-            <div class="email-container">
-                <div class="header">
-                    <h1>Welcome to Your App Name!</h1>
-                </div>
-                <div class="body">
-                    <p>Hello,</p>
-                    <p>Thank you for registering with us! Please click the button below to verify your email address and complete your registration process.</p>
-                    <a href="{verification_url}" class="btn">Verify My Email</a>
-                    <p>If you did not create an account, please ignore this message.</p>
-                </div>
-                <div class="footer">
-                    <p>Best regards,</p>
-                    <p>Your App Name Team</p>
-                    <p><a href="https://yourwebsite.com">Visit our website</a></p>
-                </div>
-            </div>
-        </body>
-    </html>
-"""
