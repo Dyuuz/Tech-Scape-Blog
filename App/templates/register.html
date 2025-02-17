@@ -14,8 +14,8 @@
         </section>
         <form class="blog-register-form" id="registerForm" method="POST">
             {% csrf_token %}
-            {% comment %} <h6 class="newh6">Name</h6> 
-            <input class="blog-register-input" type="text" name="username" placeholder="Username" required> {% endcomment %}
+            <!-- <h6 class="newh6">Name</h6> 
+            <input class="blog-register-input" type="text" name="username" placeholder="Username" required> -->
             <h6 class="newh6">Userame</h6> 
             <input class="blog-register-input" type="text" name="username" placeholder="Username" required>
             <h6 class="newh6">Email</h6> 
@@ -28,8 +28,8 @@
             
             </p>
             <div class="input-block-terms">
-                {% comment %} <h1>Terms and Conditions</h1> {% endcomment %}
-                {% comment %} <h1>By agreeing to the terms and conditions, you are agreeing to the following:</h1> {% endcomment %}
+                <!-- <h1>Terms and Conditions</h1>
+                <h1>By agreeing to the terms and conditions, you are agreeing to the following:</h1> -->
                 <label for="signup-terms" class="terms-label">
                   <input id="signup-terms" type="checkbox" required>
                 </label>
@@ -100,7 +100,7 @@
             </div>
         
         </body>
-        <script src="{% static 'JavaScript/Register78.js'%}?v={{ timestamp }}"></script>
+        <script src="{% static 'JavaScript/Register39.js'%}?v={{ timestamp }}"></script>
         
     </div>
 </div>

@@ -61,11 +61,11 @@ function getRegisterUrl(formData) {
     .then(response => {
         if (response.data.success === true) {
             Swal.fire({
-                title: 'Registration Successful!',
-                text: 'You have successfully created an account.',
+                title: 'Verify your account',
+                text: 'We sent a verification link to your mail to finalize your registration.',
                 icon: 'success',
                 showConfirmButton: true,
-                confirmButtonText: 'Proceed to Login',
+                confirmButtonText: 'Continue',
                 confirmButtonColor: 'rgb(58, 138, 222)', // Change this to your desired color
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -74,7 +74,7 @@ function getRegisterUrl(formData) {
                 activateSubmitRegister();
                 disableLoadingRegister();
                 if (result.isConfirmed) {
-                    window.location.href = response.data.redirect_url;
+                    window.location.href = 'https://mail.google.com/mail/u/0/#inbox';
                 }
             });
                 
@@ -109,7 +109,7 @@ function getRegisterUrl(formData) {
         if (error.response) {
             Swal.fire({
                 title: 'Registration Failed!',
-                text: 'Request error, refresh page to sign up',
+                text: 'Request error, refresh page to sign up'+ error,
                 icon: 'error',
                 timer: 4000,
                 showConfirmButton: false

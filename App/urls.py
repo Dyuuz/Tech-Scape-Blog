@@ -9,6 +9,7 @@ urlpatterns = [
     path('login', views.login_view, name = 'login'),
     path('logout', views.logout_view, name = 'logout'),
     path('reset-link', views.verify, name = 'reset-link'),
+    path('verify/<str:User>/<uuid:tokenID>/', views.verify_user, name='verify_user'),
     path('reset-password/<uuid:tokenID>/', views.reset_password, name = 'reset-password'),
     path('comment', views.comment, name = 'comment'),
     path('profile', views.profile, name = 'profile'),
@@ -25,5 +26,6 @@ urlpatterns = [
     path('categories/<str:name>', views.category_detail, name = 'category_detail'),
     path('<slug:name>/<slug:slug>', views.postpage, name = 'postpage'),
 ]
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

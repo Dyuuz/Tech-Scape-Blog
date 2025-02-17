@@ -226,6 +226,7 @@ def register(request):
             elif re.search(r'[^\w]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot contain symbols'})
             else:
+                print("I am here")
                 user = Client.objects.create_user(
                         username=username,
                         email=email,
@@ -234,11 +235,23 @@ def register(request):
                 user.save()
                     
                 Newsletter.objects.create(user=user, subscribe=False)
+
+                userVerificationToken = VerifyUser.objects.create(user=user)
+
+                verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
+
+                send_mail(
+                    subject='Verify Your Account',
+                    message=f'Click the link to verify your account: {verify_account_link}',
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
                 
                 return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
             
         except Exception as e:
-            logger.error(f"Exception occurred: {e}")
+            # logger.error(f"Exception occurred: {e}")
             return JsonResponse({'exceptionError': True, 'message': 'Exception error'})
         
     else:
@@ -445,6 +458,9 @@ def verify(request):
     except Exception as e:
         # logger.error(f"Exception occurred: {e}")
         return JsonResponse({'error': True, 'message': f'An error occurred: {e}'})
+    
+def verify_user(request, User, tokenID):
+    return render(request, 'userVerify.html')
 
 def reset_password(request, tokenID):
     all_categ = Category.objects.all()
