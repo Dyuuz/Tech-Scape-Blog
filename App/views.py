@@ -432,9 +432,14 @@ def verify(request):
     timestamp = datetime.now().timestamp()
     try:
         if request.method == 'POST':
-            
-            email = request.POST.get('email')
-            user = Client.objects.filter(email=email).first()
+            try:
+                data = request.body
+                Ajax_data = json.loads(data.decode('utf-8'))
+                email = Ajax_data.get('email')
+                user = Client.objects.filter(email=email).first()
+            except:
+                email = request.POST.get('email')
+                user = Client.objects.filter(email=email).first()
 
             if user:
                 token = PasswordReset.objects.create(user=user)
@@ -465,52 +470,74 @@ def verify_user(request, User, tokenID):
         if verify_user_is_verified:
             verify_user_is_verified.user.is_verified = True
             verify_user_is_verified.activate_verification()
-            print(verify_user_is_verified.user)
-        
             return render(request, 'userVerify.html')
+        
         return HttpResponse("Invalid request")
     except:
         return HttpResponse("Invalid request")
 
 def reset_password(request, tokenID):
-    all_categ = Category.objects.all()
-    timestamp = datetime.now().timestamp()
-    token = PasswordReset.objects.filter(token=tokenID).first()
-    if token.is_valid():
-        if request.method == "POST":
-            password = request.POST.get('password')
-            confirm_password = request.POST.get('confirm_password')
+    try:
+        all_categ = Category.objects.all()
+        timestamp = datetime.now().timestamp()
+        token = PasswordReset.objects.filter(token=tokenID).first()
+        if token.is_valid():
+            if request.method == "POST":
+                password = request.POST.get('password')
+                confirm_password = request.POST.get('confirm_password')
 
-            if password != confirm_password:
-                return JsonResponse({'password': True, 'message': 'Passwords do not match'})
+                if password != confirm_password:
+                    return JsonResponse({'password': True, 'message': 'Passwords do not match'})
 
-            try:
-                
-                allRelated_tokens = PasswordReset.objects.filter(user__username=token.user.username)
-                # allRelated_json = json.loads(serializers.serialize('json', allRelated_tokens ))
-                
-                user = token.user.username
-                user_instance = Client.objects.get(username=user)
-                
-                if check_password(password, user_instance.password):
-                    return JsonResponse({'fail': True, 'message': 'You cannot reuse old password'})
-                
-                user_instance.set_password(password)
-                user_instance.save()
-                allRelated_tokens.delete()
-                
-                return JsonResponse({
-                    'success': True, 
-                    'message': 'Password reset successful', 
-                    'redirect_url': reverse('login'),
-                    # 'related_token' : allRelated_json,
-                })
-                
-            except PasswordReset.DoesNotExist:
-                return JsonResponse({'fail': True, 'message': 'Token does not exist'})
-            except Exception as e:
-                return JsonResponse({'fail': True, 'message': f"Error: {str(e)}"})
+                try:
+                    
+                    allRelated_tokens = PasswordReset.objects.filter(user__username=token.user.username)
+                    # allRelated_json = json.loads(serializers.serialize('json', allRelated_tokens ))
+                    
+                    user = token.user.username
+                    user_instance = Client.objects.get(username=user)
+                    
+                    if check_password(password, user_instance.password):
+                        return JsonResponse({'fail': True, 'message': 'You cannot reuse old password'})
+                    
+                    user_instance.set_password(password)
+                    user_instance.save()
+                    allRelated_tokens.delete()
+                    
+                    return JsonResponse({
+                        'success': True, 
+                        'message': 'Password reset successful', 
+                        'redirect_url': reverse('login'),
+                        # 'related_token' : allRelated_json,
+                    })
+                    
+                except PasswordReset.DoesNotExist:
+                    return JsonResponse({'fail': True, 'message': 'Token does not exist'})
+                except Exception as e:
+                    return JsonResponse({'fail': True, 'message': f"Error: {str(e)}"})
 
-        return render(request, 'passwordreset.html', locals())
-    return render(request, 'Tokenexpired.html', locals())
+            return render(request, 'passwordreset.html', locals())
+        
+        elif request.method == "POST":
+                data = request.body
+                Ajax_data = json.loads(data.decode('utf-8'))
+                email = Ajax_data.get('email')
+                user = Client.objects.filter(email=email).first()
+                if user:
+                    token = PasswordReset.objects.create(user=user)
+                    reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'tokenID': str(token.token)}))
+                    
+                    send_mail(
+                        subject='Password Reset Link',
+                        message=f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}',
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=[email],
+                        fail_silently=False,
+                    )
 
+                    return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
+                else:
+                    return JsonResponse({'fail': True, 'message': 'Mail is not available'})
+        return render(request, 'Tokenexpired.html', locals())
+    except Exception as e:
+        return HttpResponse("Invalid link")

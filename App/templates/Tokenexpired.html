@@ -5,10 +5,61 @@
     <div style="border-radius:200px; height:200px; width:200px; background: #e9ebe7; margin:0 auto;">
         <i class="checkmark">🔒</i>
     </div>
-    <h1 class='token-expired-id' data-id="{{ myblog.id }}">Access restricted</h1> 
-    <p>The token associated with the link has expired. <a href="">Generate a new link</a> to reset password.</p>
+    <h1 class='token-expired-id' data-id="{{ token.user.email }}">Access restricted</h1> 
+    <p>The token associated with the link has expired. <a onclick="getMailResetUrlToken()">Generate a new link</a> to reset password.</p>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    formData = document.querySelector()
+    function getMailResetUrlToken() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const emailValue = document.querySelector('.token-expired-id').getAttribute("data-id");
+        //alert(csrfToken);
+        if (!emailValue) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Email value not found.',
+                icon: 'error',
+                timer: 3000,
+                showConfirmButton: false
+            });
+            return;
+        }
+        
+
+        axios.post('', { email: emailValue }, {
+            headers: { 'X-CSRFToken': csrfToken }
+        })
+        .then(response => {
+            const { success, message } = response.data;
+            Swal.fire({
+                title: success ? 'Reset Link Sent!' : 'Error Occurred',
+                text: success ? 'Please check your email for the reset link.' : message,
+                icon: success ? 'success' : 'error',
+                showConfirmButton: false,
+                timer: 4000
+            });
+        })
+        .catch(error => {
+            let errorMsg;
+
+            if (error.response) {
+                errorMsg = `Request error: ${error.message}`;
+            } else if (error.request) {
+                errorMsg = 'Please check your network connection.';
+            } else {
+                errorMsg = `An error occurred: ${error.message}`;
+            }
+
+            Swal.fire({
+                title: 'Reset Link Failed!',
+                text: errorMsg,
+                icon: 'error',
+                timer: 4000,
+                showConfirmButton: false
+            });
+        });
+    } 
+
 </script>
 {% endblock %}
