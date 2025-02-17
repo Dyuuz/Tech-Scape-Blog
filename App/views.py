@@ -237,7 +237,6 @@ def register(request):
                 userVerificationToken = VerifyUser.objects.create(user=user)
                 verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
 
-                print(str(verify_account_link))
                 send_mail(
                     subject='Verify Your Account',
                     message=f'Click the link to verify your account: {verify_account_link}',
@@ -245,9 +244,6 @@ def register(request):
                     recipient_list=[email],
                     fail_silently=False,
                 )
-                
-                print("I didnt make it here")
-                
                 return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
             
         except Exception as e:
@@ -284,6 +280,7 @@ def login_view(request):
         try:
             user = authenticate(request, username=username, password=password)
             
+            print(user.username )
             if user.is_authenticated:
                 login(request, user)
                 
@@ -427,6 +424,7 @@ def profile(request):
     except:
         return redirect('home')
     
+# Reset Password Link
 def verify(request):
     all_categ = Category.objects.all()
     timestamp = datetime.now().timestamp()
@@ -459,24 +457,36 @@ def verify(request):
         return JsonResponse({'error': True, 'message': f'An error occurred: {e}'})
     
 def verify_user(request, User, tokenID):
-    return render(request, 'userVerify.html')
+    try:
+        verify_user_is_verified = VerifyUser.objects.get(user__username=User)
+        
+        if verify_user_is_verified:
+            verify_user_is_verified.user.is_verified = True
+            verify_user_is_verified.activate_verification()
+            print(verify_user_is_verified.user)
+        
+            return render(request, 'userVerify.html')
+        return HttpResponse("Invalid request")
+    except:
+        return HttpResponse("Invalid request")
 
 def reset_password(request, tokenID):
     all_categ = Category.objects.all()
     timestamp = datetime.now().timestamp()
-    if request.method == "POST":
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
+    token = PasswordReset.objects.filter(token=tokenID).first()
+    if token.is_valid():
+        if request.method == "POST":
+            password = request.POST.get('password')
+            confirm_password = request.POST.get('confirm_password')
 
-        if password != confirm_password:
-            return JsonResponse({'password': True, 'message': 'Passwords do not match'})
+            if password != confirm_password:
+                return JsonResponse({'password': True, 'message': 'Passwords do not match'})
 
-        try:
-            token = PasswordReset.objects.filter(token=tokenID).first()
-            allRelated_tokens = PasswordReset.objects.filter(user__username=token.user.username)
-            # allRelated_json = json.loads(serializers.serialize('json', allRelated_tokens ))
-            
-            if token.is_valid():
+            try:
+                
+                allRelated_tokens = PasswordReset.objects.filter(user__username=token.user.username)
+                # allRelated_json = json.loads(serializers.serialize('json', allRelated_tokens ))
+                
                 user = token.user.username
                 user_instance = Client.objects.get(username=user)
                 
@@ -485,7 +495,7 @@ def reset_password(request, tokenID):
                 
                 user_instance.set_password(password)
                 user_instance.save()
-                # allRelated_tokens.delete()
+                allRelated_tokens.delete()
                 
                 return JsonResponse({
                     'success': True, 
@@ -493,13 +503,12 @@ def reset_password(request, tokenID):
                     'redirect_url': reverse('login'),
                     # 'related_token' : allRelated_json,
                 })
-            else:
-                return JsonResponse({'fail': True, 'message': 'Token link has expired'})
+                
+            except PasswordReset.DoesNotExist:
+                return JsonResponse({'fail': True, 'message': 'Token does not exist'})
+            except Exception as e:
+                return JsonResponse({'fail': True, 'message': f"Error: {str(e)}"})
 
-        except PasswordReset.DoesNotExist:
-            return JsonResponse({'fail': True, 'message': 'Token does not exist'})
-        except Exception as e:
-            return JsonResponse({'fail': True, 'message': f"Error: {str(e)}"})
-
-    return render(request, 'passwordreset.html', locals())
+        return render(request, 'passwordreset.html', locals())
+    return render(request, 'Tokenexpired.html', locals())
 

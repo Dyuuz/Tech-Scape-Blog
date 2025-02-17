@@ -78,3 +78,7 @@ class VerifyUser(models.Model):
 
     def __str__(self):
         return str(self.token)
+    
+    def activate_verification(self):
+        self.user.is_verified = True
+        self.user.save()
