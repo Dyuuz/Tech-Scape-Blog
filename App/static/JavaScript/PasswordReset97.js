@@ -10,12 +10,10 @@ confirmpassword.addEventListener('input', function() {
     alert.textContent = '';
 });
 
-document.getElementById('registerForm1').onsubmit = function(event) {
+document.getElementById('registerForm').onsubmit = function(event) {
     var password = document.querySelector('input[name="password"]').value;
     var confirm_password = document.querySelector('input[name="confirm_password"]').value;
-    var alert = document.querySelector('.blog-register-alert');
     var form = document.getElementById('registerForm');
-    var submit = document.querySelector('.blog-register-button');
     var formData = new FormData(form);
     
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;

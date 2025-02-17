@@ -198,3 +198,53 @@ def update_suboption(request):
                 return JsonResponse({'unsubscribe': True, 'message': 'You have successfully unsubscribed'})
         except:
             return JsonResponse({'success': False, 'message': 'Error updating subscription option!'})
+        
+html_content = """
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .content {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Welcome to Our Service!</h1>
+        <p>Thank you for signing up. Please verify your email address to complete the registration process.</p>
+        <a href="https://example.com/verify" class="button">Verify Email</a>
+    </div>
+</body>
+</html>
+"""
+
+# email = EmailMessage(
+#                     'Subject: Verify Your Email',
+#                     'This is a plain text message',  # Fallback plain text content (for non-HTML email clients)
+#                     settings.EMAIL_HOST_USER,         # From email
+#                     [email],       # To email
+#                 )
+#                 email.content_subtype = 'html'  # Specify HTML content
+#                 email.body = html_content       # Set the HTML body
+
+#                 # Send the email
+#                 email.send()

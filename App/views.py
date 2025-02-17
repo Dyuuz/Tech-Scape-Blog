@@ -17,7 +17,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Count
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 import re
 import logging
 
@@ -226,7 +226,6 @@ def register(request):
             elif re.search(r'[^\w]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot contain symbols'})
             else:
-                print("I am here")
                 user = Client.objects.create_user(
                         username=username,
                         email=email,
@@ -235,19 +234,19 @@ def register(request):
                 user.save()
                     
                 Newsletter.objects.create(user=user, subscribe=False)
-
                 userVerificationToken = VerifyUser.objects.create(user=user)
-                print("Verification lauched")
                 verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
-                # print(verify_account_link)
-                # send_mail(
-                #     subject='Verify Your Account',
-                #     message=f'Click the link to verify your account: {verify_account_link}',
-                #     from_email=settings.EMAIL_HOST_USER,
-                #     recipient_list=[email],
-                #     fail_silently=False,
-                # )
-                # print("I didnt make it here")
+
+                print(str(verify_account_link))
+                send_mail(
+                    subject='Verify Your Account',
+                    message=f'Click the link to verify your account: {verify_account_link}',
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
+                
+                print("I didnt make it here")
                 
                 return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
             
@@ -436,12 +435,11 @@ def verify(request):
             
             email = request.POST.get('email')
             user = Client.objects.filter(email=email).first()
-            print(user)
 
             if user:
                 token = PasswordReset.objects.create(user=user)
                 reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'tokenID': str(token.token)}))
-
+                print(token.token)
                 send_mail(
                     subject='Password Reset Link',
                     message=f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}',
@@ -487,7 +485,7 @@ def reset_password(request, tokenID):
                 
                 user_instance.set_password(password)
                 user_instance.save()
-                allRelated_tokens.delete()
+                # allRelated_tokens.delete()
                 
                 return JsonResponse({
                     'success': True, 
