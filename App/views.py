@@ -233,7 +233,7 @@ def register(request):
                 user.set_password(password)
                 user.save()
                     
-                Newsletter.objects.create(user=user, subscribe=False)
+                Newsletter.objects.create(user=user, email=email)
                 userVerificationToken = VerifyUser.objects.create(user=user)
                 verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
 
@@ -451,6 +451,7 @@ def verify(request):
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[email],
                     fail_silently=False,
+                    # html_message=html_content
                 )
 
                 return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
