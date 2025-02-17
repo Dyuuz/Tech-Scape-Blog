@@ -15,6 +15,7 @@ document.getElementById('loginForm').onsubmit = function(event) {
     var alert = document.querySelector('.blog-register-alert');
     var form = document.getElementById('loginForm');
     var formData = new FormData(form);
+    alert.textContent = '';
     disablesubmitLogin();
     activateLoadingLogin();
     this.action = getLoginUrl(formData);

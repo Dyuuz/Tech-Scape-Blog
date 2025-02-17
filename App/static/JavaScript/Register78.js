@@ -27,6 +27,7 @@ document.getElementById('registerForm').onsubmit = function(event) {
     var alert = document.querySelector('.blog-register-alert');
     var form = document.getElementById('registerForm');
     var formData = new FormData(form);
+    alert.textContent = '';
     var submit = document.querySelector('.blog-register-button');
     
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
