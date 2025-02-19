@@ -20,7 +20,7 @@ function getMailResetUrl(formData) {
     var mail = document.querySelector('input[name="email"]');
     const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
-    axios.post('reset-link', formData, {    
+    axios.post('reset-link', formData, {
         headers: {
             'X-CSRFToken': csrf_token,
         }

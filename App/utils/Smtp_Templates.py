@@ -304,6 +304,7 @@ def verified_user_feedback(username, url):
 
 def send_password_reset_email(username, reset_link):
     html_message = f"""
+    <!DOCTYPE html>
     <html>
     <head>
         <style>
@@ -328,8 +329,9 @@ def send_password_reset_email(username, reset_link):
     """
     return html_message
 
-def send_password_reset_success_mail(username, reset_link):
+def send_password_reset_success_mail(username, password):
     html_message = f"""
+    <!DOCTYPE html>
     <html>
     <head>
         <style>
@@ -343,10 +345,10 @@ def send_password_reset_success_mail(username, reset_link):
     <body>
         <div class="email-container">
             <p>Hello <strong>{username}</strong>,</p>
-            <p>We received a request to reset your password. Link will expire in 15 minutes.</p>
-            <p>Click the button below to proceed:</p>
-            <a class="reset-button" href="{reset_link}">Reset Password</a>
-            <p>If you didn't request this, please ignore this email.</p>
+            <p>Your password has been successfully reset. You can now log in with your new credentials.</p>
+            <p>Here's your new password:</p>
+            <a class="reset-button">{password}</a>
+            <p>If you didn't request this change, please contact support immediately.</p>
             <div class="footer">© 2025 TechScape</div>
         </div>
     </body>

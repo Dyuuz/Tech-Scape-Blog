@@ -227,7 +227,7 @@ def register(request):
             elif re.search(r'[^\w]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot contain symbols'})
             else:
-                if mail_connection():
+                if mail_connection() == True:
                     user = Client.objects.create_user(
                             username=username,
                             email=email,
@@ -280,7 +280,7 @@ def login_view(request):
         if user_check:
             usid = user_check
         else:
-            return JsonResponse({'userError': True, 'message': 'User does not exist'})
+            return JsonResponse({'userError': True, 'message': 'Username or Password is invalid'})
         
         try:
             user = authenticate(request, username=username, password=password)
@@ -305,7 +305,7 @@ def login_view(request):
                     return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': reverse('home')})
                 
                 else:
-                    return JsonResponse({'passworderror': True, 'message': 'Username or Password is incorrect'})
+                    return JsonResponse({'passworderror': True, 'message': 'Username or Password is invalid'})
             else:
                 return JsonResponse({'passworderror': True, 'message': 'Account is not verified'})
         
@@ -447,22 +447,25 @@ def verify(request):
                 user = Client.objects.filter(email=email).first()
 
             if user:
-                token = PasswordReset.objects.create(user=user)
-                username = token.user.username
-                reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'tokenID': str(token.token)}))
-                
-                send_mail(
-                    subject='🔑 Password Reset Request',
-                    message=f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}',
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[email],
-                    fail_silently=False,
-                    html_message=send_password_reset_email(username, reset_link)
-                )
+                if mail_connection() == True:
+                    token = PasswordReset.objects.create(user=user)
+                    username = token.user.username
+                    reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'tokenID': str(token.token)}))
+                    
+                    send_mail(
+                        subject='🔑 Password Reset Request',
+                        message=f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}',
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=[email],
+                        fail_silently=False,
+                        html_message=send_password_reset_email(username, reset_link)
+                    )
 
-                return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
+                    return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
+                
+                return JsonResponse({'SmtpFailure': True, 'message': 'Mail service down. Fix in progress.'})
             else:
-                return JsonResponse({'fail': True, 'message': 'Mail is not available'})
+                return JsonResponse({'fail': True, 'message': 'Email is unavailable'})
         
         return render(request, 'verify.html', locals())
         
@@ -475,21 +478,26 @@ def verify_user(request, User, tokenID):
         verify_user_is_verified = VerifyUser.objects.get(user__username=User)
         
         if verify_user_is_verified.user.is_verified == False:
-            verify_user_is_verified.user.is_verified = True
-            verify_user_is_verified.activate_verification()
 
-            email = verify_user_is_verified.user.email
-            username = verify_user_is_verified.user.username
+            if mail_connection() == True:
+                verify_user_is_verified.user.is_verified = True
+                verify_user_is_verified.activate_verification()
 
-            send_mail(
-                subject="🎉 Welcome to TechScapeBlog!",
-                message=f"Welcome to TechScapeBlog! We're excited to have you.",
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[email],
-                fail_silently=False,
-                html_message=verified_user_feedback(username)
-            )
-            return render(request, 'userVerify.html')
+                email = verify_user_is_verified.user.email
+                username = verify_user_is_verified.user.username
+
+                send_mail(
+                    subject="🎉 Welcome to TechScapeBlog!",
+                    message=f"Welcome to TechScapeBlog! We're excited to have you.",
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[email],
+                    fail_silently=False,
+                    html_message=verified_user_feedback(username)
+                )
+                return render(request, 'userVerify.html')
+            
+            return JsonResponse({'SmtpFailure': True, 'message': 'Mail service down. Fix in progress.'})
+        
         return render(request, 'userVerify.html')
         
     except Exception as e:
@@ -509,26 +517,39 @@ def reset_password(request, tokenID):
                     return JsonResponse({'password': True, 'message': 'Passwords do not match'})
 
                 try:
-                    
-                    allRelated_tokens = PasswordReset.objects.filter(user__username=token.user.username)
-                    # allRelated_json = json.loads(serializers.serialize('json', allRelated_tokens ))
-                    
-                    user = token.user.username
-                    user_instance = Client.objects.get(username=user)
-                    
-                    if check_password(password, user_instance.password):
-                        return JsonResponse({'fail': True, 'message': 'You cannot reuse old password'})
-                    
-                    user_instance.set_password(password)
-                    user_instance.save()
-                    allRelated_tokens.delete()
-                    
-                    return JsonResponse({
-                        'success': True, 
-                        'message': 'Password reset successful', 
-                        'redirect_url': reverse('login'),
-                        # 'related_token' : allRelated_json,
-                    })
+                    if mail_connection() == True:
+                        allRelated_tokens = PasswordReset.objects.filter(user__username=token.user.username)
+                        # allRelated_json = json.loads(serializers.serialize('json', allRelated_tokens ))
+                        
+                        user = token.user.username
+                        user_instance = Client.objects.get(username=user)
+                        
+                        if check_password(password, user_instance.password):
+                            return JsonResponse({'fail': True, 'message': 'You cannot reuse old password'})
+                        
+                        user_instance.set_password(password)
+                        user_instance.save()
+                        allRelated_tokens.delete()
+
+                        email = PasswordReset.objects.get(token=tokenID).user.email
+                        username = PasswordReset.objects.get(token=tokenID).user.username
+
+                        send_mail(
+                           subject="Password Reset Successful",
+                            message=f"Your password has been successfully reset.",
+                            from_email=settings.EMAIL_HOST_USER,
+                            recipient_list=[email],
+                            fail_silently=False,
+                            html_message=send_password_reset_success_mail(username , password)
+                        )
+                        
+                        return JsonResponse({
+                            'success': True, 
+                            'message': 'Password reset successful', 
+                            'redirect_url': reverse('login'),
+                            # 'related_token' : allRelated_json,
+                        })
+                    return JsonResponse({'SmtpFailure': True, 'message': 'Mail service down. Fix in progress.'})
                     
                 except PasswordReset.DoesNotExist:
                     return JsonResponse({'fail': True, 'message': 'Token does not exist'})
@@ -537,26 +558,6 @@ def reset_password(request, tokenID):
 
             return render(request, 'passwordreset.html', locals())
         
-        elif request.method == "POST":
-                data = request.body
-                Ajax_data = json.loads(data.decode('utf-8'))
-                email = Ajax_data.get('email')
-                user = Client.objects.filter(email=email).first()
-                if user:
-                    token = PasswordReset.objects.create(user=user)
-                    reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'tokenID': str(token.token)}))
-                    
-                    send_mail(
-                        subject='Password Reset Link',
-                        message=f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}',
-                        from_email=settings.EMAIL_HOST_USER,
-                        recipient_list=[email],
-                        fail_silently=False,
-                    )
-
-                    return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
-                else:
-                    return JsonResponse({'fail': True, 'message': 'Mail is not available'})
         return render(request, 'Tokenexpired.html', locals())
     except Exception as e:
         return HttpResponse("Invalid link")
