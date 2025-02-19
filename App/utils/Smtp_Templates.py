@@ -146,9 +146,9 @@ def send_verification_email(username, verify_account_link):
     """
     return html_message
 
-def send_verification_email(username, url):
+def verified_user_feedback(username, url):
     html_message = f"""
-        <!DOCTYPE html>
+    <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -328,24 +328,25 @@ def send_password_reset_email(username, reset_link):
     """
     return html_message
 
-def send_welcome_email(username):
+def send_password_reset_success_mail(username, reset_link):
     html_message = f"""
     <html>
     <head>
         <style>
-            body {{ background-color: #f0fff4; color: #333; font-family: 'Trebuchet MS', sans-serif; text-align: center; }}
+           body {{ background-color: #fff5f7; color: #333; font-family: 'Helvetica', sans-serif; text-align: center; }}
             .email-container {{ max-width: 600px; margin: 30px auto; background: #fff; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); padding: 30px; }}
-            .email-header {{ font-size: 24px; margin-bottom: 20px; color: #27ae60; }}
-            .cta-button {{ display: inline-block; margin: 20px 0; background: #27ae60; color: #fff; padding: 14px 24px; border-radius: 6px; text-decoration: none; }}
+            .email-header {{ font-size: 24px; margin-bottom: 20px; color: #e74c3c; }}
+            .reset-button {{ display: inline-block; margin: 20px 0; background: linear-gradient(170deg, #081b3e, #6a8caf); color: #fff; padding: 14px 24px; border-radius: 6px; text-decoration: none; }}
             .footer {{ margin-top: 30px; font-size: 12px; color: #888; }}
         </style>
     </head>
     <body>
         <div class="email-container">
             <p>Hello <strong>{username}</strong>,</p>
-            <p>We're thrilled to have you join us. Explore all the amazing features we have to offer:</p>
-            <a class="cta-button" href="https://yourapp.com/dashboard">Explore Now</a>
-            <p>Happy exploring! 😊</p>
+            <p>We received a request to reset your password. Link will expire in 15 minutes.</p>
+            <p>Click the button below to proceed:</p>
+            <a class="reset-button" href="{reset_link}">Reset Password</a>
+            <p>If you didn't request this, please ignore this email.</p>
             <div class="footer">© 2025 TechScape</div>
         </div>
     </body>
@@ -353,7 +354,85 @@ def send_welcome_email(username):
     """
     return html_message
 
-def send_creative_digest( username):
+def send_login_email(username, reset_link):
+    html_message = f"""
+    <html>
+    <head>
+        <style>
+           body {{ background-color: #fff5f7; color: #333; font-family: 'Helvetica', sans-serif; text-align: center; }}
+            .email-container {{ max-width: 600px; margin: 30px auto; background: #fff; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); padding: 30px; }}
+            .email-header {{ font-size: 24px; margin-bottom: 20px; color: #e74c3c; }}
+            .reset-button {{ display: inline-block; margin: 20px 0; background: linear-gradient(170deg, #081b3e, #6a8caf); color: #fff; padding: 14px 24px; border-radius: 6px; text-decoration: none; }}
+            .footer {{ margin-top: 30px; font-size: 12px; color: #888; }}
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <p>Hello <strong>{username}</strong>,</p>
+            <p>We received a request to reset your password. Link will expire in 15 minutes.</p>
+            <p>Click the button below to proceed:</p>
+            <a class="reset-button" href="{reset_link}">Reset Password</a>
+            <p>If you didn't request this, please ignore this email.</p>
+            <div class="footer">© 2025 TechScape</div>
+        </div>
+    </body>
+    </html>
+    """
+    return html_message
+
+def send_subcribe_email(username, reset_link):
+    html_message = f"""
+    <html>
+    <head>
+        <style>
+           body {{ background-color: #fff5f7; color: #333; font-family: 'Helvetica', sans-serif; text-align: center; }}
+            .email-container {{ max-width: 600px; margin: 30px auto; background: #fff; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); padding: 30px; }}
+            .email-header {{ font-size: 24px; margin-bottom: 20px; color: #e74c3c; }}
+            .reset-button {{ display: inline-block; margin: 20px 0; background: linear-gradient(170deg, #081b3e, #6a8caf); color: #fff; padding: 14px 24px; border-radius: 6px; text-decoration: none; }}
+            .footer {{ margin-top: 30px; font-size: 12px; color: #888; }}
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <p>Hello <strong>{username}</strong>,</p>
+            <p>We received a request to reset your password. Link will expire in 15 minutes.</p>
+            <p>Click the button below to proceed:</p>
+            <a class="reset-button" href="{reset_link}">Reset Password</a>
+            <p>If you didn't request this, please ignore this email.</p>
+            <div class="footer">© 2025 TechScape</div>
+        </div>
+    </body>
+    </html>
+    """
+    return html_message
+
+def send_unsubscribe_email(username, reset_link):
+    html_message = f"""
+    <html>
+    <head>
+        <style>
+           body {{ background-color: #fff5f7; color: #333; font-family: 'Helvetica', sans-serif; text-align: center; }}
+            .email-container {{ max-width: 600px; margin: 30px auto; background: #fff; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); padding: 30px; }}
+            .email-header {{ font-size: 24px; margin-bottom: 20px; color: #e74c3c; }}
+            .reset-button {{ display: inline-block; margin: 20px 0; background: linear-gradient(170deg, #081b3e, #6a8caf); color: #fff; padding: 14px 24px; border-radius: 6px; text-decoration: none; }}
+            .footer {{ margin-top: 30px; font-size: 12px; color: #888; }}
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <p>Hello <strong>{username}</strong>,</p>
+            <p>We received a request to reset your password. Link will expire in 15 minutes.</p>
+            <p>Click the button below to proceed:</p>
+            <a class="reset-button" href="{reset_link}">Reset Password</a>
+            <p>If you didn't request this, please ignore this email.</p>
+            <div class="footer">© 2025 TechScape</div>
+        </div>
+    </body>
+    </html>
+    """
+    return html_message
+
+def newsletter_mail( username):
     html_message = f"""
     <html>
     <head>

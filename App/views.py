@@ -487,7 +487,7 @@ def verify_user(request, User, tokenID):
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[email],
                 fail_silently=False,
-                html_message=send_welcome_email(username)
+                html_message=verified_user_feedback(username)
             )
             return render(request, 'userVerify.html')
         return render(request, 'userVerify.html')
