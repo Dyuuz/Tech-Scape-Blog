@@ -485,6 +485,7 @@ def verify_user(request, User, tokenID):
 
                 email = verify_user_is_verified.user.email
                 username = verify_user_is_verified.user.username
+                url = request.build_absolute_uri(reverse('home'))
 
                 send_mail(
                     subject="🎉 Welcome to TechScapeBlog!",
@@ -492,7 +493,7 @@ def verify_user(request, User, tokenID):
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[email],
                     fail_silently=False,
-                    html_message=verified_user_feedback(username)
+                    html_message=verified_user_feedback(username,url)
                 )
                 return render(request, 'userVerify.html')
             
@@ -529,7 +530,7 @@ def reset_password(request, tokenID):
                         
                         user_instance.set_password(password)
                         user_instance.save()
-                        allRelated_tokens.delete()
+                        # allRelated_tokens.delete()
 
                         email = PasswordReset.objects.get(token=tokenID).user.email
                         username = PasswordReset.objects.get(token=tokenID).user.username

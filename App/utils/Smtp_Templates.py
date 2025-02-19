@@ -72,6 +72,7 @@ def send_verification_email(username, verify_account_link):
             .social-links {{
                 display: flex;
                 justify-content: center;
+                align-items: center;
                 gap: 15px;
                 margin-top: 20px;
             }}
@@ -117,7 +118,7 @@ def send_verification_email(username, verify_account_link):
             <div class="email-body">
                 <p>Hello <strong>{username}</strong>,</p>
                 <p>Thank you for signing up with <strong>TechScape</strong>.</p>
-                <p>Please click the button below to verify your email address and activate your account:</p>
+                <p>Please click the button below to verify your email address and activate your account.</p>
                 <p>NB: You will be unable to use our service if you fail to verify.</p>
                 <a href="{verify_account_link}" class="verify-button">🔐 Verify My Account</a>
                 <p>If you did not create this account, please ignore this message.</p>
@@ -294,6 +295,20 @@ def verified_user_feedback(username, url):
             </div>
             <div class="email-footer">
                 <p>Need help? <a href="https://yourwebsite.com/support">Visit our support center</a></p>
+                <div class="social-links">
+                    <a href="https://facebook.com" target="_blank" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="social-icon">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
                 <p>&copy; 2025 TechScape. All rights reserved.</p>
             </div>
         </div>
