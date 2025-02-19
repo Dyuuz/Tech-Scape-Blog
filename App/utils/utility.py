@@ -1,4 +1,5 @@
 import json
+import smtplib
 from django.shortcuts import render,redirect, get_object_or_404
 from django.core import serializers
 from datetime import datetime
@@ -201,3 +202,13 @@ def update_suboption(request):
         except:
             return JsonResponse({'success': False, 'message': 'Error updating subscription option!'})
         
+def mail_connection():
+    try:
+        # Establish SMTP connection and start TLS encryption
+        with smtplib.SMTP('smtp.zoho.com', 587) as server:
+            server.starttls()
+            server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+            return True
+
+    except Exception as e:
+       return False

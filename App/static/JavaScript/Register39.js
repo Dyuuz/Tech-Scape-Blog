@@ -109,7 +109,7 @@ function getRegisterUrl(formData) {
         if (error.response) {
             Swal.fire({
                 title: 'Registration Failed!',
-                text: 'Request error, refresh page to sign up'+ error,
+                text: 'Request error, refresh page to sign up',
                 icon: 'error',
                 timer: 4000,
                 showConfirmButton: false
@@ -131,7 +131,7 @@ function getRegisterUrl(formData) {
         // Something happened in setting up the request that triggered an Error
             Swal.fire({
                 title: 'Registration Failed!',
-                text: 'An error occurred while setting up the request: ' + error.message,
+                text: 'Mail service down. Fix in progress.',
                 icon: 'error',
                 timer: 4000,
                 showConfirmButton: false

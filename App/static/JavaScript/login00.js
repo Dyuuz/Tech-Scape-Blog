@@ -113,7 +113,7 @@ function getLoginUrl(formData) {
             // Something happened in setting up the request that triggered an Error
             Swal.fire({
             title: 'Login Failed!',
-            text: 'An error occurred while setting up the request: ' + error.message,
+            text: 'Mail service down. Fix in progress.',
             icon: 'error',
             timer: 4000,
             showConfirmButton: false

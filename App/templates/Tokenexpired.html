@@ -14,7 +14,6 @@
     function getMailResetUrlToken() {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const emailValue = document.querySelector('.token-expired-id').getAttribute("data-id");
-        //alert(csrfToken);
         if (!emailValue) {
             Swal.fire({
                 title: 'Error',
@@ -25,7 +24,7 @@
             });
             return;
         }
-        axios.post('', { email: emailValue }, {
+        axios.post('reset-link', { 'email': emailValue }, {
             headers: { 'X-CSRFToken': csrfToken }
         })
         .then(response => {
@@ -42,11 +41,11 @@
             let errorMsg;
 
             if (error.response) {
-                errorMsg = `Request error: ${error.message}`;
+                errorMsg = error.message;
             } else if (error.request) {
                 errorMsg = 'Please check your network connection.';
             } else {
-                errorMsg = `An error occurred: ${error.message}`;
+                errorMsg = 'Mail service down. Fix in progress.';
             }
 
             Swal.fire({

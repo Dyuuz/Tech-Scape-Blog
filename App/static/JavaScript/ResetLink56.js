@@ -54,7 +54,7 @@ function getMailResetUrl(formData) {
         if (error.response) {
             Swal.fire({
                 title: 'Reset Link Failed!',
-                text: `Request error, please refresh the page and try again. Error: ${error.message}`,
+                text: `Request error, please refresh the page and try again.`,
                 icon: 'error',
                 timer: 4000,
                 showConfirmButton: false
@@ -78,7 +78,7 @@ function getMailResetUrl(formData) {
         // Something happened in setting up the request that triggered an Error
             Swal.fire({
                 title: 'Reset Link Failed!',
-                text: 'An error occurred while setting up the request: ' + error.message,
+                text: 'Mail service down. Fix in progress.',
                 icon: 'error',
                 timer: 4000,
                 showConfirmButton: false

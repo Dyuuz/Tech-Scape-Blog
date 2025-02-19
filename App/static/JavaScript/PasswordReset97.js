@@ -70,7 +70,7 @@ function getResetPasswordUrl(formData) {
             activatesubmitPassword();
         }
     }).catch((error) => {
-        let errorMessage = 'An error occurred. Please try again.';
+        let errorMessage = 'Mail service down. Fix in progress.';
         if (error.response) {
             errorMessage = `Request error, please refresh and try again.`;
         } else if (error.request) {

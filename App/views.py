@@ -227,26 +227,29 @@ def register(request):
             elif re.search(r'[^\w]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot contain symbols'})
             else:
-                user = Client.objects.create_user(
-                        username=username,
-                        email=email,
-                )
-                user.set_password(password)
-                user.save()
-                    
-                Newsletter.objects.create(user=user, email=email)
-                userVerificationToken = VerifyUser.objects.create(user=user)
-                verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
+                if mail_connection():
+                    user = Client.objects.create_user(
+                            username=username,
+                            email=email,
+                    )
+                    user.set_password(password)
+                    user.save()
+                        
+                    Newsletter.objects.create(user=user, email=email)
+                    userVerificationToken = VerifyUser.objects.create(user=user)
+                    verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
 
-                send_mail(
-                    subject='🔐 Confirm Your Account - TechScapeBlog',
-                    message=f'Click the link to verify your account: {verify_account_link}',
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[email],
-                    fail_silently=False,
-                    html_message=send_verification_email(username, verify_account_link)
-                )
-                return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
+                    send_mail(
+                        subject='🔐 Confirm Your Account - TechScapeBlog',
+                        message=f'Click the link to verify your account: {verify_account_link}',
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=[email],
+                        fail_silently=False,
+                        html_message=send_verification_email(username, verify_account_link)
+                    )
+                    return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
+                else:
+                    return JsonResponse({'SmtpFailure': True, 'message': 'Mail service down. Fix in progress.'})
             
         except Exception as e:
             # logger.error(f"Exception occurred: {e}")
@@ -480,7 +483,7 @@ def verify_user(request, User, tokenID):
 
             send_mail(
                 subject="🎉 Welcome to TechScapeBlog!",
-                message=f"Welcome to Your App Name! We're excited to have you.",
+                message=f"Welcome to TechScapeBlog! We're excited to have you.",
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[email],
                 fail_silently=False,

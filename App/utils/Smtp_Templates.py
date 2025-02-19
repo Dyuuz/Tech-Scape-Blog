@@ -6,6 +6,7 @@ def send_verification_email(username, verify_account_link):
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <title>Verify Your Account</title>
         <style>
             body {{
@@ -25,7 +26,7 @@ def send_verification_email(username, verify_account_link):
                 border: 1px solid #dcdcdc;
             }}
             .email-header {{
-                background: linear-gradient(135deg, #2c3e50, #3498db);
+                background: linear-gradient(135deg,rgb(27, 52, 76), #3498db);
                 color: #ffffff;
                 padding: 30px 20px;
                 text-align: center;
@@ -41,6 +42,161 @@ def send_verification_email(username, verify_account_link):
             }}
             .email-body p {{
                 font-size: 18px;
+                margin: 15px 0;
+                line-height: 1.6;
+            }}
+            .verify-button {{
+                display: inline-block;
+                padding: 14px 24px;
+                margin: 30px 0;
+                background: linear-gradient(135deg,rgb(27, 52, 76), #3498db);
+                color: #ffffff;
+                text-decoration: none;
+                border-radius: 6px;
+                font-size: 18px;
+                transition: background-color 0.3s ease;
+            }}
+            .verify-button:hover {{
+                background-color: #2980b9;
+            }}
+            .email-footer {{
+                padding: 20px;
+                text-align: center;
+                font-size: 14px;
+                color: #777;
+            }}
+            .email-footer a {{
+                color: #3498db;
+                text-decoration: none;
+            }}
+            .social-links {{
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                margin-top: 20px;
+            }}
+
+            .social-icon {{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #0077b5, #081b3e);
+                color: white;
+                font-size: 20px;
+                transition: 0.3s;
+                text-decoration: none;
+            }}
+
+            .social-icon:hover {{
+                transform: scale(1.1);
+                opacity: 0.8;
+            }}
+
+            @media (max-width: 480px) {{
+                .email-header h1 {{
+                    font-size: 24px;
+                }}
+                .email-body p {{
+                    font-size: 16px;
+                }}
+                .verify-button {{
+                    padding: 12px 20px;
+                    font-size: 16px;
+                }}
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <div class="email-header">
+                <h1>Verify Your Account</h1>
+            </div>
+            <div class="email-body">
+                <p>Hello <strong>{username}</strong>,</p>
+                <p>Thank you for signing up with <strong>TechScape</strong>.</p>
+                <p>Please click the button below to verify your email address and activate your account:</p>
+                <p>NB: You will be unable to use our service if you fail to verify.</p>
+                <a href="{verify_account_link}" class="verify-button">🔐 Verify My Account</a>
+                <p>If you did not create this account, please ignore this message.</p>
+            </div>
+            <div class="email-footer">
+                <p>Need help? <a href="https://yourwebsite.com/support">Visit our support center</a></p>
+                <div class="social-links">
+                    <a href="https://facebook.com" target="_blank" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="social-icon">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                <p>&copy; 2025 TechScape. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    return html_message
+
+def send_verification_email(username, url):
+    html_message = f"""
+        <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <title>Verify Your Account</title>
+        <style>
+            body {{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f3f6fb;
+                color: #333;
+            }}
+            .email-container {{
+                max-width: 600px;
+                margin: 40px auto;
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+                border: 1px solid #dcdcdc;
+            }}
+            .email-header {{
+                background: linear-gradient(135deg,rgb(60, 94, 127), #3498db);
+                color: #ffffff;
+                padding: 30px 20px;
+                text-align: center;
+            }}
+            .email-header h1 {{
+                margin: 0;
+                font-size: 28px;
+                letter-spacing: 1px;
+            }}
+            .email-body {{
+                padding: 30px 20px;
+                text-align: center;
+            }}
+            .email-body a{{
+                background: linear-gradient(135deg, #2c3e50, #3498db);
+            }}
+            .email-body h5{{
+                text-align:left;
+                margin-left: 10px;
+            }}
+            .email-body p {{
+                font-size: 16px;
                 margin: 15px 0;
                 line-height: 1.6;
             }}
@@ -68,12 +224,38 @@ def send_verification_email(username, verify_account_link):
                 color: #3498db;
                 text-decoration: none;
             }}
+            .social-links {{
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                margin-top: 20px;
+            }}
+
+            .social-icon {{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #0077b5, #081b3e);
+                color: white;
+                font-size: 20px;
+                transition: 0.3s;
+                text-decoration: none;
+            }}
+
+            .social-icon:hover {{
+                transform: scale(1.1);
+                opacity: 0.8;
+            }}
+
             @media (max-width: 480px) {{
                 .email-header h1 {{
                     font-size: 24px;
                 }}
                 .email-body p {{
-                    font-size: 16px;
+                    font-size: 14px;
                 }}
                 .verify-button {{
                     padding: 12px 20px;
@@ -85,18 +267,34 @@ def send_verification_email(username, verify_account_link):
     <body>
         <div class="email-container">
             <div class="email-header">
-                <h1>Verify Your Account</h1>
+                <h1>Account Verified!</h1>
             </div>
             <div class="email-body">
                 <p>Hello <strong>{username}</strong>,</p>
-                <p>Thank you for signing up with <strong>TechScapeBlog</strong>.</p>
-                <p>Please click the button below to verify your email address and activate your account:</p>
-                <a href="{verify_account_link}" class="verify-button">🔐 Verify My Account</a>
-                <p>If you did not create this account, please ignore this message.</p>
+                <p>Welcome to <strong>TechScape.</strong> We’re excited to have you here.</p>
+                <p>You’ve just joined a community of curious minds and deep thinkers!<br>
+                    Your account is now verified, which means you’re all set to dive into inspiring articles and explore fresh perspectives.<br><br>
+                    ✨ What’s Next?<br>
+                    ✔️Explore Our Blog – Discover insightful articles and valuable resources.<br>
+                    ✔️Engage with Content – Like and share posts that resonate with you. Your feedback helps shape future topics!<br>
+                    ✔️Stay Updated – Subscribe to our newsletter and never miss an update from us.<br>
+                    ✔️Follow Us on Social Media – Get exclusive content, behind-the-scenes insights, and real-time updates.<br>
+                    ✔️Suggest Topics – Have something you’d love to read about? Reply to this email or use our suggestion box!<br>
+                    ✔️Subscribe to our newsletter for exclusive content!
+                </p>
+                <a href="{url}" class="verify-button">Start Exploring</a>
+                <p>
+                    🚀 Exciting Updates Coming Soon!<br>
+                    We’re working on exclusive content drops, special features, and surprise announcements that you won’t want to miss! Stay tuned for something amazing! Happy reading! 📚✨
+                </p>
+                <h5>
+                    Cheers,<br>
+                    The TechScape Team.<br>
+                </h5>
             </div>
             <div class="email-footer">
                 <p>Need help? <a href="https://yourwebsite.com/support">Visit our support center</a></p>
-                <p>&copy; {2025} TechScapeBlog. All rights reserved.</p>
+                <p>&copy; 2025 TechScape. All rights reserved.</p>
             </div>
         </div>
     </body>
@@ -123,7 +321,7 @@ def send_password_reset_email(username, reset_link):
             <p>Click the button below to proceed:</p>
             <a class="reset-button" href="{reset_link}">Reset Password</a>
             <p>If you didn't request this, please ignore this email.</p>
-            <div class="footer">© 2025 TechScapeBlog</div>
+            <div class="footer">© 2025 TechScape</div>
         </div>
     </body>
     </html>
@@ -148,7 +346,7 @@ def send_welcome_email(username):
             <p>We're thrilled to have you join us. Explore all the amazing features we have to offer:</p>
             <a class="cta-button" href="https://yourapp.com/dashboard">Explore Now</a>
             <p>Happy exploring! 😊</p>
-            <div class="footer">© 2025 TechScapeBlog</div>
+            <div class="footer">© 2025 TechScape</div>
         </div>
     </body>
     </html>
