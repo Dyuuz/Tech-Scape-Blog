@@ -203,7 +203,7 @@ def register(request):
     all_categ = Category.objects.all()
     timestamp = datetime.now().timestamp()
     if request.method == 'POST':
-        username = request.POST.get('username').strip().title()
+        username = request.POST.get('username').strip()
         email = request.POST.get('email').strip().lower()
         password = request.POST.get('password').strip()
         confirm_password = request.POST.get('confirm_password').strip()
@@ -451,14 +451,15 @@ def verify(request):
                     token = PasswordReset.objects.create(user=user)
                     username = token.user.username
                     reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'tokenID': str(token.token)}))
-                    
+                    cs_url = request.build_absolute_uri(reverse('home'))
+
                     send_mail(
                         subject='🔑 Password Reset Request',
                         message=f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}',
                         from_email=settings.EMAIL_HOST_USER,
                         recipient_list=[email],
                         fail_silently=False,
-                        html_message=send_password_reset_email(username, reset_link)
+                        html_message=send_password_reset_email(username, reset_link, cs_url)
                     )
 
                     return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
@@ -534,6 +535,7 @@ def reset_password(request, tokenID):
 
                         email = PasswordReset.objects.get(token=tokenID).user.email
                         username = PasswordReset.objects.get(token=tokenID).user.username
+                        cs_url = request.build_absolute_uri(reverse('home'))
 
                         send_mail(
                            subject="Password Reset Successful",
@@ -541,7 +543,7 @@ def reset_password(request, tokenID):
                             from_email=settings.EMAIL_HOST_USER,
                             recipient_list=[email],
                             fail_silently=False,
-                            html_message=send_password_reset_success_mail(username , password)
+                            html_message=send_password_reset_success_mail(username , password, cs_url)
                         )
                         
                         return JsonResponse({

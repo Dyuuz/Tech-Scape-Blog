@@ -38,6 +38,7 @@ def send_verification_email(username, verify_account_link):
             }}
             .email-body {{
                 padding: 30px 20px;
+                padding-bottom:0px;
                 text-align: center;
             }}
             .email-body p {{
@@ -59,7 +60,7 @@ def send_verification_email(username, verify_account_link):
             .verify-button:hover {{
                 background-color: #2980b9;
             }}
-            .email-footer {{
+            .email-footer1 {{
                 padding: 20px;
                 text-align: center;
                 font-size: 14px;
@@ -69,33 +70,6 @@ def send_verification_email(username, verify_account_link):
                 color: #3498db;
                 text-decoration: none;
             }}
-            .social-links {{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 15px;
-                margin-top: 20px;
-            }}
-
-            .social-icon {{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 45px;
-                height: 45px;
-                border-radius: 50%;
-                background: linear-gradient(135deg, #0077b5, #081b3e);
-                color: white;
-                font-size: 20px;
-                transition: 0.3s;
-                text-decoration: none;
-            }}
-
-            .social-icon:hover {{
-                transform: scale(1.1);
-                opacity: 0.8;
-            }}
-
             @media (max-width: 480px) {{
                 .email-header h1 {{
                     font-size: 24px;
@@ -123,22 +97,8 @@ def send_verification_email(username, verify_account_link):
                 <a href="{verify_account_link}" class="verify-button">🔐 Verify My Account</a>
                 <p>If you did not create this account, please ignore this message.</p>
             </div>
-            <div class="email-footer">
+            <div class="email-footer1">
                 <p>Need help? <a href="https://yourwebsite.com/support">Visit our support center</a></p>
-                <div class="social-links">
-                    <a href="https://facebook.com" target="_blank" class="social-icon">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://twitter.com" target="_blank" class="social-icon">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="social-icon">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" class="social-icon">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
                 <p>&copy; 2025 TechScape. All rights reserved.</p>
             </div>
         </div>
@@ -153,7 +113,7 @@ def verified_user_feedback(username, url):
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <title>Verify Your Account</title>
@@ -187,6 +147,7 @@ def verified_user_feedback(username, url):
             }}
             .email-body {{
                 padding: 30px 20px;
+                padding-bottom:0px;
                 text-align: center;
             }}
             .email-body a{{
@@ -197,7 +158,7 @@ def verified_user_feedback(username, url):
                 margin-left: 10px;
             }}
             .email-body p {{
-                font-size: 16px;
+                font-size: 18px;
                 margin: 15px 0;
                 line-height: 1.6;
             }}
@@ -225,38 +186,12 @@ def verified_user_feedback(username, url):
                 color: #3498db;
                 text-decoration: none;
             }}
-            .social-links {{
-                display: flex;
-                justify-content: center;
-                gap: 15px;
-                margin-top: 20px;
-            }}
-
-            .social-icon {{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 45px;
-                height: 45px;
-                border-radius: 50%;
-                background: linear-gradient(135deg, #0077b5, #081b3e);
-                color: white;
-                font-size: 20px;
-                transition: 0.3s;
-                text-decoration: none;
-            }}
-
-            .social-icon:hover {{
-                transform: scale(1.1);
-                opacity: 0.8;
-            }}
-
             @media (max-width: 480px) {{
                 .email-header h1 {{
                     font-size: 24px;
                 }}
                 .email-body p {{
-                    font-size: 14px;
+                    font-size: 16px;
                 }}
                 .verify-button {{
                     padding: 12px 20px;
@@ -294,21 +229,7 @@ def verified_user_feedback(username, url):
                 </h5>
             </div>
             <div class="email-footer">
-                <p>Need help? <a href="https://yourwebsite.com/support">Visit our support center</a></p>
-                <div class="social-links">
-                    <a href="https://facebook.com" target="_blank" class="social-icon">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://twitter.com" target="_blank" class="social-icon">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="social-icon">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" class="social-icon">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
+                <p>Need help? <a href="{url}">Visit our support center</a></p>
                 <p>&copy; 2025 TechScape. All rights reserved.</p>
             </div>
         </div>
@@ -317,7 +238,7 @@ def verified_user_feedback(username, url):
     """
     return html_message
 
-def send_password_reset_email(username, reset_link):
+def send_password_reset_email(username, reset_link, cs_url):
     html_message = f"""
     <!DOCTYPE html>
     <html>
@@ -337,14 +258,15 @@ def send_password_reset_email(username, reset_link):
             <p>Click the button below to proceed:</p>
             <a class="reset-button" href="{reset_link}">Reset Password</a>
             <p>If you didn't request this, please ignore this email.</p>
-            <div class="footer">© 2025 TechScape</div>
+            <p>Need help? <a href="{cs_url}">Visit our support center</a></p>
+            <div class="footer">© 2025 TechScape. All rights reserved.</div>
         </div>
     </body>
     </html>
     """
     return html_message
 
-def send_password_reset_success_mail(username, password):
+def send_password_reset_success_mail(username, password, cs_url):
     html_message = f"""
     <!DOCTYPE html>
     <html>
@@ -364,7 +286,8 @@ def send_password_reset_success_mail(username, password):
             <p>Here's your new password:</p>
             <a class="reset-button">{password}</a>
             <p>If you didn't request this change, please contact support immediately.</p>
-            <div class="footer">© 2025 TechScape</div>
+            <p>Need help? <a href="{cs_url}">Visit our support center</a></p>
+            <div class="footer">© 2025 TechScape. All rights reserved.</div>
         </div>
     </body>
     </html>
