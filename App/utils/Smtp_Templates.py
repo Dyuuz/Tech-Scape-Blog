@@ -1,4 +1,4 @@
-def send_verification_email(username, verify_account_link):
+def send_verification_email(username, verify_account_link, cs_url):
     html_message = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -94,11 +94,12 @@ def send_verification_email(username, verify_account_link):
                 <p>Thank you for signing up with <strong>TechScape</strong>.</p>
                 <p>Please click the button below to verify your email address and activate your account.</p>
                 <p>NB: You will be unable to use our service if you fail to verify.</p>
+                <p>Verification is instant, just one click away.</p>
                 <a href="{verify_account_link}" class="verify-button">🔐 Verify My Account</a>
                 <p>If you did not create this account, please ignore this message.</p>
             </div>
             <div class="email-footer1">
-                <p>Need help? <a href="https://yourwebsite.com/support">Visit our support center</a></p>
+                <p>Need help? <a href="{cs_url}">Visit our support center</a></p>
                 <p>&copy; 2025 TechScape. All rights reserved.</p>
             </div>
         </div>
@@ -107,7 +108,7 @@ def send_verification_email(username, verify_account_link):
     """
     return html_message
 
-def verified_user_feedback(username, url):
+def verified_user_feedback(username, url, cs_url):
     html_message = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -229,7 +230,7 @@ def verified_user_feedback(username, url):
                 </h5>
             </div>
             <div class="email-footer">
-                <p>Need help? <a href="{url}">Visit our support center</a></p>
+                <p>Need help? <a href="{cs_url}">Visit our support center</a></p>
                 <p>&copy; 2025 TechScape. All rights reserved.</p>
             </div>
         </div>

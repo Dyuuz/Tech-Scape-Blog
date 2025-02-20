@@ -238,14 +238,15 @@ def register(request):
                     Newsletter.objects.create(user=user, email=email)
                     userVerificationToken = VerifyUser.objects.create(user=user)
                     verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
+                    cs_url = request.build_absolute_uri(reverse('home'))
 
                     send_mail(
-                        subject='🔐 Confirm Your Account - TechScapeBlog',
+                        subject='🔐 Confirm Your Account - TechScape',
                         message=f'Click the link to verify your account: {verify_account_link}',
                         from_email=settings.EMAIL_HOST_USER,
                         recipient_list=[email],
                         fail_silently=False,
-                        html_message=send_verification_email(username, verify_account_link)
+                        html_message=send_verification_email(username, verify_account_link, cs_url)
                     )
                     return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
                 else:
@@ -487,14 +488,15 @@ def verify_user(request, User, tokenID):
                 email = verify_user_is_verified.user.email
                 username = verify_user_is_verified.user.username
                 url = request.build_absolute_uri(reverse('home'))
+                cs_url = request.build_absolute_uri(reverse('home'))
 
                 send_mail(
-                    subject="🎉 Welcome to TechScapeBlog!",
-                    message=f"Welcome to TechScapeBlog! We're excited to have you.",
+                    subject="🎉 Welcome to TechScape!",
+                    message=f"Welcome to TechScape! We're excited to have you.",
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[email],
                     fail_silently=False,
-                    html_message=verified_user_feedback(username,url)
+                    html_message=verified_user_feedback(username,url, cs_url)
                 )
                 return render(request, 'userVerify.html')
             
