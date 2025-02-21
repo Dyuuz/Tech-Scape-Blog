@@ -19,7 +19,7 @@
           
           <h6 class="newh6">Password</h6>
           <input class="blog-register-input" id="password" type="password" name="password" placeholder="Input password" autocomplete="on" required>
-          
+          {{user}}
           <p class="blog-register-alert">
             
           </p>
@@ -37,7 +37,7 @@
       <p class="blog-register-text">
           New to Tech Scape? <a href="{% url 'register' %}">Sign up</a>
       </p>
-      <script src="{% static 'JavaScript/login00.js'%}?v={{ timestamp }}"></script>
+      <script src="{% static 'JavaScript/login00.js'%}?v={{ STATIC_VERSION }}"></script>
     </div>
 </div>
 {% endblock  %}

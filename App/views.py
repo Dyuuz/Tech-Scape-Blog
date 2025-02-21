@@ -269,53 +269,59 @@ def loginsession(request, name, slug):
 # Read operation for existing users 
 def login_view(request):
     timestamp = datetime.now().timestamp()
+    user = str(request.user)
     all_categ = Category.objects.all()
-    if request.method == 'POST':
-        # data = request.body
-        # Ajax_data = json.loads(data.decode('utf-8'))
-        
-        username = request.POST.get('username').strip()
-        password = request.POST.get('password').strip()
-        
-        user_check = Client.objects.filter(username=username).exists()
-        if user_check:
-            usid = user_check
-        else:
-            return JsonResponse({'userError': True, 'message': 'Username or Password is invalid'})
-        
-        try:
-            user = authenticate(request, username=username, password=password)
-            
-            if user.is_verified == True:
-                if user.is_authenticated:
-                    login(request, user)
-                    
-                    post_slug = request.session.get('post_slug')
-                    cat_name = request.session.get('cat_name')
-                    
-                    if post_slug and cat_name:
-                        url = reverse('postpage', kwargs={'name': cat_name, 'slug': post_slug})
-                        return JsonResponse({'successpostpage': True, 'message': 'Login successful', 'redirect_url': url})
-                        # return redirect(url)
-                    
-                        # response = postpage(request, name=cat_name, slug=post_slug)
-                        # request.session.flush()
-                        # return response
-                    
-                    # return JsonResponse({'success': True, 'message': 'Login successful'})
-                    return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': reverse('home')})
-                
-                else:
-                    return JsonResponse({'passworderror': True, 'message': 'Username or Password is invalid'})
-            else:
-                return JsonResponse({'passworderror': True, 'message': 'Account is not verified'})
-        
-        except Exception as e:
-            # return HttpResponse(str(e))
-            return JsonResponse({'exceptionError': True, 'message': 'Username or Password is incorrect'})
-        
-    else:
+    if user != "AnonymousUser":
+        logout(request)
         return render(request, 'login.html', locals())
+
+    else:
+        if request.method == 'POST':
+            # data = request.body
+            # Ajax_data = json.loads(data.decode('utf-8'))
+            
+            username = request.POST.get('username').strip()
+            password = request.POST.get('password').strip()
+            
+            user_check = Client.objects.filter(username=username).exists()
+            if user_check:
+                usid = user_check
+            else:
+                return JsonResponse({'userError': True, 'message': 'Username or Password is invalid'})
+            
+            try:
+                user = authenticate(request, username=username, password=password)
+                
+                if user.is_verified == True:
+                    if user.is_authenticated:
+                        login(request, user)
+                        
+                        post_slug = request.session.get('post_slug')
+                        cat_name = request.session.get('cat_name')
+                        
+                        if post_slug and cat_name:
+                            url = reverse('postpage', kwargs={'name': cat_name, 'slug': post_slug})
+                            return JsonResponse({'successpostpage': True, 'message': 'Login successful', 'redirect_url': url})
+                            # return redirect(url)
+                        
+                            # response = postpage(request, name=cat_name, slug=post_slug)
+                            # request.session.flush()
+                            # return response
+                        
+                        # return JsonResponse({'success': True, 'message': 'Login successful'})
+                        return JsonResponse({'success': True, 'message': 'Login successful', 'redirect_url': reverse('home')})
+                    
+                    else:
+                        return JsonResponse({'passworderror': True, 'message': 'Username or Password is invalid'})
+                else:
+                    return JsonResponse({'passworderror': True, 'message': 'Account is not verified'})
+            
+            except Exception as e:
+                # return HttpResponse(str(e))
+                return JsonResponse({'exceptionError': True, 'message': 'Username or Password is incorrect'})
+            
+        else:
+            return render(request, 'login.html', locals())
 
 # Sign out user method
 def logout_view(request):
@@ -426,11 +432,14 @@ def profile(request):
     user_subscribed = subscribe_check(request)
     try:
         user = request.user
+        username = user.username
+        email = user.email
         all_user_likes = user.like_post.all()
+        all_user_bookmarks = user.bookmark_post.all()
         
         return render(request , 'profile.html', locals())
     except:
-        return redirect('home')
+        return redirect('login')
     
 # Reset Password Link
 def verify(request):
@@ -566,3 +575,35 @@ def reset_password(request, tokenID):
         return render(request, 'Tokenexpired.html', locals())
     except Exception as e:
         return HttpResponse("Invalid link")
+    
+def update_profile(request):
+    all_categ = Category.objects.all()
+    if request.method == 'POST':
+        username = request.POST.get('username').strip()
+        email = request.POST.get('email').strip().lower()
+        
+        userexists = Client.objects.filter(username=username).exists()
+        emailexists = Client.objects.filter(email=email).exists()
+        
+        try:
+            if userexists:
+                return JsonResponse({'userexists': True, 'message': 'Username is taken'})
+            
+            elif emailexists:
+                return JsonResponse({'emailexists': True, 'message': 'Email is taken'})
+            
+            elif re.match(r'^[^a-zA-Z]', username):
+                return JsonResponse({'invalidusername': True, 'message': 'Username cannot start with a digit/symbol'})
+            
+            elif re.search(r'[^\w]', username):
+                return JsonResponse({'invalidusername': True, 'message': 'Username cannot contain symbols'})
+            else:
+                user_instance = Client.objects.get(username=username)
+                user_instance.username = username
+                user_instance.email = email
+                user_instance.save()
+                return JsonResponse({'Success': True, 'message': 'You have successfully updated your profile.'})
+        except:
+            return JsonResponse({'exceptionError': True, 'message': 'Exception error'})
+        
+    return render(request, 'profile.html', locals())

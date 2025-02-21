@@ -32,7 +32,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '192.168.76.169',
-    '192.168.42.198',
+    '192.168.91.198',
     '192.168.0.169',
     '192.168.161.198',
     '192.168.163.198',
@@ -42,7 +42,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    # 'suit',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'App',
+    'cachebuster',
 ]
 
 # INSTALLED_APPS += ['admin_tools_stats']
@@ -127,6 +127,9 @@ SUIT_CONFIG['DASHBOARD'] = 'App.dashboard.CustomDashboard'
 
 ADMIN_TOOLS_INDEX_DASHBOARD = 'myapp.dashboard.CustomIndexDashboard'
 
+import time
+STATIC_VERSION = str(int(time.time()))  # Generates a new version each time the server restarts
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -146,6 +149,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+CACHEBUSTER_URL = '/static/'
 
 AUTH_USER_MODEL = 'App.Client'
 

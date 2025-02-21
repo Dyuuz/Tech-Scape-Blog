@@ -155,6 +155,7 @@ def verified_user_feedback(username, url, cs_url):
                 background: linear-gradient(135deg, #2c3e50, #3498db);
             }}
             .email-body h5{{
+                font-size: 17px;
                 text-align:left;
                 margin-left: 10px;
             }}
@@ -175,7 +176,7 @@ def verified_user_feedback(username, url, cs_url):
                 transition: background-color 0.3s ease;
             }}
             .verify-button:hover {{
-                background-color: #2980b9;
+                 
             }}
             .email-footer {{
                 padding: 20px;
@@ -247,6 +248,7 @@ def send_password_reset_email(username, reset_link, cs_url):
         <style>
            body {{ background-color: #fff5f7; color: #333; font-family: 'Helvetica', sans-serif; text-align: center; }}
             .email-container {{ max-width: 600px; margin: 30px auto; background: #fff; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); padding: 30px; }}
+            .email-container a{{ color:rgb(255, 255, 255)}}
             .email-header {{ font-size: 24px; margin-bottom: 20px; color: #e74c3c; }}
             .reset-button {{ display: inline-block; margin: 20px 0; background: linear-gradient(170deg, #081b3e, #6a8caf); color: #fff; padding: 14px 24px; border-radius: 6px; text-decoration: none; }}
             .footer {{ margin-top: 30px; font-size: 12px; color: #888; }}

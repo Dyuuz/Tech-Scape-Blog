@@ -14,6 +14,7 @@ urlpatterns = [
     path('comment', views.comment, name = 'comment'),
     path('profile', views.profile, name = 'profile'),
     path('recent-posts', views.recentposts, name = 'recentposts'),
+    path('update-profile/', views.update_profile, name = 'update-profile'),
     path('update-like/', views.update_like, name = 'update-like'),
     path('update-shares/', views.update_shares, name = 'update-shares'),
     path('update-subscribe/', views.update_subscribe, name = 'update-subscribe'),

@@ -1,4 +1,5 @@
 import os
+import time
 import platform
 import shutil
 from pathlib import Path
@@ -8,6 +9,7 @@ def clear_browser_cache():
 
     system = platform.system()
 
+    # Conditionals for different OS
     if system == "Windows":
         caches = [
             os.path.expandvars(r"%LOCALAPPDATA%\Google\Chrome\User Data\Default\Cache"),
@@ -31,39 +33,49 @@ def clear_browser_cache():
         print("❌ Unsupported OS")
         return
 
-    # Clear Chrome and Edge cache
+    # Clear Chrome,Edge and Firefox cache
     for cache_dir in caches:
         if os.path.exists(cache_dir):
             try:
-                # If Firefox, clear all profile cache directories
+                # If Firefox exists, clear all cache directories
                 if "firefox" in cache_dir.lower():
                     for profile_cache in Path(cache_dir).glob("*/cache2/entries"):
                         shutil.rmtree(profile_cache, ignore_errors=True)
                         print(f"✅ Cleared Firefox cache: {profile_cache}")
-
+                # Checks for other OS
                 else:
                     shutil.rmtree(cache_dir, ignore_errors=True)
                     print(f"✅ Cleared cache: {cache_dir}")
 
             except Exception as e:
                 print(f"⚠️ Failed to clear cache: {cache_dir}\n{e}")
+                
+def install_cachebuster():
+    print("Installing django-cachebuster...")
+    os.system("pip install django-cachebuster")
+    
 
 def automate_static_refresh():
-    print("🚀 Starting Static File Refresh Process...")
+    # Call Django-cachebuster installation function
+    install_cachebuster()
+    time.sleep(3)
 
-    # Clear browser cache
+    print("Starting Static File Refresh Process...")
+
+    # Call clear_browser_cache function
     clear_browser_cache()
-
-    # Run collectstatic command
-    print("📦 Collecting static files...")
-    # os.system("python manage.py collectstatic --noinput")
+    time.sleep(3)
 
     # Restart Django server
-    print("🔄 Restarting Django server...")
-    os.system("pkill -f runserver")  # Kills any running server process
+    print("Starting Django server...")
+    
+    # Close any running server process
+    os.system("pkill -f runserver")  
+    
+    # Run server automatically
     os.system("python manage.py runserver")
 
-    print("✅ Static files refreshed and server restarted successfully!")
+    print("Static files refreshed and server restarted successfully!")
 
 if __name__ == "__main__":
     automate_static_refresh()
