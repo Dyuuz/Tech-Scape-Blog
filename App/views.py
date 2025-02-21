@@ -216,10 +216,10 @@ def register(request):
                 return JsonResponse({'password': True, 'message': 'Passwords does not match'})
             
             elif userexists:
-                return JsonResponse({'userexists': True, 'message': 'Username is taken'})
+                return JsonResponse({'userexists': True, 'message': 'Username is unavailable.'})
             
             elif emailexists:
-                return JsonResponse({'emailexists': True, 'message': 'Email is taken'})
+                return JsonResponse({'emailexists': True, 'message': 'Email is unavailable.'})
             
             elif re.match(r'^[^a-zA-Z]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot start with a digit/symbol'})
@@ -578,20 +578,24 @@ def reset_password(request, tokenID):
     
 def update_profile(request):
     all_categ = Category.objects.all()
-    if request.method == 'GET':
-        username = request.GET.get('username').strip()
-        email = request.GET.get('email').strip().lower()
+    if request.method == 'POST':
+        username = request.POST.get('username').strip()
+        email = request.POST.get('email').strip().lower()
         user = request.user
         
         userexists = Client.objects.exclude(username=username).filter(username=username).exists()
         emailexists = Client.objects.exclude(email=email).filter(email=email).exists()
+        pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
         
         try:
             if userexists:
-                return JsonResponse({'userexists': True, 'message': 'Username is taken'})
+                return JsonResponse({'userexists': True, 'message': 'Username is unavailable.'})
             
             elif emailexists:
-                return JsonResponse({'emailexists': True, 'message': 'Email is taken'})
+                return JsonResponse({'emailexists': True, 'message': 'Email is unavailable.'})
+            
+            elif re.match(pattern , email):
+                return JsonResponse({'invalidusername': True, 'message': 'Username cannot start with a digit/symbol'})
             
             elif re.match(r'^[^a-zA-Z]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot start with a digit/symbol'})
@@ -604,12 +608,12 @@ def update_profile(request):
                 elif email == user.email:
                     return JsonResponse({'SameEmail': True, 'message': 'No updates have been applied to the email.'})
                 else:
-                    user_instance = Client.objects.get(username=username)
+                    user_instance = Client.objects.get(id=user.id)
                     user_instance.username = username
                     user_instance.email = email
                     user_instance.save()
                     return JsonResponse({'Success': True, 'message': 'You have successfully updated your profile.'})
-        except:
-            return JsonResponse({'exceptionError': True, 'message': 'Exception error'})
+        except Exception as e:
+            return JsonResponse({'exceptionError': True, 'message': f'Exception error {str(e)}'})
         
     return render(request, 'profile.html', locals())
