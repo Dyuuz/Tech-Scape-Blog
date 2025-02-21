@@ -210,6 +210,7 @@ def register(request):
         
         userexists = Client.objects.filter(username=username).exists()
         emailexists = Client.objects.filter(email=email).exists()
+        pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
         
         try:
             if password != confirm_password:
@@ -218,6 +219,9 @@ def register(request):
             elif userexists:
                 return JsonResponse({'userexists': True, 'message': 'Username is unavailable.'})
             
+            elif re.match(pattern , email):
+                return JsonResponse({'invalidemail': True, 'message': 'Invalid email address format'})
+
             elif emailexists:
                 return JsonResponse({'emailexists': True, 'message': 'Email is unavailable.'})
             
@@ -585,8 +589,8 @@ def update_profile(request):
         
         userexists = Client.objects.exclude(username=username).filter(username=username).exists()
         emailexists = Client.objects.exclude(email=email).filter(email=email).exists()
-        pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
-        
+        pattern = r'^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
         try:
             if userexists:
                 return JsonResponse({'userexists': True, 'message': 'Username is unavailable.'})
@@ -594,8 +598,8 @@ def update_profile(request):
             elif emailexists:
                 return JsonResponse({'emailexists': True, 'message': 'Email is unavailable.'})
             
-            elif re.match(pattern , email):
-                return JsonResponse({'invalidusername': True, 'message': 'Username cannot start with a digit/symbol'})
+            elif not re.match(pattern, email):
+                return JsonResponse({'invalidemail': True, 'message': 'Invalid email address format'})
             
             elif re.match(r'^[^a-zA-Z]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot start with a digit/symbol'})
@@ -603,10 +607,8 @@ def update_profile(request):
             elif re.search(r'[^\w]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot contain symbols'})
             else:
-                if username == user.username:
-                    return JsonResponse({'SameUser': True, 'message': 'No updates have been applied to the username..'})
-                elif email == user.email:
-                    return JsonResponse({'SameEmail': True, 'message': 'No updates have been applied to the email.'})
+                if username == user.username and email == user.email:
+                    return JsonResponse({'SameUser': True, 'message': 'No updates have been applied to the credentials'})
                 else:
                     user_instance = Client.objects.get(id=user.id)
                     user_instance.username = username
@@ -614,6 +616,6 @@ def update_profile(request):
                     user_instance.save()
                     return JsonResponse({'Success': True, 'message': 'You have successfully updated your profile.'})
         except Exception as e:
-            return JsonResponse({'exceptionError': True, 'message': f'Exception error {str(e)}'})
+            return JsonResponse({'exceptionError': True, 'message': f'Something went wrong, pls try agaain later'})
         
     return render(request, 'profile.html', locals())
