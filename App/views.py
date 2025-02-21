@@ -578,12 +578,13 @@ def reset_password(request, tokenID):
     
 def update_profile(request):
     all_categ = Category.objects.all()
-    if request.method == 'POST':
-        username = request.POST.get('username').strip()
-        email = request.POST.get('email').strip().lower()
+    if request.method == 'GET':
+        username = request.GET.get('username').strip()
+        email = request.GET.get('email').strip().lower()
+        user = request.user
         
-        userexists = Client.objects.filter(username=username).exists()
-        emailexists = Client.objects.filter(email=email).exists()
+        userexists = Client.objects.exclude(username=username).filter(username=username).exists()
+        emailexists = Client.objects.exclude(email=email).filter(email=email).exists()
         
         try:
             if userexists:
@@ -598,11 +599,16 @@ def update_profile(request):
             elif re.search(r'[^\w]', username):
                 return JsonResponse({'invalidusername': True, 'message': 'Username cannot contain symbols'})
             else:
-                user_instance = Client.objects.get(username=username)
-                user_instance.username = username
-                user_instance.email = email
-                user_instance.save()
-                return JsonResponse({'Success': True, 'message': 'You have successfully updated your profile.'})
+                if username == user.username:
+                    return JsonResponse({'SameUser': True, 'message': 'No updates have been applied to the username..'})
+                elif email == user.email:
+                    return JsonResponse({'SameEmail': True, 'message': 'No updates have been applied to the email.'})
+                else:
+                    user_instance = Client.objects.get(username=username)
+                    user_instance.username = username
+                    user_instance.email = email
+                    user_instance.save()
+                    return JsonResponse({'Success': True, 'message': 'You have successfully updated your profile.'})
         except:
             return JsonResponse({'exceptionError': True, 'message': 'Exception error'})
         

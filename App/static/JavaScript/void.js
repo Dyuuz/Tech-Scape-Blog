@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener("DOMContentLoaded", function () {
     const editProfileBtn = document.getElementById("editProfileBtn");
     const editProfileModal = document.getElementById("editProfileModal");
@@ -11,10 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookmarksTab = document.getElementById("bookmarksTab");
     const likesSection = document.getElementById("likesSection");
     const bookmarksSection = document.getElementById("bookmarksSection");
-    const alertmsg =  document.querySelector('.blog-register-alert');
-    const username = document.querySelector('input[name="username"]');
-    const email = document.querySelector('input[name="email"]').value;
-
+  
     // Edit Profile Modal
     editProfileBtn.addEventListener("click", () => {
       editProfileModal.style.display = "flex";
@@ -23,8 +19,14 @@ document.addEventListener("DOMContentLoaded", function () {
     closeModal.addEventListener("click", () => {
       editProfileModal.style.display = "none";
     });
-
-   
+  
+    // editProfileForm.addEventListener("submit", (e) => {
+    //   e.preventDefault();
+    //   profileName.textContent = document.getElementById("name").value;
+    //   profileEmail.textContent = document.getElementById("email").value;
+    //   profileBio.textContent = document.getElementById("bio").value;
+    //   editProfileModal.style.display = "none";
+    // });
   
     document.getElementById('editProfileForm').onsubmit = function(event) {
       var username = document.querySelector('input[name="username"]').value;
@@ -33,43 +35,47 @@ document.addEventListener("DOMContentLoaded", function () {
       const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
       var form = document.getElementById('editProfileForm');
       var formData = new FormData(form);
-
-      axios.post('update-profile', formData, {
-        headers : {
-          'X-CSRFToken': csrf_token,
-        }
-      }).then((response) => {
-        if (response.data.success === true) {
-          Swal.fire({
-            title: response.data.message,
-            text: 'You can now log in with your new password',
-            icon: 'success',
-            showConfirmButton: true,
-            confirmButtonText: 'Continue',
-            confirmButtonColor: 'rgb(58, 138, 222)', 
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            allowEnterKey: false
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  window.location.reload();
-              }
-          });
-        } else {
-            alertmsg.textContent = response.data.message;
-        }
-      }).catch((error) => {
-        let errorMessage = 'Mail service down. Fix in progress.';
-        if (error.response) {
-            errorMessage = `Request error, please refresh and try again.`;
-        } else if (error.request) {
-            errorMessage = 'Please check your network connection.';
-        }
-        alertmsg.textContent = errorMessage + error;
-      });
+  
+      if (username){
+        alert("hola");
+      }
+  
+      // axios.post('update-profile', formData, {
+      //   headers : {
+      //     'X-CSRFToken': csrf_token,
+      //   }
+      // }).then((response) => {
+      //   if (response.data.success === true) {
+      //     Swal.fire({
+      //       title: response.data.message,
+      //       text: 'You can now log in with your new password',
+      //       icon: 'success',
+      //       showConfirmButton: true,
+      //       confirmButtonText: 'Continue',
+      //       confirmButtonColor: 'rgb(58, 138, 222)', 
+      //       allowOutsideClick: false,
+      //       allowEscapeKey: false,
+      //       allowEnterKey: false
+      //     }).then((result) => {
+      //         if (result.isConfirmed) {
+      //             window.location.reload();
+      //         }
+      //     });
+      //   } else {
+      //       alertmsg.textContent = response.data.message;
+      //   }
+      // }).catch((error) => {
+      //   let errorMessage = 'Mail service down. Fix in progress.';
+      //   if (error.response) {
+      //       errorMessage = `Request error, please refresh and try again.`;
+      //   } else if (error.request) {
+      //       errorMessage = 'Please check your network connection.';
+      //   }
+      //   alertmsg.textContent = errorMessage;
+      // });
       event.preventDefault(); 
     };
-
+  
     // Tabs functionality
     likesTab.addEventListener("click", () => {
       likesSection.classList.add("active");
@@ -84,4 +90,4 @@ document.addEventListener("DOMContentLoaded", function () {
       bookmarksTab.classList.add("active");
       likesTab.classList.remove("active");
     });
-});
+  });
