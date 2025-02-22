@@ -434,6 +434,7 @@ def postpage(request, name, slug):
 
 def profile(request):
     user_subscribed = subscribe_check(request)
+    all_categ = Category.objects.all()
     try:
         user = request.user
         username = user.username
@@ -619,3 +620,7 @@ def update_profile(request):
             return JsonResponse({'exceptionError': True, 'message': f'Something went wrong, pls try again later {e}'})
         
     return render(request, 'profile.html', locals())
+
+def about(request):
+    all_categ = Category.objects.all()
+    return render(request, 'about.html', locals())

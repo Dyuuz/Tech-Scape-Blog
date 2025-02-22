@@ -134,7 +134,7 @@ def update_subscribe(request):
         data = request.body
         Ajax_data = json.loads(data.decode('utf-8'))
         emailVal = Ajax_data.get('emailVal')
-        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        email_regex = r'^(?!\.)[a-zA-Z0-9]+(?:[._%+-][a-zA-Z0-9]+)*(?<!\.)@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         if not re.match(email_regex, emailVal):
             return JsonResponse({'success': False, 'message': 'Invalid email format!'})
         else:

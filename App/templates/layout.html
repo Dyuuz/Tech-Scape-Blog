@@ -42,12 +42,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="{% static 'CSS/styles465.css'%}?v={{ STATIC_VERSION }}">
+  <link rel="stylesheet" href="{% static 'CSS/styles111.css'%}?v={{ STATIC_VERSION }}">
   <link rel="stylesheet" href="{% static 'CSS/related22.css'%}?v={{ STATIC_VERSION }}">
   <link rel="stylesheet" href="{% static 'CSS/postpag12.css'%}?v={{ STATIC_VERSION }}">
   <link rel="stylesheet" href="{% static 'CSS/styleterms11.css'%}?v={{ STATIC_VERSION }}">
   <link rel="stylesheet" href="{% static 'CSS/staticlogin22.css'%}?v={{ STATIC_VERSION }}">
   <link rel="stylesheet" href="{% static 'CSS/profile60.css'%}?v={{ STATIC_VERSION }}">
+  <link rel="stylesheet" href="{% static 'CSS/about98.css'%}?v={{ STATIC_VERSION }}">
 
   <!-- 
     - preload images
@@ -106,7 +107,7 @@
           </li>
 
           <li>
-            <a href="#" class="navbar-link hover-1" data-nav-toggler>About</a>
+            <a href="{% url 'about' %}" class="navbar-link hover-1" data-nav-toggler>About</a>
           </li>
 
         </ul>
@@ -794,7 +795,7 @@
 
             {% if user_subscribed %}
             <p class="footer-text">
-              You are already subscribed to our newsletter.
+              You are already signed up for our newsletter.
             </p>
             {% else %}
             <p class="footer-text">
@@ -842,13 +843,13 @@
         <div class="footer-bottom">
 
           <p class="copyright">
-            &copy; Developed by <a href="#" class="copyright-link">Laycon.</a>
+            &copy; 2025 TechScape<a href="#" class="copyright-link">.</a>
           </p>
 
           <ul class="social-list">
 
             <li>
-              <a href="#" class="social-link">
+              <a href="https://twitter.com/TechScapeBlog" class="social-link">
                 <ion-icon name="logo-twitter"></ion-icon>
 
                 <span class="span">Twitter</span>
@@ -856,25 +857,25 @@
             </li>
 
             <li>
-              <a href="#" class="social-link">
-                <ion-icon name="logo-linkedin"></ion-icon>
+              <a href="mailto:tech.scape.blog@zohomail.com" class="social-link">
+                <ion-icon name="mail-outline"></ion-icon>
 
-                <span class="span">LinkedIn</span>
+                <span class="span">Mail</span>
               </a>
             </li>
 
             <li>
-              <a href="#" class="social-link">
-                <ion-icon name="logo-instagram"></ion-icon>
+              <a class="social-link">
+                <ion-icon name="logo-LinkedIn"></ion-icon>
 
-                <span class="span">Instagram</span>
+                <span class="span">LinkedIn</span>
               </a>
             </li>
 
           </ul>
 
           <div class="rights">
-            All Rights Reserved 2025
+            All Rights Reserved.
           </div>
 
         </div>

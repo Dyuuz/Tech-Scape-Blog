@@ -2,8 +2,8 @@
 .about-main {
 font-family: 'Roboto', sans-serif;
 line-height: 1.6;
-color: #333;
-background-color: #f9f9f9;
+color: #f7eeee;
+/* background-color: #3281b9; */
 }
 
 .about-section__container,
@@ -52,18 +52,19 @@ padding: 40px 0;
 .about-section__title {
 font-size: 2.5rem;
 margin-bottom: 20px;
-color: #333;
+color: #f7eeee;
 }
 
 .about-section__subtitle {
 font-size: 1.8rem;
 margin-top: 30px;
-color: #555;
+color: #f7eeee;
 }
 
 .about-section__text {
-font-size: 1.1rem;
+font-size: 1.4rem;
 margin-bottom: 20px;
+color: #89a2ce; 
 }
 
 .about-section__list {
@@ -72,11 +73,18 @@ margin-bottom: 20px;
 
 .about-section__list-item {
 margin-bottom: 10px;
+font-size: 1.4rem;
+color: #89a2ce; 
+
+}
+.about-section__list-item strong {
+font-size: 1.5rem;
+color: #f7eeee;
 }
 
 /* Connect Section Styles */
 .about-connect {
-background-color: #f1f1f1;
+background: linear-gradient(170deg, #081b3e, #233546);
 padding: 20px;
 border-radius: 8px;
 margin-top: 30px;
@@ -84,6 +92,8 @@ margin-top: 30px;
 
 .about-connect__title {
 margin-top: 0;
+font-size: 1.6rem;
+color: #f9fafa;
 }
 
 .about-connect__list {
@@ -92,11 +102,13 @@ padding: 0;
 }
 
 .about-connect__list-item {
+    color: #537a98;
 margin-bottom: 10px;
+font-size: 1.4rem;
 }
 
 .about-connect__link {
-color: #0077cc;
+color: #ebeff2;
 text-decoration: none;
 }
 
