@@ -234,11 +234,13 @@ color: white;
 
 .modal-content .profile-input{
 /* width: 95%; */
+height: 35px;
 padding: 10px;
 border: 1px solid #ddd;
+background: #ddd ;
 border-radius: 5px;
 font-size: 1.3rem;
-color: white;
+color: rgb(37, 34, 34);
 }
 
 .prof-btn-save {

@@ -87,8 +87,6 @@ function getResetPasswordUrl(formData) {
         disableLoadingPassReset();
         activatesubmitPassword();
     });
-
-    
     event.preventDefault();
 }
 

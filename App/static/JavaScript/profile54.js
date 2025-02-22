@@ -38,6 +38,8 @@ document.getElementById('editProfileForm').onsubmit = function(event) {
   const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
   var form = document.getElementById('editProfileForm');
   var formData = new FormData(form);
+  activateLoadingPassReset();
+  disablesubmitPassword();
 
   axios.post('update-profile', formData, {
     headers : {
@@ -45,9 +47,10 @@ document.getElementById('editProfileForm').onsubmit = function(event) {
     }
   }).then((response) => {
     if (response.data.success === true) {
+      editProfileModal.style.display = "none";
       Swal.fire({
-        title: response.data.message,
-        text: 'You can now log in with your new password',
+        title: '',
+        text: response.data.message,
         icon: 'success',
         showConfirmButton: true,
         confirmButtonText: 'Continue',
@@ -61,7 +64,13 @@ document.getElementById('editProfileForm').onsubmit = function(event) {
           }
       });
     } else {
-        alertmsg.textContent = response.data.message;
+        
+        setTimeout(() => {
+          alertmsg.textContent = response.data.message;
+          disableLoadingPassReset();
+          activatesubmitPassword();
+        }, 1000);
+        
     }
   }).catch((error) => {
     let errorMessage = 'Request error';
@@ -70,7 +79,9 @@ document.getElementById('editProfileForm').onsubmit = function(event) {
     } else if (error.request) {
         errorMessage = 'Please check your network connection.';
     }
-    alertmsg.textContent = errorMessage + error;
+    alertmsg.textContent = errorMessage + error.message;
+    disableLoadingPassReset();
+    activatesubmitPassword();
   });
   event.preventDefault(); 
 };
@@ -89,3 +100,25 @@ bookmarksTab.addEventListener("click", () => {
   bookmarksTab.classList.add("active");
   likesTab.classList.remove("active");
 });
+
+function disablesubmitPassword(){
+  var submit = document.querySelector('.prof-btn-save');
+  submit.disabled = true;
+  submit.classList.add("disabled");
+}
+
+function activatesubmitPassword(){
+  var submit = document.querySelector('.prof-btn-save');
+  submit.disabled = false;
+  submit.classList.remove("disabled");
+}
+
+function activateLoadingPassReset(){
+  var loading = document.querySelector('.roll');
+  loading.style.display = "flex";
+}
+
+function disableLoadingPassReset(){
+  var loading = document.querySelector('.roll');
+  loading.style.display = "none";
+}
