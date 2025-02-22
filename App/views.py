@@ -210,7 +210,7 @@ def register(request):
         
         userexists = Client.objects.filter(username=username).exists()
         emailexists = Client.objects.filter(email=email).exists()
-        pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        pattern = r'^(?!\.)[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
         
         try:
             if password != confirm_password:
@@ -258,7 +258,7 @@ def register(request):
             
         except Exception as e:
             # logger.error(f"Exception occurred: {e}")
-            return JsonResponse({'exceptionError': True, 'message': 'Exception error'})
+            return JsonResponse({'exceptionError': True, 'message': 'Something went wrong, pls try agaain later'})
         
     else:
         return render(request, 'register.html', locals())
@@ -486,7 +486,7 @@ def verify(request):
         
     except Exception as e:
         # logger.error(f"Exception occurred: {e}")
-        return JsonResponse({'error': True, 'message': f'An error occurred: {e}'})
+        return JsonResponse({'error': True, 'message': f'Something went wrong, pls try agaain later'})
     
 def verify_user(request, User, tokenID):
     try:
@@ -518,7 +518,7 @@ def verify_user(request, User, tokenID):
         return render(request, 'userVerify.html')
         
     except Exception as e:
-        return HttpResponse(str(e))
+        return HttpResponse("Something went wrong, pls try agaain later")
 
 def reset_password(request, tokenID):
     try:
@@ -570,9 +570,9 @@ def reset_password(request, tokenID):
                     return JsonResponse({'SmtpFailure': True, 'message': 'Mail service down. Fix in progress.'})
                     
                 except PasswordReset.DoesNotExist:
-                    return JsonResponse({'fail': True, 'message': 'Token does not exist'})
+                    return JsonResponse({'fail': True, 'message': 'Invalid request. Token does not exist'})
                 except Exception as e:
-                    return JsonResponse({'fail': True, 'message': f"Error: {str(e)}"})
+                    return JsonResponse({'fail': True, 'message': f"Something went wrong, pls try agaain later"})
 
             return render(request, 'passwordreset.html', locals())
         
@@ -589,7 +589,7 @@ def update_profile(request):
         
         userexists = Client.objects.exclude(username=username).filter(username=username).exists()
         emailexists = Client.objects.exclude(email=email).filter(email=email).exists()
-        pattern = r'^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        pattern = r'^(?!\.)[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
 
         try:
             if userexists:
@@ -614,7 +614,7 @@ def update_profile(request):
                     user_instance.username = username
                     user_instance.email = email
                     user_instance.save()
-                    return JsonResponse({'Success': True, 'message': 'You have successfully updated your profile.'})
+                    return JsonResponse({'success': True, 'message': 'You have successfully updated your profile.'})
         except Exception as e:
             return JsonResponse({'exceptionError': True, 'message': f'Something went wrong, pls try agaain later'})
         
