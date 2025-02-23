@@ -29,9 +29,9 @@
                 <h2 class="prof-edit-h2">Edit Profile</h2>
                 <form id="editProfileForm" class="prof-form" method="POST">
                     {% csrf_token %}
-                    <label class="prof-label" for="name">Name:</label>
+                    <label class="prof-label" for="name">Name</label>
                     <input class="profile-input" type="text" id="name" name="username" value="{{username}}" required>
-                    <label class="prof-label" for="email">Email:</label>
+                    <label class="prof-label" for="email">Email</label>
                     <input class="profile-input" type="email" id="email" name="email" value="{{ email }}" required>
                     <p class="blog-register-alert">
                         

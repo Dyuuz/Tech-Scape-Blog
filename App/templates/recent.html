@@ -84,17 +84,17 @@
                                     {% comment %} <p class="card-title">{{myblog.username}}</p> {% endcomment %}
                                     <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
                                     {% if myblog.time < 60 %}
-                                    <span class="span">{{myblog.time}} minutes ago</span>
+                                    <span class="span22">{{myblog.time}} minutes ago</span>
                                     {% elif myblog.time > 59 and myblog.time < 120 %}
-                                    <span class="span">{{myblog.time|divide_by:60}} hour ago</span>
+                                    <span class="span22">{{myblog.time|divide_by:60}} hour ago</span>
                                     {% elif myblog.time > 119 and myblog.time < 1440 %}
-                                    <span class="span">{{myblog.time|divide_by:60}} hours ago</span>
+                                    <span class="span22">{{myblog.time|divide_by:60}} hours ago</span>
                                     {% elif myblog.time > 1439 and myblog.time < 2880 %}
-                                    <span class="span">{{myblog.time|divide_by:1440}} day ago</span>
+                                    <span class="span22">{{myblog.time|divide_by:1440}} day ago</span>
                                     {% elif myblog.time > 2879 and myblog.time < 43200 %}
-                                    <span class="span">{{myblog.time|divide_by:1440}} days ago</span>
+                                    <span class="span22">{{myblog.time|divide_by:1440}} days ago</span>
                                     {% elif myblog.time > 43199 and myblog.time < 86400 %}
-                                    <span class="span">{{myblog.time|divide_by:43200}} month ago</span>
+                                    <span class="span22">{{myblog.time|divide_by:43200}} month ago</span>
                                     {% else %}
                                     <span class="span">{{myblog.time|divide_by:43200}} months ago</span>
                                     {% endif %}

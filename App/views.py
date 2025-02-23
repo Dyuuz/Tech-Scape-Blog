@@ -413,7 +413,7 @@ def postpage(request, name, slug):
     all_categ = Category.objects.all()
     
     category = get_object_or_404(Category, name=name)
-    blog_postpage = category.posts.all().order_by('?').exclude(slug=slug)[:3]
+    blog_postpage = category.posts.all().order_by('?')[:4]
     
     # Check if the post has already been viewed in this session
     session_key = f'viewed_post_{slug}'

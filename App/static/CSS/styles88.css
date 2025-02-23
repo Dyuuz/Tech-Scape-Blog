@@ -30,14 +30,18 @@
   /** Text colors */
   --text-white: hsla(0, 0%, 100%, 1);
   --text-alice-blue: hsla(216, 100%, 95%, 1);
-  --text-columbia-blue: hsla(199, 69%, 84%, 1);
   --text-wild-blue-yonder: rgb(146, 168, 200);
+  --text-columbia-blue: hsla(199, 69%, 84%, 1);
+  --text-wild-blue-m1: rgb(166, 188, 220);
   --text-carolina-blue: hsla(199, 89%, 49%, 1);
   --text-shadow-blue: hsla(217, 24%, 59%, 1);
   --text-slate-gray: hsla(217, 17%, 48%, 1);
 
   /** Gradient colors */
   --gradient-1: linear-gradient(90deg, #0ea5ea, #0bd1d1 51%);
+  --gradient-5: linear-gradient(90deg, #0ea5ea, #418d8d 51%);
+  --gradient-8: linear-gradient(90deg, #4b849f, #a4e0e0 51%);
+  --gradient-6: linear-gradient(90deg, #0ea5ea, #3b87ca 51%);
   --gradient-2: linear-gradient(90deg, #0ea5ea, #0bd1d1 51%, #0ea5ea);
   --gradient-3: linear-gradient(0deg, #000d1a, transparent);
 
@@ -209,7 +213,17 @@ body.nav-active { overflow: hidden; }
   transform: translateX(3px);
 }
 
-.hover-2:is(:hover, :focus-visible) { color: var(--text-carolina-blue); }
+.hover-2:is(:hover, :focus-visible) { 
+  /* Fallback for older browsers (solid color) */
+  color: var(--text-carolina-blue);
+
+  /* Gradient for modern browsers */
+  background: var(--gradient-2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+ }
 
 .profile-card {
   display: flex;
@@ -248,6 +262,10 @@ body.nav-active { overflow: hidden; }
   font-family: Georgia, 'Times New Roman', Times, serif;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
+}
+
+.headline .categ_custom {
+  margin-top: 30px;
 }
 
 .span1{
@@ -579,7 +597,7 @@ body.nav-active { overflow: hidden; }
   /* animation: colorChange 5s infinite; */
 }
 .hero-text2:hover { 
-  color: #225a97;
+  color: #eef2f5;
 }
 
 @keyframes colorChange {
@@ -963,13 +981,13 @@ body.nav-active { overflow: hidden; }
 .recent-post-card .card-badge:is(:hover, :focus-visible),
 .pagination-btn:is(:hover, :focus-visible) {
   transform: translateY(-1px);
-  background-color: var(--bg-carolina-blue);
+  background-image: var(--gradient-5);
 }
 
 .feature-card .card-badge:is(:hover, :focus-visible),
 .pagination-btn:is(:hover, :focus-visible) {
-  transform: translateY(-1px);
-  background-color: var(--bg-carolina-blue);
+  /* transform: translateY(-1px); */
+  background-image: var(--gradient-5);
 }
 
 .recent-post-card .card-title { margin-block: 15px 20px; }
@@ -1106,7 +1124,8 @@ body.nav-active { overflow: hidden; }
 }
 
 .footer-brand .footer-text { font-size: var(--fontSize-6); }
-.footer-list .footer-text { font-size: var(--fontSize-6); }
+.footer-list .footer-text { font-size: var(--fontSize-6); color: var(--text-shadow-blue) }
+.footer-list .m1 { font-size: var(--fontSize-6); color: var(--text-wild-blue-m1) }
 
 .footer-text:not(.address) { margin-block: 20px; }
 .footer-list .address { font-size: var(--fontSize-6); }

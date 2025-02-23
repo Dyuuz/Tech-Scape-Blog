@@ -41,14 +41,20 @@
                         </button>
                         
                         <div class="post-share-container">
-                            <button class="post-shares-home" onclick="toggleShareDropdown()" title="Share this post">🚀 
+                            <button class="post-shares-home" onclick="toggleShareDropdown()">🚀 
                                 <span id="share-count">{{blog.shares_count}}</span> Shares
                             </button>
                             
                         </div>
-                        <div class="post-shares-home">
-                            <span class="post-date-read"><a href="{% url 'category_detail' name=blog.category.name %}" class="hero-text2">#{{blog.category.name}}</a></span>
+                        <div class="post-share-container">
+                            <button class="post-shares-home" onclick="toggleShareDropdown()">
+                                <span id="share-count"><a href="{% url 'category_detail' name=blog.category.name %}" >#{{blog.category.name}}</a></span>
+                            </button>
+                            
                         </div>
+                        {% comment %} <div class="post-shares-home">
+                            <span class="post-date-read"><a href="{% url 'category_detail' name=blog.category.name %}" class="hero-text2">#{{blog.category.name}}</a></span>
+                        </div> {% endcomment %}
                     </div>
                     <div class="card-content">
                         
@@ -59,7 +65,7 @@
                         {% if user.is_authenticated  %}
                         <p>{{blog.body|linebreaks}}</p>
                         {% else %}
-                        {{blog.body|slice:':500'}}...
+                        <p>{{blog.body|slice:':500'|linebreaks}}...</p>
                         <h4 class="borderh4"><a class="logintag" href="{% url 'loginsession' name=blog.category.name slug=blog.slug %}">Login </a>to read full article</h4>
                         {% endif %}
                         
@@ -98,27 +104,23 @@
                 </form>
             </div> {% endcomment %}
 
-            <div class="related-section-2">
-                <div class="related-posts-container">
-                    <h2>Related {{ blog.category }} Posts</h2>
-
-                    <div class="related-posts">    
+            <section class="related-posts">
+                <h2 class="related-posts__title">Related Posts</h2>
+                <div class="related-posts__grid">
+     
                     {% for myblog in blog_postpage %}
-                        <div class="post-card">
-                            <img src="{{myblog.image.url}}" alt="Post Thumbnail">
-                            <div class="post-info">
-                            <h3>{{myblog.title}}</h3>
-                            <p>{{myblog.body|slice:':80'}}...</p>
-                            <a href="{% url 'postpage' name=myblog.category.name slug=myblog.slug %}">Read more</a>
-                            </div>
-                        </div>
+                    <article class="related-post">
+                        {% comment %} <img src="{{myblog.image.url}}" alt="Post Image" class="related-post__image"> {% endcomment %}
+                        <h3 class="related-post__title">{{myblog.title}}</h3>
+                        <p class="related-post__content">{{myblog.body|slice:':80'}}...</p>
+                        <a href="{% url 'postpage' name=myblog.category.name slug=myblog.slug %}" class="related-post__link">Read more</a>
+                    </article>
                     {% empty %}
                         <li>No posts available.</li>
                     {% endfor %}
-                    </div>
             
                 </div>
-            </div>
+            </section>
 
         </div> 
         <!-- 

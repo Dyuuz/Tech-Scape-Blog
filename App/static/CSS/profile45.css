@@ -126,7 +126,7 @@ font-size: 1.3rem;
 }
 
 .tab-btn:hover {
-    background: linear-gradient(135deg, #4372a0, #3498db);
+    /* background: linear-gradient(135deg, #4372a0, #3498db); */
     transition: 0.55s ease;
 }
 
@@ -259,7 +259,7 @@ color: rgb(37, 34, 34);
     justify-content: center;
 }
 .prof-btn-save:hover {
-    background: linear-gradient(135deg, #1a3045, #3498db);
+    background-image: var(--gradient-6);
 }
 
 .prof-btn-save.disabled{

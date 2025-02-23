@@ -20,6 +20,7 @@ editProfileBtn.addEventListener("click", () => {
 
 closeModal.addEventListener("click", () => {
   editProfileModal.style.display = "none";
+  alertmsg.textContent = '';
 });
 
 username.addEventListener('input', function() {
