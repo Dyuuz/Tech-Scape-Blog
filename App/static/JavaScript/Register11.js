@@ -78,26 +78,6 @@ function getRegisterUrl(formData) {
                 }
             });
                 
-        } else if (response.data.userexists === true) {
-            alert.textContent = response.data.message;
-            activateSubmitRegister();
-            disableLoadingRegister();
-
-        } else if(response.data.emailexists === true) {
-            alert.textContent = response.data.message;
-            activateSubmitRegister();
-            disableLoadingRegister();
-
-        } else if(response.data.password === true) {
-            alert.textContent = response.data.message;
-            activateSubmitRegister();
-            disableLoadingRegister();
-
-        } else if(response.data.exceptionError === true) {
-            alert.textContentz = response.data.message;
-            activateSubmitRegister();
-            disableLoadingRegister();
-
         } else {
             alert.textContent = response.data.message;
             activateSubmitRegister();

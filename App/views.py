@@ -219,7 +219,7 @@ def register(request):
             elif userexists:
                 return JsonResponse({'userexists': True, 'message': 'Username is unavailable.'})
             
-            elif re.match(pattern , email):
+            elif not re.match(pattern , email):
                 return JsonResponse({'invalidemail': True, 'message': 'Invalid email address format'})
 
             elif emailexists:
