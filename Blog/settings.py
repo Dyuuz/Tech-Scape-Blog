@@ -142,9 +142,6 @@ SUIT_CONFIG['DASHBOARD'] = 'App.dashboard.CustomDashboard'
 
 ADMIN_TOOLS_INDEX_DASHBOARD = 'myapp.dashboard.CustomIndexDashboard'
 
-import time
-STATIC_VERSION = str(int(time.time()))  # Generates a new version each time the server restarts
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
