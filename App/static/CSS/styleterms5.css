@@ -22,9 +22,9 @@ a {
 /* End basic CSS override */
 
 
-.modal {
+.modal{
   display: none;
-  margin-top: 410px;
+  margin-top: 200px;
   position: absolute;
   top: 0;
   left: 0;
@@ -79,7 +79,10 @@ a {
 .modal-container-body {
   padding: 24px 32px 51px;
   overflow-y: auto;
+  color: #fff;
 }
+
+
 
 .rtf h1,
 .rtf h2,

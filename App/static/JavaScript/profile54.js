@@ -1,5 +1,5 @@
 const editProfileBtn = document.getElementById("editProfileBtn");
-const editProfileModal = document.getElementById("editProfileModal");
+const editProfile = document.getElementById("editProfileModal");
 const closeModal = document.querySelector(".close");
 const editProfileForm = document.getElementById("editProfileForm");
 const profileName = document.getElementById("profileName");

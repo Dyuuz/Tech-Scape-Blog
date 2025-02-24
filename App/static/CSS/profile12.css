@@ -193,9 +193,10 @@ font-size: 1.4rem;
 cursor: pointer;
 }
 
-.modal {
+.modalProfile {
 display: none;
 position: fixed;
+margin-top: 400px;
 top: 0;
 left: 0;
 width: 100%;

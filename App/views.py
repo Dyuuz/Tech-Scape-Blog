@@ -254,7 +254,7 @@ def register(request):
                     )
                     return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
                 else:
-                    return JsonResponse({'SmtpFailure': True, 'message': 'Mail service down. Fix in progress.'})
+                    return JsonResponse({'SmtpFailure': True, 'message': 'Mail service is down. Fix in progress.'})
             
         except Exception as e:
             # logger.error(f"Exception occurred: {e}")
@@ -413,7 +413,7 @@ def postpage(request, name, slug):
     all_categ = Category.objects.all()
     
     category = get_object_or_404(Category, name=name)
-    blog_postpage = category.posts.all().order_by('?')[:4]
+    blog_postpage = category.posts.all().order_by('?').exclude(slug=slug)[:4]
     
     # Check if the post has already been viewed in this session
     session_key = f'viewed_post_{slug}'
@@ -479,7 +479,7 @@ def verify(request):
 
                     return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
                 
-                return JsonResponse({'SmtpFailure': True, 'message': 'Mail service down. Fix in progress.'})
+                return JsonResponse({'SmtpFailure': True, 'message': 'Mail service is down. Fix in progress.'})
             else:
                 return JsonResponse({'fail': True, 'message': 'Email is unavailable'})
         
@@ -514,7 +514,7 @@ def verify_user(request, User, tokenID):
                 )
                 return render(request, 'userVerify.html')
             
-            return JsonResponse({'SmtpFailure': True, 'message': 'Mail service down. Fix in progress.'})
+            return JsonResponse({'SmtpFailure': True, 'message': 'Mail service is down. Fix in progress.'})
         
         return render(request, 'userVerify.html')
         
@@ -568,7 +568,7 @@ def reset_password(request, tokenID):
                             'redirect_url': reverse('login'),
                             # 'related_token' : allRelated_json,
                         })
-                    return JsonResponse({'SmtpFailure': True, 'message': 'Mail service down. Fix in progress.'})
+                    return JsonResponse({'SmtpFailure': True, 'message': 'Mail service is down. Fix in progress.'})
                     
                 except PasswordReset.DoesNotExist:
                     return JsonResponse({'fail': True, 'message': 'Invalid request. Token does not exist'})
@@ -617,7 +617,7 @@ def update_profile(request):
                     user_instance.save()
                     return JsonResponse({'success': True, 'message': 'You have successfully updated your profile.'})
         except Exception as e:
-            return JsonResponse({'exceptionError': True, 'message': f'Something went wrong, pls try again later {e}'})
+            return JsonResponse({'exceptionError': True, 'message': f'Something went wrong, pls try again later'})
         
     return render(request, 'profile.html', locals())
 

@@ -16,14 +16,22 @@
     overflow: hidden;
 }
 
+.parent-post-image{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
 .post-image{
-    width:100% ;
+    width:fit-content ;
     max-height: 300px;
     /* object-fit:contain; */
     border-radius: 20px;
     /* background-color: #a9a8ab; */
-    align-self: center;
-    justify-self: center;
+    /* background-color: rgba(102, 115, 146, 0.239); */
+    display: flex;
+    align-content: center;
+    justify-content: center;
     /* display: block; */
 }
 
@@ -32,9 +40,10 @@
     max-height: 300px;
     object-fit:contain;
     /* border: 1px solid rgb(239, 230, 230);  */
-    border-radius: 20px;
+    border-radius: 30px;
     /* background-color: #a9a8ab; */
     /* display: block; */
+    
 }
 
 .post-header {

@@ -8,7 +8,7 @@
 /* Section Styling */
 .related-posts {
 padding: 2rem;
-background-color: hsla(222, 47%, 11%, 1);
+background-color: rgba(102, 115, 146, 0.239);
 border-radius: 12px;
 margin: 2rem 0;
 border-radius: 30px;
@@ -30,9 +30,11 @@ gap: 1.5rem;
 }
 
 /* Individual Post Styling */
-.related-post {
-background-image: linear-gradient(90deg, #21212190, #06163246 51%);
-border-radius: 8px;
+.related-posts .related-post {
+/* background-image: linear-gradient(90deg, #0a0a0a51, #06163246 51%); */
+background-image: linear-gradient(90deg, #0a0a0a82, #061632c0 51%);
+border-radius: 19px;
+padding: 10px;
 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.034);
 overflow: hidden;
 transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -41,7 +43,9 @@ border: 1px solid rgba(104, 104, 120, 0.175);
 
 .related-post:hover {
 transform: translateY(-5px);
-background-image: linear-gradient(90deg, #212121b0, #061632c0 51%);
+/* background-image: linear-gradient(90deg, #0a0a0acd, #061632c0 51%); */
+background-image: linear-gradient(90deg, #0a0a0a82, #061632c0 51%);
+transition: 0.3s ease-in-out;
 box-shadow: 0 6px 12px rgba(255, 255, 255, 0.036);
 }
 
