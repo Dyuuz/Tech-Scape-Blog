@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'App',
-    'cachebuster',
 ]
 
 # INSTALLED_APPS += ['admin_tools_stats']
@@ -165,8 +164,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 #STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-
-CACHEBUSTER_URL = '/static/'
 
 AUTH_USER_MODEL = 'App.Client'
 
