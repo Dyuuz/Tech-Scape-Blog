@@ -95,22 +95,15 @@ WSGI_APPLICATION = 'Blog.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': env('PGS_ENGINE', default=os.getenv('PGS_ENGINE')) ,
-#         'NAME': env('PGS_NAME', default=os.getenv('PGS_NAME')),      
-#         'USER': env('PGS_USER', default=os.getenv('PGS_USER')),            
-#         'PASSWORD':env('PGS_PASSWORD', default=os.getenv('PGS_PASSWORD')) ,   
-#         'HOST': env('PGS_HOST', default=os.getenv('PGS_HOST')),    
-#         'PORT': env.int('PGS_PORT', default=os.getenv('PGS_PORT')),
-#     }
-# }
-
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600
-    )
+ DATABASES = {
+     'default': {
+         'ENGINE': env('PGS_ENGINE', default=os.getenv('PGS_ENGINE')) ,
+         'NAME': env('PGS_NAME', default=os.getenv('PGS_NAME')),      
+         'USER': env('PGS_USER', default=os.getenv('PGS_USER')),            
+         'PASSWORD':env('PGS_PASSWORD', default=os.getenv('PGS_PASSWORD')) ,   
+         'HOST': env('PGS_HOST', default=os.getenv('PGS_HOST')),    
+         'PORT': env.int('PGS_PORT', default=os.getenv('PGS_PORT')),
+     }
 }
 
 JAZZMIN_SETTINGS = {
