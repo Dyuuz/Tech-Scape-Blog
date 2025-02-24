@@ -90,30 +90,31 @@ def home(request):
     all_categ = Category.objects.all()
     
     # Randomize database query results
-    all_categ_articles = Category.objects.order_by('?')
+    images_data = list(Category.objects.all())
+    random.shuffle(images_data)
     
-    # To test for query outputs if cached or not
-    # cache.clear() 
-    topics_cache_key = f"Hot--Topics--{current_user}"
-    # Retrieves the value from the cache assigned with the custom key.
-    images_data = cache.get(topics_cache_key)
+    # # To test for query outputs if cached or not
+    # # cache.clear() 
+    # topics_cache_key = f"Hot--Topics--{current_user}"
+    # # Retrieves the value from the cache assigned with the custom key.
+    # images_data = cache.get(topics_cache_key)
     
-    # If executes if images_data returns none
-    if not images_data:
-        serialized_data  = serializers.serialize('json', all_categ_articles)
+    # # If executes if images_data returns none
+    # if not images_data:
+    #     serialized_data  = serializers.serialize('json', all_categ_articles)
         
-        # Cache the image data list for 2 hours
-        cache.set(topics_cache_key, serialized_data , timeout = 7200)
+    #     # Cache the image data list for 2 hours
+    #     cache.set(topics_cache_key, serialized_data , timeout = 7200)
         
-        # Custom function to deserialize serialized data
-        images_data = deserial(serialized_data)
-        random.shuffle(images_data)
+    #     # Custom function to deserialize serialized data
+    #     images_data = deserial(serialized_data)
+    #     random.shuffle(images_data)
         
-    else:
-        # Condtion runs when cache is created
-        # Custom function to deserialize serialized data
-        images_data = deserial(images_data)
-        random.shuffle(images_data)
+    # else:
+    #     # Condtion runs when cache is created
+    #     # Custom function to deserialize serialized data
+    #     images_data = deserial(images_data)
+    #     random.shuffle(images_data)
     
     # Popular post blog instance
     popular_cat = Blog.objects.all().order_by('-views_count')[:10]
