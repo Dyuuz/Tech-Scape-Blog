@@ -29,6 +29,7 @@ SECRET_KEY = env('SECRET_KEY', default=os.getenv('SECRET_KEY'))
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'techscape-swlm.onrender.com',
     'localhost',
     '127.0.0.1',
     '192.168.76.169',
