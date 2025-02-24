@@ -3,7 +3,7 @@ services:
     name: Blog
     env: python
     buildCommand: "python manage.py collectstatic --noinput && pip install -r requirements.txt"
-    startCommand: "gunicorn Blog.wsgi:application"
+    startCommand: "gunicorn Blog.wsgi:application && gunicorn App:app"
     static:       # Static route configuration
       - type: web
         name: static
