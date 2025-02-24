@@ -9,3 +9,4 @@ requests==2.32.3
 uuid==1.30
 psycopg2==2.9.10
 dj_database_url==2.3.0
+pillow==11.1.0
