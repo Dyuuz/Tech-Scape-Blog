@@ -2,7 +2,7 @@ services:
   - type: web
     name: Blog
     env: python
-    buildCommand: "python manage.py collectstatic --noinput && pip install gunicorn && pip install -r requirements.txt"
+    buildCommand: "python manage.py collectstatic --noinput && pip install -r requirements.txt"
     startCommand: "gunicorn Blog.wsgi:application"
     static:       # Static route configuration
       - type: web
