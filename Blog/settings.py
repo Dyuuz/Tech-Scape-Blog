@@ -92,10 +92,15 @@ WSGI_APPLICATION = 'Blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env('PGS_ENGINE', default=os.getenv('PGS_ENGINE')) ,
+        'NAME': env('PGS_NAME', default=os.getenv('PGS_NAME')),      
+        'USER': env('PGS_USER', default=os.getenv('PGS_USER')),            
+        'PASSWORD':env('PGS_PASSWORD', default=os.getenv('PGS_PASSWORD')) ,   
+        'HOST': env('PGS_HOST', default=os.getenv('PGS_HOST')),    
+        'PORT': env.int('PGS_PORT', default=os.getenv('PGS_PORT')),
     }
 }
 
@@ -208,5 +213,3 @@ EMAIL_PORT = env.int('EMAIL_PORT', default=int(os.getenv('EMAIL_PORT')))
 EMAIL_USE_TLS =  env.bool('EMAIL_USE_TLS', default=os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true')
 EMAIL_HOST_USER =  env('EMAIL_HOST_USER', default=os.getenv('EMAIL_HOST_USER'))
 EMAIL_HOST_PASSWORD =  env('EMAIL_HOST_PASSWORD', default=os.getenv('EMAIL_HOST_PASSWORD'))
-# NewStars1@
-
