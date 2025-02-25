@@ -50,24 +50,8 @@ class Blog(models.Model):
     mins_read = models.IntegerField(default=5)
     category = models.ForeignKey(Category, related_name='posts', on_delete=models.CASCADE, default=2)
     
-    @receiver(pre_save, sender=Blog)
-    def ensure_unique_slug(sender, instance, **kwargs):
-        """Ensure the slug is unique before saving."""
-        if not instance.slug:  # Only generate slug if it's empty
-            instance.slug = generate_unique_slug(instance)
-    
     def __str__(self):
         return self.title
-        
-    def generate_unique_slug(instance):
-        """Generate a unique slug for the given instance."""
-        base_slug = slugify(instance.title)
-        slug = base_slug
-        counter = 1
-        while Blog.objects.filter(slug=slug).exists():
-            slug = f"{base_slug}-{counter}"
-            counter += 1
-            return slug
 
 class Comments(models.Model):
     name = models.CharField(max_length=100)
