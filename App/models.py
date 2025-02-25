@@ -38,7 +38,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=75)
     username = models.CharField(max_length=20, default='anon', null=True)
     body = models.TextField()
-    slug = models.SlugField(unique=True,blank=True)
+    slug = models.SlugField(max_length=255,unique=True,blank=True)
     time = models.DateTimeField(auto_now_add=True)
     image = CloudinaryField('image')
     dp = CloudinaryField('image')
