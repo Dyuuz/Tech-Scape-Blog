@@ -15,7 +15,7 @@ class Client(AbstractUser):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    bio = models.CharField(max_length=100, default='Welcome')
+    bio = models.CharField(max_length=500, default='Welcome')
     image = models.ImageField(default='test.jpg', blank=True)
     # slug = models.SlugField()
 
@@ -34,7 +34,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=75)
     username = models.CharField(max_length=20, default='anon', null=True)
     body = models.TextField()
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=400)
     time = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(default='test.jpg', blank=True)
     dp = models.ImageField(default='test.jpg', blank=True)
