@@ -5,6 +5,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from cloudinary.models import CloudinaryField
+from django.db.models.signals import pre_save
+from django.utils.text import slugify
+from django.dispatch import receiver
 
 # Create your models here.
 class Client(AbstractUser):
@@ -35,7 +38,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=75)
     username = models.CharField(max_length=20, default='anon', null=True)
     body = models.TextField()
-    slug = models.SlugField(max_length=400)
+    slug = models.SlugField(unique=True,blank=True)
     time = models.DateTimeField(auto_now_add=True)
     image = CloudinaryField('image')
     dp = CloudinaryField('image')
@@ -49,6 +52,22 @@ class Blog(models.Model):
     
     def __str__(self):
         return self.title
+        
+    def generate_unique_slug(instance):
+        """Generate a unique slug for the given instance."""
+        base_slug = slugify(instance.title)
+        slug = base_slug
+        counter = 1
+        while Blog.objects.filter(slug=slug).exists():
+            slug = f"{base_slug}-{counter}"
+            counter += 1
+            return slug
+            
+    @receiver(pre_save, sender=Blog)
+    def ensure_unique_slug(sender, instance, **kwargs):
+        """Ensure the slug is unique before saving."""
+        if not instance.slug:  # Only generate slug if it's empty
+            instance.slug = generate_unique_slug(instance)
 
 class Comments(models.Model):
     name = models.CharField(max_length=100)
