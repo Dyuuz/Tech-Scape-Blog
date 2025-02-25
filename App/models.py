@@ -15,7 +15,7 @@ class Client(AbstractUser):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    bio = models.CharField(max_length=500, default='Welcome')
+    bio = models.TextField(max_length=500, default='Welcome')
     image = models.ImageField(default='test.jpg', blank=True)
     # slug = models.SlugField()
 
