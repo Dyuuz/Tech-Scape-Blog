@@ -4,6 +4,7 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Client(AbstractUser):
@@ -16,7 +17,7 @@ class Client(AbstractUser):
 class Category(models.Model):
     name = models.CharField(max_length=100)
     bio = models.TextField(max_length=500, default='Welcome')
-    image = models.ImageField(default='test.jpg', blank=True)
+    image = CloudinaryField('image')
     # slug = models.SlugField()
 
     def __str__(self) -> None:
@@ -36,8 +37,8 @@ class Blog(models.Model):
     body = models.TextField()
     slug = models.SlugField(max_length=400)
     time = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(default='test.jpg', blank=True)
-    dp = models.ImageField(default='test.jpg', blank=True)
+    image = CloudinaryField('image')
+    dp = CloudinaryField('image')
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_post', blank=True)
     bookmarks = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bookmark_post', blank=True)
     dislikes = models.IntegerField(default=0)
