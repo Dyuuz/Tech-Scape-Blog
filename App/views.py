@@ -136,7 +136,7 @@ def home(request):
 
         # Get the total hours difference (total_seconds() / 3600)
         hours_difference = time_difference.total_seconds() / 60
-        time_diff = hours_difference - 60
+        time_diff = hours_difference
         mod.time = f"{time_diff:.0f}"
         mod.time = int(mod.time)
         
