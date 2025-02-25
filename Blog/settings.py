@@ -205,3 +205,35 @@ EMAIL_PORT = env('EMAIL_PORT', default=os.getenv('EMAIL_PORT'))
 EMAIL_USE_TLS =  env.bool('EMAIL_USE_TLS', default=os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true')
 EMAIL_HOST_USER =  env('EMAIL_HOST_USER', default=os.getenv('EMAIL_HOST_USER'))
 EMAIL_HOST_PASSWORD =  env('EMAIL_HOST_PASSWORD', default=os.getenv('EMAIL_HOST_PASSWORD'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+
+
+
+
