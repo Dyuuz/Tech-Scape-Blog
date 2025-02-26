@@ -183,6 +183,7 @@ CKEDITOR_CONFIGS = {
         "allowedContent": True,
         "filebrowserUploadMethod": "form",
         "filebrowserUploadUrl": "/ckeditor/upload/",
+        "filebrowserBrowseUrl": "/ckeditor/browse/", 
     }
 }
 
