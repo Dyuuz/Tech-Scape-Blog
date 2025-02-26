@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'App',
     'cloudinary',
     'cloudinary_storage',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 # INSTALLED_APPS += ['admin_tools_stats']
@@ -172,6 +174,17 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "full",
+        "extraPlugins": ",".join(["image", "uploadimage", "link"]),
+        "allowedContent": True,
+        "filebrowserUploadMethod": "form",
+        "filebrowserUploadUrl": "/ckeditor/upload/",
+    }
+}
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
