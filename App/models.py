@@ -8,6 +8,7 @@ from cloudinary.models import CloudinaryField
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.dispatch import receiver
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 class Client(AbstractUser):
@@ -38,7 +39,7 @@ class Newsletter(models.Model):
 class Blog(models.Model):
     title = models.CharField(max_length=75)
     username = models.CharField(max_length=20, default='anon', null=True)
-    body = models.TextField()
+    body = RichTextUploadingField()
     slug = models.SlugField(max_length=255,unique=True,blank=True)
     time = models.DateTimeField(auto_now_add=True)
     image = CloudinaryField('image')
