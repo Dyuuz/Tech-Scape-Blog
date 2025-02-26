@@ -6,9 +6,15 @@ from django.db import models
 from django import forms
 
 # Register your models here.
+class BlogAdminForm(forms.ModelForm):
+    body = forms.CharField(widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
 class BlogAdmin(admin.ModelAdmin):
-    formfield_overrides = {
-        models.TextField: {'widget': CKEditorWidget()},
+    form = BlogAdminForm
     
 class NewsletterAdmin(admin.ModelAdmin):
     readonly_fields = ('user', 'email',)
