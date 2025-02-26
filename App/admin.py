@@ -2,6 +2,11 @@ from django.contrib import admin
 from .models import Category, Blog, PasswordReset, Newsletter, Comments, VerifyUser, Client
 
 # Register your models here.
+class BlogAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {"widget": Textarea(attrs={"rows": 50, "cols": 150})},  # Customize as needed
+    }
+    
 class NewsletterAdmin(admin.ModelAdmin):
     readonly_fields = ('user', 'email',)
     list_display = ('user', 'subscribe', 'email',)
@@ -19,7 +24,7 @@ class VerifyUserAdmin(admin.ModelAdmin):
     readonly_fields = ('user', 'token', 'created_at',)
     
 admin.site.register(Category)
-admin.site.register(Blog)
+admin.site.register(Blog, BlogAdmin)
 admin.site.register(VerifyUser, VerifyUserAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Comments)
