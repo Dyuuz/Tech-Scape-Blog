@@ -36,7 +36,7 @@
                 <a href="{% url 'category_detail' name=category.name %}">
                 <button class="card tag-btn">
                     {% comment %} <img src="{{category.image.url}}" width="32" height="32" loading="lazy" alt="Travel"> {% endcomment %}
-                    <img src="{{category.image.url}}" class="logo_dp">
+                    <img src="{{category.dp.url}}" class="logo_dp">
 
                     <p class="btn-text">{{category.name}}</p>
                 </button>
