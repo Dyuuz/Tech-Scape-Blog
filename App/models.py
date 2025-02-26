@@ -21,7 +21,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     bio = models.TextField(max_length=500, default='Welcome')
     image = CloudinaryField('image')
-    dp = CloudinaryField('image')
+    dp = CloudinaryField('image', default="project-management_gqhk75")
     # slug = models.SlugField()
 
     def __str__(self) -> None:
