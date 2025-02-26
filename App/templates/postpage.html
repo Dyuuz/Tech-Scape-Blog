@@ -65,9 +65,9 @@
                     <!-- Blog Content Section -->
                     <article class="post-content">
                         {% if user.is_authenticated  %}
-                        <p>{{blog.body|linebreaks}}</p>
+                        <p>{{blog.body|safe}}</p>
                         {% else %}
-                        <p>{{blog.body|slice:':500'|linebreaks}}...</p>
+                        <p>{{blog.body|slice:':500'|safe}}...</p>
                         <h4 class="borderh4"><a class="logintag" href="{% url 'loginsession' name=blog.category.name slug=blog.slug %}">Login </a>to read full article</h4>
                         {% endif %}
                         
