@@ -30,6 +30,7 @@ SECRET_KEY = env('SECRET_KEY', default=os.getenv('SECRET_KEY'))
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'whitenoise.runserver_nostatic',
     'techscape-swlm.onrender.com',
     'localhost',
     '127.0.0.1',
@@ -151,8 +152,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-
 AUTH_USER_MODEL = 'App.Client'
 
 # Internationalization
@@ -248,6 +247,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'App/media/')
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 3600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
