@@ -30,7 +30,6 @@ SECRET_KEY = env('SECRET_KEY', default=os.getenv('SECRET_KEY'))
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'whitenoise.runserver_nostatic',
     'techscape-swlm.onrender.com',
     'localhost',
     '127.0.0.1',
@@ -46,6 +45,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -220,7 +220,6 @@ CKEDITOR_5_CONFIGS = {
         "allowedContent": True,  # Allows flexible content (CKEditor 5 has stricter sanitization)
     }
 }
-CKEDITOR_RESTRICT_BY_USER = True  # Ensure users can only upload files they own
 CKEDITOR_ALLOW_NONIMAGE_FILES = True  # Allow non-image files (like videos, audio)
 
 STATICFILES_FINDERS = [
