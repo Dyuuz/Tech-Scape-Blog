@@ -55,8 +55,7 @@ INSTALLED_APPS = [
     'App',
     'cloudinary',
     'cloudinary_storage',
-    'ckeditor',
-    'ckeditor_uploader',
+    'django_ckeditor_5',
 ]
 
 # INSTALLED_APPS += ['admin_tools_stats']
