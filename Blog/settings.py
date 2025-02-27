@@ -226,7 +226,8 @@ CKEDITOR_5_CONFIGS = {
             ],
         },
         "removePlugins": ["Markdown"],  # Removes Markdown if unnecessary
-        "allowedContent": True,  # Allows flexible content (CKEditor 5 has stricter sanitization)
+        "allowedContent": True,
+        "extraAllowedContent": "iframe[*]",
     }
 }
 
