@@ -226,6 +226,7 @@ CKEDITOR_5_CONFIGS = {
             ],
         },
         "removePlugins": ["Markdown"],  # Removes Markdown if unnecessary
+        "extraPlugins": ["MediaEmbed"],
         "allowedContent": True,
         "extraAllowedContent": "iframe[*]",
     }
@@ -240,7 +241,7 @@ STATICFILES_FINDERS = [
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"
 STATIC_URL = 'static/'
 
 STATICFILES_DIR = [os.path.join('BASE_DIR', 'App/static'), ]
