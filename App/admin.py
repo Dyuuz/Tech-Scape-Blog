@@ -7,17 +7,12 @@ from django_ckeditor_5.widgets import CKEditor5Widget
 
 # Register your models here.
 class BlogAdminForm (forms.Model Form):
-
     class Meta:
-
         model = Blog
-
         fields="__all__"
-
         widgets = { "body": CKEditor5Widget (config_name="default"),}
 
 class BlogAdmin (admin.ModelAdmin):
-
     form = BlogAdminForm
 
 class NewsletterAdmin(admin.ModelAdmin):
