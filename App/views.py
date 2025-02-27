@@ -19,6 +19,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Count
 from django.core.mail import send_mail, EmailMessage
+import cloudinary.uploader
+from django.views.decorators.csrf import csrf_exempt
 import re
 import logging
 
