@@ -629,7 +629,6 @@ def about(request):
     return render(request, 'about.html', locals())
 
 @csrf_exempt
-
 def ckeditor_upload(request):
 
     if request.method == "POST" and request.FILES.get("upload"):
