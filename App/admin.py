@@ -6,7 +6,7 @@ from django_ckeditor_5.widgets import CKEditor5Widget
 
 
 # Register your models here.
-class BlogAdminForm (forms.Model Form):
+class BlogAdminForm (forms.ModelForm):
     class Meta:
         model = Blog
         fields="__all__"
