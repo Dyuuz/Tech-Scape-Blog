@@ -2,11 +2,24 @@ from django.contrib import admin
 from .models import Category, Blog, PasswordReset, Newsletter, Comments, VerifyUser, Client
 from django.db import models
 from django import forms
+from django_ckeditor_5.widgets import CKEditor5Widget
+
 
 # Register your models here.
+class BlogAdminForm (forms.Model Form):
+
+    class Meta:
+
+        model = Blog
+
+        fields="__all__"
+
+        widgets = { "body": CKEditor5Widget (config_name="default"),}
+
 class BlogAdmin (admin.ModelAdmin):
-    formfield_overrides = { Blog.body.field: {"widget": Blog.body.widget},}
-    
+
+    form = BlogAdminForm
+
 class NewsletterAdmin(admin.ModelAdmin):
     readonly_fields = ('user', 'email',)
     list_display = ('user', 'subscribe', 'email',)
