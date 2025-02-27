@@ -205,7 +205,7 @@ CKEDITOR_5_CONFIGS = {
             ],
         },
         "simpleUpload": {
-            "uploadUrl": "/upload/",  # Your custom upload view
+            "uploadUrl": "/ckeditor5/image_upload/",
         },
         "mediaEmbed": {
             "previewsInData": True,
