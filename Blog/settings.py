@@ -178,6 +178,7 @@ CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_5_CONFIGS = {
     "default": {
+        "extraAllowedContent": "img[!src,alt,width,height]",
         "toolbar": [
             "undo", "redo", "|",
             "heading", "|",
@@ -221,6 +222,8 @@ CKEDITOR_5_CONFIGS = {
         "allowedContent": True,  # Allows flexible content (CKEditor 5 has stricter sanitization)
     }
 }
+CKEDITOR_RESTRICT_BY_USER = True  # Ensure users can only upload files they own
+CKEDITOR_ALLOW_NONIMAGE_FILES = True  # Allow non-image files (like videos, audio)
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
