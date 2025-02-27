@@ -627,3 +627,4 @@ def update_profile(request):
 def about(request):
     all_categ = Category.objects.all()
     return render(request, 'about.html', locals())
+
