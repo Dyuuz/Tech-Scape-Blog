@@ -8,7 +8,7 @@ from cloudinary.models import CloudinaryField
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.dispatch import receiver
-from django_ckeditor_5. fields import CKEditor5Field
+from django_ckeditor_5.fields import CKEditor5Field
 
 # Create your models here.
 class Client(AbstractUser):
