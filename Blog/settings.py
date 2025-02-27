@@ -220,7 +220,6 @@ CKEDITOR_5_CONFIGS = {
         "allowedContent": True,  # Allows flexible content (CKEditor 5 has stricter sanitization)
     }
 }
-CKEDITOR_ALLOW_NONIMAGE_FILES = True  # Allow non-image files (like videos, audio)
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
