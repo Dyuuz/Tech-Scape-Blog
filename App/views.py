@@ -628,3 +628,16 @@ def about(request):
     all_categ = Category.objects.all()
     return render(request, 'about.html', locals())
 
+@csrf_exempt
+
+def ckeditor_upload(request):
+
+    if request.method == "POST" and request.FILES.get("upload"):
+
+        uploaded_file = request.FILES["upload"]
+
+        upload_result = cloudinary.uploader.upload(uploaded_file)
+
+        return JsonResponse ({"url": upload_result["secure_url"]})
+            
+    return JsonResponse (("error: "Upload failed"), status=400)
