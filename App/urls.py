@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout', views.logout_view, name = 'logout'),
     path('about', views.about, name = 'about'),
     path('reset-link', views.verify, name = 'reset-link'),
+    path("ckeditor/upload/", views.ckeditor_upload, name="ckeditor_upload"),
     path('verify/<str:User>/<uuid:tokenID>/', views.verify_user, name='verify_user'),
     path('reset-password/<uuid:tokenID>/', views.reset_password, name = 'reset-password'),
     path('comment', views.comment, name = 'comment'),
