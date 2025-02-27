@@ -10,7 +10,7 @@ class BlogAdminForm (forms.ModelForm):
     class Meta:
         model = Blog
         fields="__all__"
-        widgets = { "body": CKEditor5Widget (config_name="default"),}
+        widgets = { "body": CKEditor5Widget(config_name="default"),}
 
 class BlogAdmin (admin.ModelAdmin):
     form = BlogAdminForm
