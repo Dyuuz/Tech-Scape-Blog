@@ -21,4 +21,5 @@ from App.views import ckeditor_upload
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('App.urls')),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
 ]
