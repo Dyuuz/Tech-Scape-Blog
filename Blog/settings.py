@@ -177,7 +177,6 @@ CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_5_CONFIGS = {
     "default": {
-        "extraAllowedContent": "img[!src,alt,width,height]",
         "toolbar": [
             "undo", "redo", "|",
             "heading", "|",
