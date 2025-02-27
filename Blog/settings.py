@@ -180,11 +180,12 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_CONFIGS = {
     "default": {
         "toolbar": "full",
-        "extraPlugins": ",".join(["image", "uploadimage", "link"]),
+        "extraPlugins": ",".join(["image", "uploadimage", "link", "embed", "autoembed", "mediaembed"]),
         "allowedContent": True,
         "filebrowserUploadMethod": "form",
         "filebrowserUploadUrl": "/ckeditor/upload/",
         "filebrowserBrowseUrl": "/ckeditor/browse/", 
+        "embed_provider": "https://ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}",
     }
 }
 
