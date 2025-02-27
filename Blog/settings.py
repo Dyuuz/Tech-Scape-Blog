@@ -176,15 +176,49 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_CONFIGS = {
+CKEDITOR_5_CONFIGS = {
     "default": {
-        "toolbar": "full",
-        "extraPlugins": ",".join(["image", "uploadimage", "link", "embed", "autoembed", "mediaembed"]),
-        "allowedContent": True,
-        "filebrowserUploadMethod": "form",
-        "filebrowserUploadUrl": "/ckeditor/upload/",
-        "filebrowserBrowseUrl": "/ckeditor/browse/", 
-        "embed_provider": "https://ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}",
+        "toolbar": [
+            "undo", "redo", "|",
+            "heading", "|",
+            "bold", "italic", "underline", "strikethrough", "|",
+            "subscript", "superscript", "|",
+            "fontColor", "fontBackgroundColor", "highlight", "|",
+            "link", "imageUpload", "mediaEmbed", "blockQuote", "|",
+            "bulletedList", "numberedList", "todoList", "|",
+            "alignment", "indent", "outdent", "|",
+            "insertTable", "horizontalLine", "|",
+            "code", "codeBlock", "sourceEditing", "|",
+            "findAndReplace", "removeFormat", "|",
+            "specialCharacters", "pageBreak", "|",
+            "ckbox", "mention"
+        ],
+        "image": {
+            "toolbar": [
+                "imageTextAlternative", "imageStyle:full", "imageStyle:side",
+                "linkImage", "toggleImageCaption", "resizeImage"
+            ],
+        },
+        "table": {
+            "contentToolbar": [
+                "tableColumn", "tableRow", "mergeTableCells",
+                "tableProperties", "tableCellProperties"
+            ],
+        },
+        "simpleUpload": {
+            "uploadUrl": "/upload/",  # Your custom upload view
+        },
+        "mediaEmbed": {
+            "previewsInData": True,
+            "providers": [
+                {
+                    "name": "iframe.ly",
+                    "url": "https://ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}",
+                }
+            ],
+        },
+        "removePlugins": ["Markdown"],  # Removes Markdown if unnecessary
+        "allowedContent": True,  # Allows flexible content (CKEditor 5 has stricter sanitization)
     }
 }
 
