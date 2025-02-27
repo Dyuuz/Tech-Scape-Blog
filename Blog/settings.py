@@ -214,6 +214,14 @@ CKEDITOR_5_CONFIGS = {
                 {
                     "name": "iframe.ly",
                     "url": "https://ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}",
+                },
+                {
+                    "name": "youtube",
+                    "url": [
+                        "^(https?:)?//(www.)?youtube\\.com/watch",
+                        "^(https?:)?//(www.)?youtube\\.com/v/",
+                        "^(https?:)?//(www.)?youtu\\.be/"
+                    ]
                 }
             ],
         },
