@@ -639,4 +639,4 @@ def ckeditor_upload(request):
 
         return JsonResponse ({"url": upload_result["secure_url"]})
             
-    return JsonResponse (("error": "Upload failed"), status=400)
+    return JsonResponse ({"error": "Upload failed"}, status=400)
