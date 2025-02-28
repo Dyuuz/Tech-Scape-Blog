@@ -37,7 +37,7 @@ class Newsletter(models.Model):
         return self.user.username
     
 class Blog(models.Model):
-    title = models.CharField(max_length=150)
+    title = models.CharField(max_length=75)
     username = models.CharField(max_length=20, default='anon', null=True)
     body = CKEditor5Field("Body", config_name="default")
     slug = models.SlugField(max_length=255,unique=True,blank=True)
