@@ -154,15 +154,14 @@
                     isBookmarked = !isBookmarked;
                     bookmarkButton.classList.toggle('active', isBookmarked);
                 }
-                
                 document.querySelectorAll("figure.media oembed").forEach(function (oembed) {
-                let url = oembed.getAttribute("url");
+                  let url = oembed.getAttribute("url");
 
-                // Check if the URL is a YouTube link
-                let youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/;
-                let match = url.match(youtubeRegex);
+                  // Check if the URL is a YouTube link
+                  let youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/;
+                  let match = url.match(youtubeRegex);
 
-                if (match) {
+                  if (match) {
                      let videoId = match[1];
                      let iframe = document.createElement("iframe");
                      iframe.setAttribute("src", `https://www.youtube.com/embed/${videoId}`);
@@ -171,13 +170,15 @@
                      iframe.setAttribute("frameborder", "0");
                      iframe.setAttribute("allowfullscreen", "");
 
-                    // Replace <oembed> with the iframe
-                    let parentFigure = oembed.closest("figure.media");
-                    if (parentFigure) {
-                        parentFigure.innerHTML = ""; // Clear existing content
-                        parentFigure.appendChild(iframe);
-                    }
-                 }
+                   
+					// Replace <oembed> with the iframe
+                     let parentFigure = oembed.closest("figure.media");
+                     if (parentFigure) {
+                         parentFigure.innerHTML = ""; // Clear existing content
+                         parentFigure.appendChild(iframe);
+                     }
+                   }
+				});
             };
 
             function redirectUrl() {
