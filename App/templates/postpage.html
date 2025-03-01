@@ -177,9 +177,8 @@
                         parentFigure.innerHTML = ""; // Clear existing content
                         parentFigure.appendChild(iframe);
                     }
-                }
-                }
-             };
+                 }
+            };
 
             function redirectUrl() {
                 const redirectUrl = "{% url 'loginsession' name=blog.category.name slug=blog.slug %}";
