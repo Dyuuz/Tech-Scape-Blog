@@ -208,6 +208,8 @@ CKEDITOR_5_CONFIGS = {
         "simpleUpload": {
             "uploadUrl": "/ckeditor5/image_upload/",
         },
+        "extraPlugins": ["MediaEmbed"],
+        "extraAllowedContent": "iframe[*]",
         "mediaEmbed": {
             "previewsInData": True,
             "providers": [
@@ -225,10 +227,8 @@ CKEDITOR_5_CONFIGS = {
                 }
             ],
         },
-        "removePlugins": ["Markdown"],  # Removes Markdown if unnecessary
-        "extraPlugins": ["MediaEmbed"],
+        "removePlugins": ["Markdown"],
         "allowedContent": True,
-        "extraAllowedContent": "iframe[*]",
     }
 }
 
