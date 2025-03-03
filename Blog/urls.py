@@ -17,14 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from App.views import ckeditor_upload
+
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
+from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('App.urls')),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
-    path("ads.txt", TemplateView.as_view(template_name="ads.txt", content_type="text/plain")),
+    path("ads.txt", serve, {"document_root": settings.STATIC_ROOT, "path": "ads.txt"}),
 ]
 
