@@ -127,7 +127,7 @@ def get_blogs_based_on_user_likes(user):
         # Combine both lists
         final_blog_list.extend(additional_blogs)
 
-    return final_blog_list[:11]  # Ensure it returns exactly 11 posts
+    return final_blog_list[:6]  # Ensure it returns exactly 11 posts
 
 def update_subscribe(request):
     if request.method == "POST":
