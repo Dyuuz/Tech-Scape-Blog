@@ -13,3 +13,4 @@ pillow==11.1.0
 cloudinary==1.42.2
 django-cloudinary-storage==0.3.0
 django-ckeditor-5==0.2.17
+django-csp==3.8
