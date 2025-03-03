@@ -121,12 +121,13 @@ CSP_SCRIPT_SRC = (
     "'self'",
     "https://pagead2.googlesyndication.com",
     "https://www.googletagservices.com",
-    "https://adservice.google.com"
+    "https://adservice.google.com",
+    "'unsafe-inline'"
 )
 CSP_IMG_SRC = (
     "'self'",
     "https://www.google.com",
-    "https://tpc.googlesyndication.com"
+    "https://tpc.googlesyndication.com",
     "https://res.cloudinary.com",  # Allow Cloudinary images
     "data:"  # Allow base64 images
 )
