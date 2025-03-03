@@ -116,7 +116,8 @@ JAZZMIN_SETTINGS = {
 }
 
 #CSP HEADS
-CSP_DEFAULT_SRC = ("'self'",)
+CSP_DEFAULT_SRC = ("'self'", "https://pagead2.googlesyndication.com")
+
 CSP_SCRIPT_SRC = (
     "'self'",
     "https://pagead2.googlesyndication.com",
@@ -124,6 +125,7 @@ CSP_SCRIPT_SRC = (
     "https://adservice.google.com",
     "'unsafe-inline'"
 )
+
 CSP_IMG_SRC = (
     "'self'",
     "https://www.google.com",
@@ -131,11 +133,13 @@ CSP_IMG_SRC = (
     "https://res.cloudinary.com",  # Allow Cloudinary images
     "data:"  # Allow base64 images
 )
+
 CSP_FRAME_SRC = (
     "'self'",
     "https://googleads.g.doubleclick.net",
     "https://tpc.googlesyndication.com"
 )
+
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 CSP_REPORT_ONLY = True
 
