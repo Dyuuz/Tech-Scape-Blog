@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'django_ckeditor_5',
 ]
+INSTALLED_APPS += ['csp']
 
 # INSTALLED_APPS += ['admin_tools_stats']
 
@@ -70,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
-
+MIDDLEWARE += ['csp.middleware.CSPMiddleware']
 
 
 ROOT_URLCONF = 'Blog.urls'
@@ -114,22 +115,25 @@ JAZZMIN_SETTINGS = {
     "user_avatar": None,
 }
 
-SUIT_CONFIG = {
-    'ADMIN_NAME': 'My Custom Admin',
-    'SHOW_REQUIRED_ASTERISK': True,
-    'CONFIRM_UNSAVED_CHANGES': True,
-    'MENU_OPEN_FIRST_CHILD': True,
-    'SEARCH_URL': '',
-    'LIST_PER_PAGE': 20,
-    'MENU': (
-        {'label': 'Users', 'icon': 'icon-user', 'models': ('auth.user', 'auth.group')},
-        {'label': 'Content Management', 'icon': 'icon-folder-open', 'models': ('App.Category', 'myapp.Blog')},
-        {'label': 'Subscriptions', 'icon': 'icon-envelope', 'models': ('App.Newsletter',)},
-        {'label': 'Security', 'icon': 'icon-lock', 'models': ('App.PasswordReset',)},
-    ),
-}
-
-SUIT_CONFIG['DASHBOARD'] = 'App.dashboard.CustomDashboard'
+#CSP HEADS
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = (
+    "'self'",
+    "https://pagead2.googlesyndication.com",
+    "https://www.googletagservices.com",
+    "https://adservice.google.com"
+)
+CSP_IMG_SRC = (
+    "'self'",
+    "https://www.google.com",
+    "https://tpc.googlesyndication.com"
+)
+CSP_FRAME_SRC = (
+    "'self'",
+    "https://googleads.g.doubleclick.net",
+    "https://tpc.googlesyndication.com"
+)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 ADMIN_TOOLS_INDEX_DASHBOARD = 'myapp.dashboard.CustomIndexDashboard'
 
