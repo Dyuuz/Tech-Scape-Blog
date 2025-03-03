@@ -127,6 +127,8 @@ CSP_IMG_SRC = (
     "'self'",
     "https://www.google.com",
     "https://tpc.googlesyndication.com"
+    "https://res.cloudinary.com",  # Allow Cloudinary images
+    "data:"  # Allow base64 images
 )
 CSP_FRAME_SRC = (
     "'self'",
@@ -134,6 +136,7 @@ CSP_FRAME_SRC = (
     "https://tpc.googlesyndication.com"
 )
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+CSP_REPORT_ONLY = True
 
 ADMIN_TOOLS_INDEX_DASHBOARD = 'myapp.dashboard.CustomIndexDashboard'
 
