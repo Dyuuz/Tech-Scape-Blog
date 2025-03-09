@@ -395,7 +395,7 @@
                     </a>
                   </h3>
                   <h1 class='innerbodytext'>
-                    {{ myblog.body|slice:":90"|safe }}...
+                    {{ myblog.body|split_text:90|safe }}...
                   </h1>
                   <div class="card-wrapper">
 
@@ -512,7 +512,7 @@
                     </h3>
 
                     <p class="card-text">
-                      {{myblog.body|slice:':110'}}...
+                      {{myblog.body|split_text:110|safe}}...
                     </p>
 
                     <div class="card-wrapper">

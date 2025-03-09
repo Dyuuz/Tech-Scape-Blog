@@ -72,7 +72,7 @@
                                 </a>
                             </h3>
                             <h1 class='innerbodytext'>
-                                {{myblog.body|slice:':72'}}...
+                                {{myblog.body|split_text:72|safe}}...
                             </h1>
                             <div class="card-wrapper">
             

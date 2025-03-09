@@ -27,3 +27,14 @@ def lowercasepyt(text):
         return text.lower()
     except:
         return None
+
+@register.filter(name='split_text')
+def split_text(body, max_length):
+    """Change the words to a specific list"""
+    try:
+        if len(body) > max_length:
+            truncated_body = body[:max_length].rsplit(' ', 1)[0]
+        
+        return truncated_body
+    except:
+        return None
