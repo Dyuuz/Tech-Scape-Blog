@@ -1,7 +1,8 @@
 function premium() {
-    premiumplus = document.querySelector('.premium');
-    text = premiumplus.getAttribute('data-text');
-    text.textContent = 'Premium+';
+    let premiumplus = document.querySelector('.premium');
+    premiumplus.textContent = 'Premium+';
+    
+    // Uncomment if you want to show a SweetAlert notification
     // Swal.fire({
     //     title: 'Premium feature',
     //     text: 'We are currently working on this feature. Please check back later.',
@@ -12,4 +13,4 @@ function premium() {
     //     allowEscapeKey: false,
     //     allowEnterKey: false
     // });
-};
+}
