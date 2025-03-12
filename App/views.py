@@ -45,7 +45,7 @@ def home(request):
         
     else:
         no_user_auth_key = f"Today-Picks-{current_user}"
-        blog = Blog.objects.all().order_by('?')[:4] # modified from 11
+        blog = Blog.objects.all().order_by('?')[:5] # modified from 11
         blog_data = cache.get(no_user_auth_key)
         # blog = Blog.objects.select_related('likes', 'bookmarks').all().order_by('?')[:11]
         

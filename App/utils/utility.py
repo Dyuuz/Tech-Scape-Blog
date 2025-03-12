@@ -105,7 +105,7 @@ def get_blogs_based_on_user_likes(user):
         Category.objects.filter(posts__likes=user)  # Filter categories where user liked blogs
         .annotate(like_count=Count('posts__likes'))  # Count likes in each category
         .order_by('-like_count')  # Sort by most liked categories
-        .values_list('id', flat=True)[:4]  # Get IDs of the top 4 categories
+        .values_list('id', flat=True)[:5]  # Get IDs of the top 4 categories
     )
 
     # Step 2: Fetch blog posts, picking 3 posts from each top category
