@@ -93,7 +93,7 @@ sliderNextBtn.addEventListener("click", slideNext);
 const slidePrev = function () {
   if (currentSlidePos <= 0) {
     currentSlidePos = totalSlidableItems;
-  } else {
+  } else {  
     currentSlidePos--;
   }
 
