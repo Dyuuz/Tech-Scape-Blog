@@ -10,14 +10,23 @@
   <meta name="csrf-token" content="{{ csrf_token }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 
+  <!--
     - primary meta tags
   -->
-  <title>Tech Scape - Perosonal Blog Website</title>
+  <title>Tech Scape e</title>
   <meta name="title" content="Tech Scape">
+  <meta property="og:image" content="{{ post.thumbnail.url }}">
+
   <meta name="description" content="This is a blog html template made by Laycon">
 
-  <!-- 
+  {% block meta %}
+  <meta property="og:title" content="TechScape">
+  <meta property="og:description" content="Welcome to TechScape">
+  <meta property="og:image" content="https://example.com/image.jpg">
+  <meta property="og:url" content="https://techscape-swlm.onrender.com/">
+  {% endblock %}
+
+  <!--
     - favicon
   -->
   <link rel="shortcut icon" href="Images/favicon.svg" type="image/svg+xml">
@@ -28,7 +37,7 @@
   <meta name="google-adsense-account" content="ca-pub-4851033849501475">
 
 
-  <!-- 
+  <!--
     - google font link
   -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +45,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <!-- 
+  <!--
     - custom css link
   -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -61,7 +70,7 @@
       gtag('config', 'G-P26NM17QKX');
   </script>
 
-  <!-- 
+  <!--
     - preload images
   -->
   <link rel="preload" as="image" href="Images/1.png">
@@ -72,7 +81,7 @@
 
 <body id="top">
 
-  <!-- 
+  <!--
     - #HEADER
   -->
   {% block nav %}
@@ -111,7 +120,7 @@
 
           <li>
             <a href="#" class="navbar-link premium hover-1" onclick="premium()">Premium</a>
-        </li>        
+        </li>
 
           <li>
             <a href="{% url 'recentposts' %}" class="navbar-link hover-1" data-nav-toggler>Recent Post</a>
@@ -139,7 +148,7 @@
                 Subscribe to get the latest updates.
               </p>
               {% endif %}
-              
+
             </div>
           </div>
 
@@ -173,7 +182,7 @@
               <a href="{% url 'logout' %}" class="navbar-bottom-link hover-1">Sign Out</a>
             </li>
 
-          
+
           {% else %}
             <li>
               <a href="{% url 'login' %}" class="navbar-bottom-link hover-1">Login</a>
@@ -192,7 +201,7 @@
         </p>
 
       </nav>
-      
+
       {% if user.is_authenticated  %}
       <a href="{% url 'profile'%}" class="btncustom btn-primary"><img class="imgprofile" src="{%static 'Images/dp2.png'%}" width="35" height="35" border-radius="20px"></a>
       {% else %}
@@ -213,7 +222,7 @@
   <main>
     <article>
 
-      <!-- 
+      <!--
         - #HERO
       -->
       {%block hero%}
@@ -233,7 +242,7 @@
             <p class="hero-text">
               Your ultimate destination for staying updated on the latest in tech. We deliver fresh insights and updates to help you dive into dynamic content and vibrant community discussions. Explore features like intuitive categories, interactive sections, and seamless social sharing tools to stay connected. By registering, unlock personalized interactions and enhanced post engagement for a tailored experience.
             </p>
-            
+
             <button></button>
             {% if user_subscribed  %}
             <p class="hero-text1">
@@ -253,7 +262,7 @@
             </div>
             {% endif %}
 
-            
+
 
           </div>
 
@@ -274,8 +283,8 @@
         </div>
       </section>
       {% endblock  %}
-      
-      <!-- 
+
+      <!--
         - #TOPICS
       -->
       {%block usercontents%}
@@ -343,7 +352,7 @@
 
 
 
-      <!-- 
+      <!--
         - #FEATURED POST
       -->
       {%block featured%}
@@ -357,7 +366,7 @@
           <p class="section-text">
             Enjoy highly rated articles on Tech Scape
           </p>
-          
+
           <ul class="feature-list">
             {% for myblog in blog %}
             <li>
@@ -439,7 +448,7 @@
 
 
 
-      <!-- 
+      <!--
         - #POPULAR TAGS
       -->
       {%block  populartags%}
@@ -466,7 +475,7 @@
                   </button>
                 </a>
             </li>
-            {% endfor %}        
+            {% endfor %}
 
           </ul>
 
@@ -475,7 +484,7 @@
       {% endblock  %}
 
 
-      <!-- 
+      <!--
         - #RECENT POST
       -->
       {%block recents %}
@@ -497,7 +506,7 @@
               {% for myblog in blog_mod %}
               <li>
                 <div class="recent-post-card">
-                  
+
                   <figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
                     <img src="{{myblog.image.url}}" width="271" height="258" loading="lazy"
                       class="img-cover">
@@ -556,7 +565,7 @@
 
               <a href="{% url 'recentposts'%}" class="btn1 btn-secondary">
                 <span class="span">Show more</span>
-    
+
                 <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
               </a>
 
@@ -602,7 +611,7 @@
                     </blockquote> {% endcomment %}
 
                     <div class="profile-card">
-                
+
                      {% comment %} <figure class="profile-banner img-holder">
                         <img src="{{ post.image.url }}" width="40" height="40" loading="lazy" alt="Jane Cooper">
                       </figure> {% endcomment %}
@@ -638,13 +647,13 @@
                     </blockquote> {% endcomment %}
 
                     <div class="profile-card">
-                
+
                      {% comment %} <figure class="profile-banner img-holder">
                         <img src="{{ post.image.url }}" width="40" height="40" loading="lazy" alt="Jane Cooper">
                       </figure> {% endcomment %}
 
                       <div>
-                        
+
 
                         <time class="card-date" datetime="2022-04-15">{{ post.likes.count }} likes</time>
                         <time class="card-date" datetime="2022-04-15">{{ post.time|date:"F j, Y" }}</time>
@@ -749,7 +758,7 @@
 
 
 
-  <!-- 
+  <!--
     - #FOOTER
   -->
   {%block footer%}
@@ -809,7 +818,7 @@
             </p>
             {% endif %}
             {% comment %} <form class="blog-register-form" action="register" method="POST"> {% endcomment %}
-              
+
               {% comment %} <div class="input-wrapper">
                 <input type="text" name="name" placeholder="Your name"  class="input-field" autocomplete="off">
 
@@ -831,7 +840,7 @@
 
                 <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
               </div>
-              
+
               <a class="btn btn-primary">
                 <button type="submit">
                   <span class="span" onclick="SubscribeFooter()">Subscribe</span>
@@ -892,7 +901,7 @@
   </footer>
   {% endblock  %}
 
-  <!-- 
+  <!--
     - #BACK TO TOP
   -->
 
@@ -900,7 +909,7 @@
     <ion-icon name="arrow-up-outline" aria-hidden="true"></ion-icon>
   </a>
 
-  <!-- 
+  <!--
     - custom js link
   -->
 
@@ -918,7 +927,7 @@
     window.onload = function () {
       const likedPosts =  {{ all_user_likes|safe }};
       const posts = document.querySelectorAll(".post-likes");
-      
+
       posts.forEach(post => {
           const postId = parseInt(post.getAttribute("data-id"));
           if (likedPosts.includes(postId)) {
@@ -942,7 +951,7 @@
       window.location.href = redirectUrl;
     }
   </script>
-  <!-- 
+  <!--
     - ionicon link
   -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
