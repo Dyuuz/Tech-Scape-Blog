@@ -1,6 +1,14 @@
 {% extends 'layout.html' %}
 {%load static%}
 
+{% block meta %}
+  <meta property="og:title" content="{{ blog.title }}">
+  <meta property="og:description" content="{{blog.body|slice:':200'}}">
+  <meta property="og:image" content="{{ blog.image.url }}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:type" content="article">
+{% endblock %}
+
 {% block hero %}
 
 {% endblock  %}
@@ -12,7 +20,7 @@
                     <h2 class="headline headline-2 section-title">
                         {% comment %} <span class="span">{{blog.category}}</span> {% endcomment %}
                     </h2>
-             
+
                 <div class="post-container">
                     <!-- Blog Image Section -->
                     <div class="parent-post-image">
@@ -20,7 +28,7 @@
                             <img src="{{blog.image.url}}" alt="Blog Featured Image">
                         </div>
                     </div>
-                
+
                     <!-- Blog Header Section -->
                     <header class="post-header">
                         <h1 class="post-title">{{blog.title}}</h1>
@@ -30,7 +38,7 @@
                             <span class="post-date-read">{{blog.mins_read}} mins read</span>
                         </div>
                     </header>
-                
+
                     <!-- Interactive Buttons Section -->
                     <div class="post-actions">
 
@@ -41,27 +49,27 @@
                         <button class="post-bookmark" onclick="toggleBookmarkPost()"  data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-is-bookmarked="{{ is_bookmarked|yesno:"true,false" }}">
                             🔖 Bookmark
                         </button>
-                        
+
                         <div class="post-share-container">
-                            <button class="post-shares-home" onclick="toggleShareDropdown()">🚀 
+                            <button class="post-shares-home" onclick="toggleShareDropdown()">🚀
                                 <span id="share-count">{{blog.shares_count}}</span> Shares
                             </button>
-                            
+
                         </div>
                         <div class="post-share-container">
                             <button class="post-shares-home" onclick="toggleShareDropdown()">
                                 <span id="share-count"><a href="{% url 'category_detail' name=blog.category.name %}" >#{{blog.category.name}}</a></span>
                             </button>
-                            
+
                         </div>
                         {% comment %} <div class="post-shares-home">
                             <span class="post-date-read"><a href="{% url 'category_detail' name=blog.category.name %}" class="hero-text2">#{{blog.category.name}}</a></span>
                         </div> {% endcomment %}
                     </div>
                     <div class="card-content">
-                        
+
                     </div>
-                
+
                     <!-- Blog Content Section -->
                     <article class="post-content">
                         {% if user.is_authenticated  %}
@@ -70,7 +78,7 @@
                         <p>{{blog.body|slice:':500'|safe|linebreaks}}...</p>
                         <h4 class="borderh4"><a class="logintag" href="{% url 'loginsession' name=blog.category.name slug=blog.slug %}">Login </a>to read full article</h4>
                         {% endif %}
-                        
+
                     </article>
                 </div>
 
@@ -109,31 +117,31 @@
             <section class="related-posts">
                 <h2 class="related-posts__title">Related Posts</h2>
                 <div class="related-posts__grid">
-     
+
                     {% for myblog in blog_postpage %}
                     <article class="related-post">
                         {% comment %} <img src="{{myblog.image.url}}" alt="Post Image" class="related-post__image"> {% endcomment %}
                         <h3 class="related-post__title">{{myblog.title}}</h3>
-                        <p class="related-post__content">{{myblog.body|slice:':80'}}...</p><br>
+                        <p class="related-post__content">{{myblog.body|split_text:72|safe}}...</p><br>
                         <p class="related-post__content">{{myblog.time | date:"F j, Y"}}</p>
                         <a href="{% url 'postpage' name=myblog.category.name slug=myblog.slug %}" class="related-post__link">Read more</a>
                     </article>
                     {% empty %}
                         <li>No posts available.</li>
                     {% endfor %}
-            
+
                 </div>
             </section>
 
-        </div> 
-        <!-- 
+        </div>
+        <!--
             - custom js link
         -->
         <script>
             window.userData = {
                 post_id: "{{ blog.id }}",
             };
-            
+
             let isLiked = false;
             let isBookmarked = false;
             const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -141,15 +149,15 @@
             window.onload = function() {
                 const likeButton = document.querySelector('.post-likes');
                 const authStatusLike = likeButton.dataset.isLiked;
-            
+
                 const bookmarkButton = document.querySelector('.post-bookmark');
                 const authStatusBookmark = bookmarkButton.dataset.isBookmarked;
-            
+
                 if (authStatusLike === "true") {
                     isLiked = !isLiked;
                     likeButton.classList.toggle('active', isLiked);
                 }
-                
+
                 if ( authStatusBookmark === "true") {
                     isBookmarked = !isBookmarked;
                     bookmarkButton.classList.toggle('active', isBookmarked);
@@ -172,7 +180,7 @@
                         iframe.setAttribute("frameborder", "0");
                         iframe.setAttribute("allowfullscreen", "");
 
-                    
+
                         // Replace <oembed> with the iframe
                         let parentFigure = oembed.closest("figure.media");
                         if (parentFigure) {
@@ -187,7 +195,7 @@
                 const redirectUrl = "{% url 'loginsession' name=blog.category.name slug=blog.slug %}";
                 window.location.href = redirectUrl;
             }
-            
+
         </script>
     </section>
 {% endblock  %}
