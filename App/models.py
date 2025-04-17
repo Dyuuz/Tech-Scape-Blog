@@ -20,7 +20,7 @@ class Client(AbstractUser):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    bio = models.TextField(max_length=500, default='Welcome', blank=True, null=True)
+    bio = models.TextField(max_length=2000, default='Welcome', blank=True, null=True)
     image = CloudinaryField('image')
     dp = CloudinaryField('image', default="project-management_gqhk75", blank=True, null=True)
     # slug = models.SlugField()
