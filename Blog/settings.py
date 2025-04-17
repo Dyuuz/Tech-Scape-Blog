@@ -36,12 +36,8 @@ ALLOWED_HOSTS = [
     'techscape-swlm.onrender.com',
     'localhost',
     '127.0.0.1',
-    '192.168.76.169',
-    '192.168.91.198',
-    '192.168.0.169',
-    '192.168.52.198',
-    '192.168.161.198',
-    '192.168.163.198',
+    '192.168.240.42',
+    '192.168.177.42',
 ]
 
 
@@ -283,7 +279,7 @@ CACHES = {
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST =  env('EMAIL_HOST', default=os.getenv('EMAIL_HOST'))
 EMAIL_PORT = env('EMAIL_PORT', default=os.getenv('EMAIL_PORT'))
 EMAIL_USE_TLS =  env.bool('EMAIL_USE_TLS', default=os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true')
