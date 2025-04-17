@@ -1,13 +1,7 @@
 {% extends 'layout.html' %}
 {%load static%}
 
-{% block meta %}
-  <meta property="og:title" content="{{ blog.title }}">
-  <meta property="og:description" content="{{blog.body|slice:':200'}}">
-  <meta property="og:image" content="{{ blog.image.url }}">
-  <meta property="og:url" content="{{ request.build_absolute_uri }}">
-  <meta property="og:type" content="article">
-{% endblock %}
+
 
 {% block hero %}
 
