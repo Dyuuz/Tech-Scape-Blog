@@ -7,6 +7,12 @@
   <meta property="og:image" content="{{ blog.image.url }}">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:type" content="article">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ blog.title }}">
+  <meta name="twitter:description" content="{{ blog.description|truncatewords:20 }}">
+  <meta name="twitter:image" content="{{ blog.image.url }}">
+  <meta name="twitter:site" content="@TechScapeBlog">
 {% endblock %}
 
 {% block hero %}
