@@ -14,16 +14,13 @@
     - primary meta tags
   -->
   <title>Tech Scape</title>
-  <!-- <meta name="title" content="Tech Scape">
-  <meta property="og:image" content="{{ post.thumbnail.url }}">
-
-  <meta name="description" content="This is a blog html template made by Laycon"> -->
 
   {% block meta %}
   <meta property="og:title" content="TechScape">
   <meta property="og:description" content="Welcome to TechScape">
-  <meta property="og:image" content="https://example.com/image.jpg">
-  <meta property="og:url" content="https://techscape-swlm.onrender.com/">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:type" content="article">
   {% endblock %}
 
   <!--
