@@ -1,7 +1,13 @@
 {% extends 'layout.html' %}
 {%load static%}
 
-
+{% block meta %}
+  <meta property="og:title" content="{{ blog.title }}">
+  <meta property="og:description" content="{{blog.body|slice:':200'}}">
+  <meta property="og:image" content="{{ blog.image.url }}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:type" content="article">
+{% endblock %}
 
 {% block hero %}
 
@@ -116,7 +122,7 @@
                     <article class="related-post">
                         {% comment %} <img src="{{myblog.image.url}}" alt="Post Image" class="related-post__image"> {% endcomment %}
                         <h3 class="related-post__title">{{myblog.title}}</h3>
-                        <p class="related-post__content">{{myblog.body|split_text:72|safe}}...</p><br>
+                        <p class="related-post__content">{{myblog.body|slice:72|safe}}...</p><br>
                         <p class="related-post__content">{{myblog.time | date:"F j, Y"}}</p>
                         <a href="{% url 'postpage' name=myblog.category.name slug=myblog.slug %}" class="related-post__link">Read more</a>
                     </article>
