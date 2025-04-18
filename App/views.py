@@ -93,7 +93,7 @@ def home(request):
 
     # Randomize database query results
     images_data = list(Category.objects.all())
-    images_data_len = len(list(Category.objects.all()))
+    images_data_len = len(list(Blog.objects.all()))
     random.shuffle(images_data)
 
     # # To test for query outputs if cached or not
