@@ -117,7 +117,7 @@ window.addEventListener("resize", function () {
 function toggleShareDropdown() {
     const shareContainer = document.querySelector('.post-share-container');
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    
+
     if (navigator.share) {
       // alert('Web Share API is supported in your browser.');
       navigator.share({
@@ -135,7 +135,7 @@ function toggleShareDropdown() {
       tempInput.select();
       document.execCommand('copy');
       document.body.removeChild(tempInput);
-      
+
       // const link = `https://wa.me/?text=Check%20this%20out:%20${encodeURIComponent(window.location.href)}`;
       // window.location.href = link;
 
@@ -158,14 +158,14 @@ function toggleShareDropdown() {
 
       sharesupdate();
     }
-    
+
 }
 
 function sharesupdate() {
   const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   const ShareCount = document.getElementById('share-count');
 
-  axios.post('/update-shares/', 
+  axios.post('/update-shares/',
     {
         post_id: window.userData.post_id,
     }, { headers: {
@@ -190,7 +190,7 @@ function toggleShareAll(postID) {
 
   // const page_url = getpageUrl(name, slug);
   const page_url = ShareCount.getAttribute("data-url")
-  
+
   if (navigator.share) {
     // alert('Web Share API is supported in your browser.');
     navigator.share({
@@ -208,7 +208,7 @@ function toggleShareAll(postID) {
     tempInput.select();
     document.execCommand('copy');
     document.body.removeChild(tempInput);
-    
+
     // const link = `https://wa.me/?text=Check%20this%20out:%20${encodeURIComponent(window.location.href)}`;
     // window.location.href = link;
 
@@ -238,7 +238,7 @@ function sharesupdateAll(postID) {
   const InnerShareCount = ShareCount.querySelector('.share-count');
   const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-  axios.post('/update-shares/', 
+  axios.post('/update-shares/',
     {
         post_id: postID,
     }, { headers: {

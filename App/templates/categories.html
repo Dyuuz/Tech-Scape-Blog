@@ -35,7 +35,7 @@
                 <li>
                 <a href="{% url 'category_detail' name=category.name %}">
                 <button class="card tag-btn">
-                     <img src="{{category.dp.url}}" width="32" height="32" loading="lazy"> 
+                     <img src="{{category.dp.url}}" width="32" height="32" loading="lazy">
                     {% comment %}<img src="{{category.dp.url}}" class="logo_dp">{% endcomment %}
 
                     <p class="btn-text">{{category.name}}</p>
@@ -49,54 +49,54 @@
         </div>
     </section>
     <section class="section feature" aria-label="feature" id="featured">
-        
+
         <div class="container">
-              
+
             {% for category in categories %}
             <h2 class="headline headline-2 section-title">
                 <span class="span">{{category.name}}</span>
             </h2>
 
-            <p class="section-text">
+            <!-- <p class="section-text">
                 {{category.bio}}
             </p>
- 
+  -->
             <ul class="feature-list">
 
                 {% comment %} <div class= 'postgrid'> {% endcomment %}
                     {% for myblog in category.limited_posts %}
                     <li>
                         <div class="card feature-card">
-          
+
                             <figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
                                 <img src="{{myblog.image.url}}" width="1602" height="903" loading="lazy"
                                 alt="Self-observation is the first step of inner unfolding" class="img-cover">
                             </figure>
-            
+
                             <div class="card-content">
-            
+
                                 <div class="card-wrapper">
                                 <div class="card-tag">
                                     <div class="post-actionspage">
-                                        
+
                                         <button class="post-likes" onclick="toggleLike('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
                                             ❤️ <span id="like-count">{{myblog.likes.count}}</span>
                                         </button>
                                         <button class="post-shares-home" onclick="toggleShareAll('{{ myblog.id }}')" data-id="{{ myblog.id }}" data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}">
                                             🚀 <span id="share-count" class="share-count" data-id="{{ myblog.id }}">{{ myblog.shares_count }}</span>
                                           </button>
-                                        
-                                    
+
+
                                     </div>
                                 </div>
-            
+
                                 <div class="wrapper">
                                     <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-            
+
                                     <span class="span">{{myblog.mins_read}} mins read</span>
                                 </div>
                                 </div>
-            
+
                                 <h3 class="headline headline-3">
                                 <a href="{% url 'postpage' name=myblog.category.name slug=myblog.slug %}" class="card-title hover-2">
                                     {{myblog.title}}
@@ -106,11 +106,11 @@
                                     {{myblog.body|split_text:140|safe}}...
                                 </h1>
                                 <div class="card-wrapper">
-            
+
                                 <div class="profile-card">
                                     {% comment %} <img src="{{myblog.dp.url}}" width="48" height="48" loading="lazy" alt="Joseph"
                                     class="profile-banner"> {% endcomment %}
-            
+
                                     <div>
                                         {% comment %} <p class="card-title">{{myblog.username}}</p> {% endcomment %}
                                         {% comment %} <p class="card-subtitle">{{myblog.time|date:"F j, Y"}}</p> {% endcomment %}
@@ -131,16 +131,16 @@
                                         {% endif %}
                                     </div>
                                 </div>
-            
+
                                 <a href="{% url 'postpage' name=myblog.category.name slug=myblog.slug %}" class="card-btn">Read more</a>
-          
+
                             </div>
-          
+
                         </div>
                     </li>
                     {% empty %}
                         <li>No posts available.</li>
-                    {% endfor %}  
+                    {% endfor %}
                 {% comment %} </div> {% endcomment %}
             </ul>
 
@@ -154,7 +154,7 @@
             {% endfor %}
 
         </div>
-        
+
 
     </section>
 {% endblock  %}
