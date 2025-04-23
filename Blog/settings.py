@@ -235,6 +235,12 @@ CKEDITOR_5_CONFIGS = {
                         "^(https?:)?//(www.)?youtube\\.com/v/",
                         "^(https?:)?//(www.)?youtu\\.be/"
                     ]
+                },
+                {
+                    "name": "twitter",
+                    "url": [
+                        "^(https?:)?//(www.)?twitter\\.com/.+/status/\\d+",
+                    ]
                 }
             ],
         },
