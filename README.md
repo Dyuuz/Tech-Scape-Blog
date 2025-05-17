@@ -32,6 +32,7 @@ Security: SSL/TSL encryption and environment-based secrets management
 
 
 
+
 ---
 
 > Tech Scape isn't just a blog — it's a scalable digital asset built for community, brand building, and long-term revenue generation.
