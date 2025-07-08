@@ -3,7 +3,7 @@ from django.conf import settings
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError, JsonResponse
 from django.core import serializers
 from datetime import datetime
 from django.core.cache import cache
@@ -641,3 +641,6 @@ def ckeditor_upload(request):
         return JsonResponse ({"url": upload_result["secure_url"]})
 
     return JsonResponse ({"error": "Upload failed"}, status=400)
+
+def ping_view(request):
+    return HttpResponse("pong")
