@@ -1,9 +1,9 @@
 # name: Keep Render Site Awake
 
-on:
-  schedule:
-    - cron: "*/10 * * * *"  # Runs every 10 minutes
-  workflow_dispatch:  # Allows manual run
+# on:
+#   schedule:
+#     - cron: "*/10 * * * *"  # Runs every 10 minutes
+#   workflow_dispatch:  # Allows manual run
 
 # jobs:
 #   ping-render:
