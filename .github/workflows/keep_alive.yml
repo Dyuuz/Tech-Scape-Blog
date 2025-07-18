@@ -1,14 +1,14 @@
-name: Keep Render Site Awake
+# name: Keep Render Site Awake
 
-on:
-  schedule:
-    - cron: "*/10 * * * *"  # Runs every 10 minutes
-  workflow_dispatch:  # Allows manual run
+# on:
+#   schedule:
+#     - cron: "*/10 * * * *"  # Runs every 10 minutes
+#   workflow_dispatch:  # Allows manual run
 
-jobs:
-  ping-render:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Curl your Render app
-        run: |
-          curl --silent https://techscape-swlm.onrender.com/ping/
+# jobs:
+#   ping-render:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Curl your Render app
+#         run: |
+#           curl --silent https://techscape-swlm.onrender.com/ping/
