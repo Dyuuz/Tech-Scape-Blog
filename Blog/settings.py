@@ -37,8 +37,6 @@ ALLOWED_HOSTS = [
     'techscape-swlm.onrender.com',
     'localhost',
     '127.0.0.1',
-    '192.168.240.42',
-    '192.168.177.42',
 ]
 
 
