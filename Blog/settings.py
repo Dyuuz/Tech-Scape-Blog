@@ -33,7 +33,7 @@ SECRET_KEY = env('SECRET_KEY', default=os.getenv('SECRET_KEY'))
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'techscape.up.railway.app',
+    '.railway.app',
     'techscape-swlm.onrender.com',
     'localhost',
     '127.0.0.1',
