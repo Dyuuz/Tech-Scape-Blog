@@ -11,13 +11,15 @@ RUN apt-get update && apt-get install -y \
 
 # Install dependencies
 COPY requirements.txt .
+
+# after
 RUN python -m pip install --upgrade pip && \
     python -m pip install -vv --no-input --no-cache-dir -r requirements.txt
 
-# Copy all source files (including start.sh if it exists)
+# Copy files
 COPY . .
 
-# Make sure start.sh is executable
+COPY start.sh .
 RUN chmod +x start.sh
 
 # Set entrypoint
