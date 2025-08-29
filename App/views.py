@@ -489,6 +489,7 @@ def verify(request):
 
                     return JsonResponse({'error': True, 'message': f'Something went wrong, pls try again later'})
 
+                print("error: Mail service is down.")
                 return JsonResponse({'SmtpFailure': True, 'message': 'Mail service is down. Fix in progress.'})
             else:
                 return JsonResponse({'fail': True, 'message': 'Email is unavailable'})
@@ -496,6 +497,7 @@ def verify(request):
         return render(request, 'verify.html', locals())
 
     except Exception as e:
+        print("error: ", e)
         # logger.error(f"Exception occurred: {e}")
         return JsonResponse({'error': True, 'message': f'Something went wrong, pls try again later'})
 

@@ -14,6 +14,7 @@ class BlogAdminForm (forms.ModelForm):
 
 class BlogAdmin (admin.ModelAdmin):
     form = BlogAdminForm
+    filter_horizontal = ("likes", "bookmarks")
 
 class NewsletterAdmin(admin.ModelAdmin):
     readonly_fields = ('user', 'email',)
