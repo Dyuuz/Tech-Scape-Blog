@@ -472,16 +472,22 @@ def verify(request):
                     reset_link = request.build_absolute_uri(reverse('reset-password', kwargs={'tokenID': str(token.token)}))
                     cs_url = request.build_absolute_uri(reverse('home'))
 
-                    send_mail(
-                        subject='🔑 Password Reset Request',
-                        message=f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}',
-                        from_email=settings.EMAIL_HOST_USER,
-                        recipient_list=[email],
-                        fail_silently=False,
-                        html_message=send_password_reset_email(username, reset_link, cs_url)
-                    )
+                    subject = '🔑 Password Reset Request'
+                    message = f'Click the link to reset your password(Link will expire in 15minutes\n{reset_link}'
+                    html_message = send_password_reset_email(username, reset_link, cs_url)
+                    receiver_mail = email
 
-                    return JsonResponse({'success': True, 'message': 'Password reset link sent to {email}'})
+                    mail_response = send_mail_option(
+                        subject=subject,
+                        message=message,
+                        html_message=html_message,
+                        receiver_mail=receiver_mail,
+                    )
+                    print(mail_response)
+                    if mail_response:
+                        return JsonResponse({'success': True, 'message': f'Password reset link sent to {email}'})
+
+                    return JsonResponse({'error': True, 'message': f'Something went wrong, pls try again later'})
 
                 return JsonResponse({'SmtpFailure': True, 'message': 'Mail service is down. Fix in progress.'})
             else:

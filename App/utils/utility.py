@@ -28,7 +28,7 @@ def subscribe_check(request):
     except:
         return False
 
-# Pending 
+# Pending
 def comment(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -36,25 +36,25 @@ def comment(request):
         pk = request.POST.get('pk')
         pk = int(pk)
         blog = Blog.objects.get(pk=pk)
-        
+
         protocol = Comments(name=name, comment=comment,category=blog)
         return HttpResponse("Comment saved!")
     return HttpResponse("Error Loading page")
 
-# Caching operation of converting serialized data to a default data structure 
+# Caching operation of converting serialized data to a default data structure
 def deserial(data):
     # Function to deserialize data if serialized data is cached
     images_data = serializers.deserialize('json', data)
-    
+
     # Extract the model instances to a list from images_data json structure
-    images_data = [obj.object for obj in images_data] 
+    images_data = [obj.object for obj in images_data]
     # print(f" data {images_data}")
     return images_data
 
-# Ajax request to update user's interaction on a blog's like feature 
+# Ajax request to update user's interaction on a blog's like feature
 def update_like(request):
     """
-    Function to update user like feature directly with ajax request 
+    Function to update user like feature directly with ajax request
     """
     if request.method == "POST":
         data = request.body
@@ -67,7 +67,7 @@ def update_like(request):
         # print(user.like_post.all())
         # print(user.bookmark_post.all())
         blog = Blog.objects.get(id=post_id)
-        
+
         if buttonBoolean == "true":
             blog.likes.add(user)
             blog.save()
@@ -77,10 +77,10 @@ def update_like(request):
             blog.save()
             return JsonResponse({'success': True, 'message': 'Post unliked successfully!'})
 
-# Ajax request to update user's interaction on a blog's bookmark feature 
+# Ajax request to update user's interaction on a blog's bookmark feature
 def update_bookmark(request):
     """
-    Logic script to update user bookmark feature directly with ajax request 
+    Logic script to update user bookmark feature directly with ajax request
     """
     if request.method == "POST":
         data = request.body
@@ -89,7 +89,7 @@ def update_bookmark(request):
         post_id = int(Ajax_data.get('post_id'))
         buttonBoolean = Ajax_data.get('buttonBoolean')
         blog = Blog.objects.get(id=post_id)
-        
+
         if buttonBoolean == "true":
             blog.bookmarks.add(user)
             blog.save()
@@ -120,10 +120,10 @@ def get_blogs_based_on_user_likes(user):
     # Step 3: If less than 11 posts, fill remaining spots with random blog posts from other categories
     if len(final_blog_list) < 11:
         remaining_count = 11 - len(final_blog_list)
-        
+
         # Get random blog posts not in the user's top categories
         additional_blogs = Blog.objects.exclude(category_id__in=top_categories).order_by('?')[:remaining_count]
-        
+
         # Combine both lists
         final_blog_list.extend(additional_blogs)
 
@@ -140,13 +140,13 @@ def update_subscribe(request):
         else:
             try:
                 user = request.user
-                print(user.is_authenticated)                
+                print(user.is_authenticated)
                 if user.is_authenticated and user.email != emailVal:
                     return JsonResponse({'success': False, 'message': 'Email is not associated with this account!'})
-                
+
                 elif not Newsletter.objects.filter(email=emailVal).exists():
                     return JsonResponse({'success': False, 'message': 'Email is not on subscribtion list. Send us a mail to fix the issue.'})
-                
+
                 elif user.is_authenticated:
                     subscribe = Newsletter.objects.get(user=user)
                     subscribe.subscribe = True
@@ -157,10 +157,10 @@ def update_subscribe(request):
                     return JsonResponse({'success': False, 'message': 'Sign in to subscribe!'})
             except:
                 return JsonResponse({'success': False, 'message': 'Sign in to subscribe!'})
-            
+
 def update_shares(request):
     """
-    Logic script to update blog shares count feature directly with ajax request 
+    Logic script to update blog shares count feature directly with ajax request
     """
     if request.method == "POST":
         data = request.body
@@ -168,7 +168,7 @@ def update_shares(request):
         post_id = int(Ajax_data.get('post_id'))
         blog = Blog.objects.get(id=post_id)
         user = request.user
-        
+
         session_share_key = f'viewed_post_{post_id}_'
         if not request.session.get(session_share_key):
             request.session[session_share_key] = True
@@ -176,20 +176,20 @@ def update_shares(request):
                 blog.shares_count += 1
                 blog.save()
                 return JsonResponse({'success': True, 'message': 'Blog count updated successfully!'})
-            
+
         else:
             return JsonResponse({'success': False, 'message': 'Too many requests!'})
 
 def update_suboption(request):
     """
-    Logic script to update user subscription option directly with ajax request 
+    Logic script to update user subscription option directly with ajax request
     """
     if request.method == "POST":
         data = request.body
         Ajax_data = json.loads(data.decode('utf-8'))
         user = request.user
         suboption = Ajax_data.get('suboption').lower()
-    
+
         try:
             subscribe = Newsletter.objects.get(user=user)
             subscribe.subscribe = True if suboption == 'subscribe' else False
@@ -201,8 +201,9 @@ def update_suboption(request):
                 return JsonResponse({'unsubscribe': True, 'message': 'You have successfully unsubscribed'})
         except:
             return JsonResponse({'success': False, 'message': 'Error updating subscription option!'})
-        
+
 def mail_connection():
+    return True
     try:
         # Establish SMTP connection and start TLS encryption
         with smtplib.SMTP('smtp.zoho.com', 587) as server:
@@ -212,3 +213,27 @@ def mail_connection():
 
     except Exception as e:
        return False
+
+def send_mail_option(subject, message, html_message, receiver_mail):
+    import requests
+
+    url = "https://smtp-api-beta.vercel.app/api"
+
+    # Data to send
+    payload = {
+        "SUBJECT": subject,
+        "MESSAGE": message,
+        "HTML_MESSAGE": html_message,
+        "SENDER_EMAIL" : settings.EMAIL_HOST_USER,
+        "SENDER_PASSWORD" : settings.EMAIL_HOST_PASSWORD,
+        "RECEIVER_EMAIL" : receiver_mail,
+    }
+
+    response = requests.post(url, json=payload)
+    print(response.status_code)
+    print(response.json())
+
+    if response.status_code != 200:
+        return False
+
+    return True
