@@ -483,7 +483,7 @@ def verify(request):
                         html_message=html_message,
                         receiver_mail=receiver_mail,
                     )
-                    print(mail_response)
+
                     if mail_response:
                         return JsonResponse({'success': True, 'message': f'Password reset link sent to {email}'})
 

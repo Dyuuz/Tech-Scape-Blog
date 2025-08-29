@@ -234,6 +234,8 @@ def send_mail_option(subject, message, html_message, receiver_mail):
     print(response.json())
 
     if response.status_code != 200:
+        print("False passed")
         return False
 
+    print("True passed")
     return True
