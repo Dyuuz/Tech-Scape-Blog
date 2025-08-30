@@ -11,6 +11,12 @@ RUN python -m pip install --upgrade pip && \
 
 COPY . .
 
+# TEMP DEBUG
+RUN echo "CWD: $(pwd)" && \
+    echo "Top-level:" && ls -lah && \
+    echo "Find start.sh:" && find . -maxdepth 3 -name start.sh -print
+
+
 # if start.sh is in /app after the COPY, this will work
 RUN chmod +x start.sh
 

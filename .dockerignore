@@ -1,0 +1,33 @@
+# Ignore VCS
+.git
+.gitignore
+
+# Python cache & virtual envs
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Logs & local stuff
+*.log
+.DS_Store
+.env
+
+# Node junk (if you have frontend in repo)
+node_modules/
+dist/
+build/
+
+# Docker itself
+Dockerfile*
+docker-compose*.yml
+
+# If you use blanket ignore, allow back only what’s needed:
+# *
+# !requirements.txt
+# !start.sh
+# !src/
