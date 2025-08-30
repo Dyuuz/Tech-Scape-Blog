@@ -1,11 +1,9 @@
 FROM python:3.11-slim
-
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
-    gcc \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+    gcc libpq-dev bash \
+ && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN python -m pip install --upgrade pip && \
@@ -13,7 +11,7 @@ RUN python -m pip install --upgrade pip && \
 
 COPY . .
 
-# Ensure it's executable (will fail if it was excluded by .dockerignore)
+# if start.sh is in /app after the COPY, this will work
 RUN chmod +x start.sh
 
 ENTRYPOINT ["./start.sh"]
