@@ -46,6 +46,12 @@ def send_verification_email(username, verify_account_link, cs_url):
                 margin: 15px 0;
                 line-height: 1.6;
             }}
+            .email-body a {{
+                color: white;
+            }}
+            .email-body a:hover {{
+                color: grey;
+            }}
             .verify-button {{
                 display: inline-block;
                 padding: 14px 24px;
@@ -153,7 +159,6 @@ def verified_user_feedback(username, url, cs_url):
             }}
             .email-body a{{
                 background: linear-gradient(135deg, #2c3e50, #3498db);
-                color: white;
             }}
             .email-body h5{{
                 font-size: 17px;
@@ -170,14 +175,14 @@ def verified_user_feedback(username, url, cs_url):
                 padding: 14px 24px;
                 margin: 30px 0;
                 background-color: #3498db;
-                color: white;
+                color: #ffffff;
                 text-decoration: none;
                 border-radius: 6px;
                 font-size: 18px;
                 transition: background-color 0.3s ease;
             }}
             .verify-button:hover {{
-                color: white;
+
             }}
             .email-footer {{
                 padding: 20px;
