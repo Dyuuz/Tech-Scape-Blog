@@ -248,15 +248,23 @@ def register(request):
                     verify_account_link = request.build_absolute_uri(reverse('verify_user', kwargs={'User': user.username, 'tokenID': str(userVerificationToken.token)}))
                     cs_url = request.build_absolute_uri(reverse('home'))
 
-                    send_mail(
-                        subject='🔐 Confirm Your Account - TechScape',
-                        message=f'Click the link to verify your account: {verify_account_link}',
-                        from_email=settings.EMAIL_HOST_USER,
-                        recipient_list=[email],
-                        fail_silently=False,
-                        html_message=send_verification_email(username, verify_account_link, cs_url)
+                    subject = '🔐 Confirm Your Account - TechScape'
+                    message = f'Click the link to verify your account: {verify_account_link}'
+                    html_message = send_verification_email(username, verify_account_link, cs_url)
+                    receiver_mail = email
+
+                    mail_response = send_mail_option(
+                        subject=subject,
+                        message=message,
+                        html_message=html_message,
+                        receiver_mail=receiver_mail,
                     )
-                    return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
+
+                    if mail_response:
+                        return JsonResponse({'success': True, 'message': 'Registration successful', 'redirect_url': reverse('login')})
+
+                    return JsonResponse({'error': True, 'message': f'Something went wrong, pls try again later'})
+
                 else:
                     return JsonResponse({'SmtpFailure': True, 'message': 'Mail service is down. Fix in progress.'})
 
@@ -516,15 +524,22 @@ def verify_user(request, User, tokenID):
                 url = request.build_absolute_uri(reverse('home'))
                 cs_url = request.build_absolute_uri(reverse('home'))
 
-                send_mail(
-                    subject="🎉 Welcome to TechScape!",
-                    message=f"Welcome to TechScape! We're excited to have you.",
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[email],
-                    fail_silently=False,
-                    html_message=verified_user_feedback(username,url, cs_url)
+                subject = "🎉 Welcome to TechScape!"
+                message = f"Welcome to TechScape! We're excited to have you."
+                html_message = verified_user_feedback(username,url, cs_url)
+                receiver_mail = email
+
+                mail_response = send_mail_option(
+                    subject=subject,
+                    message=message,
+                    html_message=html_message,
+                    receiver_mail=receiver_mail,
                 )
-                return render(request, 'userVerify.html')
+
+                if mail_response:
+                    return render(request, 'userVerify.html')
+
+                return JsonResponse({'error': True, 'message': f'Something went wrong, pls try again later'})
 
             return JsonResponse({'SmtpFailure': True, 'message': 'Mail service is down. Fix in progress.'})
 
@@ -565,21 +580,29 @@ def reset_password(request, tokenID):
                         username = PasswordReset.objects.get(token=tokenID).user.username
                         cs_url = request.build_absolute_uri(reverse('home'))
 
-                        send_mail(
-                           subject="Password Reset Successful",
-                            message=f"Your password has been successfully reset.",
-                            from_email=settings.EMAIL_HOST_USER,
-                            recipient_list=[email],
-                            fail_silently=False,
-                            html_message=send_password_reset_success_mail(username , password, cs_url)
+                        subject = "Password Reset Successful"
+                        message = f"Your password has been successfully reset."
+                        html_message = send_password_reset_success_mail(username , password, cs_url)
+                        receiver_mail = email
+
+                        mail_response = send_mail_option(
+                            subject=subject,
+                            message=message,
+                            html_message=html_message,
+                            receiver_mail=receiver_mail,
                         )
 
-                        return JsonResponse({
-                            'success': True,
-                            'message': 'Password reset successful',
-                            'redirect_url': reverse('login'),
-                            # 'related_token' : allRelated_json,
-                        })
+                        if mail_response:
+
+                            return JsonResponse({
+                                'success': True,
+                                'message': 'Password reset successful',
+                                'redirect_url': reverse('login'),
+                                # 'related_token' : allRelated_json,
+                            })
+
+                        return JsonResponse({'error': True, 'message': f'Something went wrong, pls try again later'})
+
                     return JsonResponse({'SmtpFailure': True, 'message': 'Mail service is down. Fix in progress.'})
 
                 except PasswordReset.DoesNotExist:
