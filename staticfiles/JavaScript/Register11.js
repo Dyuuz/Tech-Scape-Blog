@@ -28,18 +28,18 @@ document.getElementById('registerForm').onsubmit = function(event) {
     var form = document.getElementById('registerForm');
     var formData = new FormData(form);
     var submit = document.querySelector('.blog-register-button');
-    
+
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     var usernamePattern = /^[0-9]+$/;
     var containsSymbol = /[!@#$%^&*():;'",.<>?/\\|`~+=-{}]/;
     if (password !== confirm_password) {
         alert.style.display = 'block';
         alert.textContent = 'Passwords does not match';
-        event.preventDefault(); 
+        event.preventDefault();
     } else if (!passwordPattern.test(password)) {
         alert.style.display = 'block';
         alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
-        event.preventDefault();  
+        event.preventDefault();
     } else {
         activateLoadingRegister();
         disableSubmitRegister();
@@ -74,10 +74,10 @@ function getRegisterUrl(formData) {
                 activateSubmitRegister();
                 disableLoadingRegister();
                 if (result.isConfirmed) {
-                    window.location.href = 'https://mail.google.com/mail/u/0/#inbox';
+                    window.location.href = response.data.redirect_url;
                 }
             });
-                
+
         } else {
             alert.textContent = response.data.message;
             activateSubmitRegister();
@@ -150,10 +150,10 @@ function submitForm() {
     if (!passwordPattern.test(password)) {
         alert.style.display = 'block';
         alert.textContent = 'Password must be at least 8 characters long, include both upper and lower case letters, a number, and a special character.';
-        
+
         setTimeout(function() {
         alert.style.display = 'none';
-        }, 10000); 
-        event.preventDefault(); 
+        }, 10000);
+        event.preventDefault();
     }
 }
