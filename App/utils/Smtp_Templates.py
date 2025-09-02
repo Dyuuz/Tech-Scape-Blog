@@ -50,7 +50,7 @@ def send_verification_email(username, verify_account_link, cs_url):
                 color: white;
             }}
             .email-body a:hover {{
-                color: grey;
+                text-decoration: underline;
             }}
             .verify-button {{
                 display: inline-block;
