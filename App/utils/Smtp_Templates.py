@@ -153,6 +153,7 @@ def verified_user_feedback(username, url, cs_url):
             }}
             .email-body a{{
                 background: linear-gradient(135deg, #2c3e50, #3498db);
+                color: white;
             }}
             .email-body h5{{
                 font-size: 17px;
@@ -169,14 +170,14 @@ def verified_user_feedback(username, url, cs_url):
                 padding: 14px 24px;
                 margin: 30px 0;
                 background-color: #3498db;
-                color: #ffffff;
+                color: white;
                 text-decoration: none;
                 border-radius: 6px;
                 font-size: 18px;
                 transition: background-color 0.3s ease;
             }}
             .verify-button:hover {{
-                 
+                color: white;
             }}
             .email-footer {{
                 padding: 20px;
