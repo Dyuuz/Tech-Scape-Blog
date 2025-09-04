@@ -24,9 +24,20 @@ class PasswordResetTokenAdmin(admin.ModelAdmin):
     list_display = ('user', 'token', 'time')
     search_fields = ('user__username', 'token')
 
-class ClientAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'is_verified')
-    search_fields = ('username', 'email')
+class ClientAdmin(UserAdmin):
+    # Fields to display in the list view
+    list_display = ("username", "email", "is_verified", "is_staff", "is_active")
+    list_filter = ("is_verified", "is_staff", "is_active")
+
+    # Fields to edit when creating/updating a user
+    fieldsets = UserAdmin.fieldsets + (
+        ("Custom Fields", {"fields": ("is_verified",)}),
+    )
+
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        ("Custom Fields", {"fields": ("is_verified",)}),
+    )
+
 class VerifyUserAdmin(admin.ModelAdmin):
     list_display = ('user', 'token', 'created_at')
     search_fields = ('user',)
