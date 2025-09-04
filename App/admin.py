@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Category, Blog, PasswordReset, Newsletter, Comments, VerifyUser, Client
 from django.db import models
 from django import forms
+from django.contrib.auth.admin import UserAdmin
 from django_ckeditor_5.widgets import CKEditor5Widget
 
 
