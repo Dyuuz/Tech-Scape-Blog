@@ -229,7 +229,8 @@ CKEDITOR_5_CONFIGS = {
             "uploadUrl": "/ckeditor5/image_upload/",
         },
         "extraPlugins": ["MediaEmbed"],
-        "extraAllowedContent": "iframe[*]",
+        # Allow <iframe> as before
+        "extraAllowedContent": "iframe[*]; a[*]{*}(*);",  
         "mediaEmbed": {
             "previewsInData": True,
             "providers": [
@@ -254,7 +255,7 @@ CKEDITOR_5_CONFIGS = {
             ],
         },
         "removePlugins": ["Markdown"],
-        "allowedContent": True,
+        "allowedContent": True,  # disables filtering
     }
 }
 
