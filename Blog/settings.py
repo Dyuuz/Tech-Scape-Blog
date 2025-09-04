@@ -229,8 +229,18 @@ CKEDITOR_5_CONFIGS = {
             "uploadUrl": "/ckeditor5/image_upload/",
         },
         "extraPlugins": ["MediaEmbed"],
-        # Allow <iframe> as before
-        "extraAllowedContent": "iframe[*]; a[*]{*}(*);",  
+        "link": {
+            "decorators": {
+                "blueLink": {
+                    "mode": "manual",
+                    "label": "Blue Link",
+                    "attributes": {
+                        "class": "blue-link",
+                        "style": "width: fit-content; text-decoration: underline; color: blue;"
+                    }
+                }
+            }
+        },
         "mediaEmbed": {
             "previewsInData": True,
             "providers": [
@@ -255,9 +265,9 @@ CKEDITOR_5_CONFIGS = {
             ],
         },
         "removePlugins": ["Markdown"],
-        "allowedContent": True,  # disables filtering
     }
 }
+
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
