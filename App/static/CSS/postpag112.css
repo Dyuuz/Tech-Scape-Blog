@@ -623,4 +623,10 @@ button {
 100% { opacity: 1; }
 }
 
+.blue-link {
+    color: blue;
+    text-decoration: underline;
+    display: inline-block;
+    width: fit-content;
+}
 
