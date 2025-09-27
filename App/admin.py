@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Category, Blog, PasswordReset, Newsletter, Comments, VerifyUser, Client
 from django.db import models
 from django import forms
+from django.contrib.auth.admin import UserAdmin
 from django_ckeditor_5.widgets import CKEditor5Widget
 
 
@@ -24,9 +25,20 @@ class PasswordResetTokenAdmin(admin.ModelAdmin):
     list_display = ('user', 'token', 'time')
     search_fields = ('user__username', 'token')
 
-class ClientAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'is_verified')
-    search_fields = ('username', 'email')
+class ClientAdmin(UserAdmin):
+    # Fields to display in the list view
+    list_display = ("username", "email", "is_verified", "is_staff", "is_active")
+    list_filter = ("is_verified", "is_staff", "is_active")
+
+    # Fields to edit when creating/updating a user
+    fieldsets = UserAdmin.fieldsets + (
+        ("Custom Fields", {"fields": ("is_verified",)}),
+    )
+
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        ("Custom Fields", {"fields": ("is_verified",)}),
+    )
+
 class VerifyUserAdmin(admin.ModelAdmin):
     list_display = ('user', 'token', 'created_at')
     search_fields = ('user',)
