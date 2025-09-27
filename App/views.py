@@ -674,4 +674,5 @@ def ckeditor_upload(request):
     return JsonResponse ({"error": "Upload failed"}, status=400)
 
 def ping_view(request):
-    return HttpResponse("pong")
+    ping = "pong"
+    return HttpResponse(ping)
