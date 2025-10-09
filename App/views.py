@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 def home(request):
-    # Cache key identifier as user username
+    # Cache key identifier as user username in homepage
     current_user = request.user
 
     if current_user.is_authenticated:
