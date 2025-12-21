@@ -1,15 +1,22 @@
 #!/usr/bin/env bash
 
+set -e
+
 echo "=== Boot: validating environment ==="
-# Change DB_URL to DATABASE_URL if your settings use that
+
 if [ -z "$DATABASE_URL" ]; then
-  echo "ERROR: DB_URL is not set"
+  echo "ERROR: DATABASE_URL is not set"
   exit 1
 fi
 
-PORT=${PORT:-8000}
-echo "Starting TechScape on port $PORT..."
+if [ -z "$PORT" ]; then
+  echo "ERROR: PORT not set by Render"
+  exit 1
+fi
+
 export PYTHONUNBUFFERED=1
+
+echo "Starting TechScape on port $PORT..."
 
 echo "=== Step 1/3: applying migrations ==="
 python manage.py migrate --noinput

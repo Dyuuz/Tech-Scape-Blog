@@ -20,4 +20,5 @@ RUN echo "CWD: $(pwd)" && \
 # if start.sh is in /app after the COPY, this will work
 RUN chmod +x start.sh
 
-ENTRYPOINT ["./start.sh"]
+# ENTRYPOINT ["./start.sh"]
+ENTRYPOINT ["bash", "start.sh"]
