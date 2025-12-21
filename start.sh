@@ -7,7 +7,8 @@ if [ -z "$DATABASE_URL" ]; then
   exit 1
 fi
 
-# PORT=${PORT:-8000}
+PORT=${PORT}
+echo "Starting TechScape on port $PORT..."
 export PYTHONUNBUFFERED=1
 
 echo "=== Step 1/3: applying migrations ==="
