@@ -34,19 +34,19 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     '.railway.app',
-    'techscape-swlm.onrender.com',
+    'techscape-9akf.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://techscape.up.railway.app',
-    'https://techscape-swlm.onrender.com',
+    'https://techscape-9akf.onrender.com',
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'https://techscape.up.railway.app',
-    'https://techscape-swlm.onrender.com',
+    'https://techscape-9akf.onrender.com',
 ]
 
 
