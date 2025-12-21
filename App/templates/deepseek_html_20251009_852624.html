@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Beacon - Nigerian Crypto Rates Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+    --primary: #ff6b35;
+    --primary-light: #ff9966;
+    --primary-dark: #e55a2e;
+    --secondary: #ffa726;
+    --accent: #42a5f5;
+    --dark: #1a1a1a;
+    --dark-secondary: #2d2d2d;
+    --light: #ffffff;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1e293b;
+    --gray-900: #0f172a;
+    --gradient-primary: linear-gradient(135deg, #ff6b35 0%, #ffa726 100%);
+    --gradient-bubble: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 167, 38, 0.05) 100%);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--gray-700);
+    background-color: var(--light);
+    font-size: 1rem;
+}
+
+.crypto-hero {
+    background: var(--light);
+    color: var(--dark);
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: clamp(2rem, 6vw, 4rem) 0;
+}
+
+/* Brand-colored bubbles background */
+.crypto-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 167, 38, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 107, 53, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 60% 70%, rgba(255, 167, 38, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 50%, rgba(255, 107, 53, 0.03) 0%, transparent 50%);
+    z-index: 1;
+}
+
+.crypto-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 2rem);
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.crypto-hero-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .crypto-hero-content {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.crypto-hero-text {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: cryptoFadeInUp 1s ease-out 0.3s forwards;
+}
+
+@keyframes cryptoFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.crypto-hero-badge {
+    display: inline-block;
+    background: rgba(255, 107, 53, 0.1);
+    color: var(--primary-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 107, 53, 0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cryptoFadeInUp 0.8s ease-out 0.5s forwards;
+}
+
+.crypto-hero-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--dark);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cryptoFadeInUp 0.8s ease-out 0.7s forwards;
+}
+
+.crypto-hero-title span {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+}
+
+.crypto-hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 500px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cryptoFadeInUp 0.8s ease-out 0.9s forwards;
+}
+
+.crypto-hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cryptoFadeInUp 0.8s ease-out 1.1s forwards;
+}
+
+.crypto-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.crypto-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--dark);
+}
+
+.crypto-stat-label {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.crypto-hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cryptoFadeInUp 0.8s ease-out 1.3s forwards;
+}
+
+.crypto-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.75rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+    font-size: 1rem;
+    gap: 0.5rem;
+}
+
+.crypto-btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-lg);
+}
+
+.crypto-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
+}
+
+.crypto-btn-secondary {
+    background: var(--light);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.crypto-btn-secondary:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.crypto-hero-visual {
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: cryptoFadeInUp 1s ease-out 0.5s forwards;
+}
+
+.crypto-dashboard {
+    background: var(--light);
+    border-radius: var(--radius-2xl);
+    padding: 1.5rem;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.crypto-dashboard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-bubble);
+    z-index: 1;
+}
+
+.crypto-dashboard-content {
+    position: relative;
+    z-index: 2;
+}
+
+.crypto-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.crypto-dashboard-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.crypto-dashboard-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.crypto-dashboard-action {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.crypto-dashboard-action:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.crypto-rates {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 480px) {
+    .crypto-rates {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.crypto-rate-card {
+    background: var(--light);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.crypto-rate-card:hover {
+    background: var(--gray-50);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-light);
+}
+
+.crypto-rate-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.crypto-rate-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.crypto-rate-name {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.crypto-rate-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--dark);
+}
+
+.crypto-rate-change {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.crypto-rate-change.positive {
+    color: #10b981;
+}
+
+.crypto-rate-change.negative {
+    color: #ef4444;
+}
+
+.crypto-platforms {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.crypto-platform {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--gray-600);
+}
+
+.crypto-platform-logo {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background: var(--gradient-primary);
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    color: white;
+    font-weight: 600;
+}
+
+/* Floating brand-colored bubbles */
+.crypto-floating {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gradient-bubble);
+    animation: cryptoFloat 6s ease-in-out infinite;
+    z-index: 1;
+}
+
+.crypto-floating-1 {
+    width: 80px;
+    height: 80px;
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.crypto-floating-2 {
+    width: 60px;
+    height: 60px;
+    bottom: 20%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.crypto-floating-3 {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    left: 10%;
+    animation-delay: 4s;
+}
+
+.crypto-floating-4 {
+    width: 70px;
+    height: 70px;
+    bottom: 10%;
+    left: 15%;
+    animation-delay: 1s;
+}
+
+.crypto-floating-5 {
+    width: 50px;
+    height: 50px;
+    top: 20%;
+    right: 15%;
+    animation-delay: 3s;
+}
+
+@keyframes cryptoFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(10deg);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .crypto-hero {
+        text-align: center;
+    }
+
+    .crypto-hero-subtitle {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .crypto-hero-stats {
+        justify-content: center;
+    }
+
+    .crypto-hero-buttons {
+        justify-content: center;
+    }
+
+    .crypto-dashboard {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .crypto-hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .crypto-btn {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .crypto-platforms {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="crypto-hero">
+        <!-- Floating elements -->
+        <div class="crypto-floating crypto-floating-1"></div>
+        <div class="crypto-floating crypto-floating-2"></div>
+        <div class="crypto-floating crypto-floating-3"></div>
+
+        <div class="crypto-hero-container">
+            <div class="crypto-hero-content">
+                <div class="crypto-hero-text">
+                    <div class="crypto-hero-badge">
+                        <i class="fas fa-rocket"></i> Nigeria's Premier Crypto Platform
+                    </div>
+                    <h1 class="crypto-hero-title">
+                        Track <span>Nigerian Crypto Rates</span> in Real-Time
+                    </h1>
+                    <p class="crypto-hero-subtitle">
+                        Compare USDT, BTC, and ETH prices across all major Nigerian exchanges in one unified platform. Never miss the best rate again.
+                    </p>
+
+                    <div class="crypto-hero-stats">
+                        <div class="crypto-stat">
+                            <span class="crypto-stat-value">15+</span>
+                            <span class="crypto-stat-label">Nigerian Exchanges</span>
+                        </div>
+                        <div class="crypto-stat">
+                            <span class="crypto-stat-value">0ms</span>
+                            <span class="crypto-stat-label">Rate Delay</span>
+                        </div>
+                        <div class="crypto-stat">
+                            <span class="crypto-stat-value">24/7</span>
+                            <span class="crypto-stat-label">Real-Time Tracking</span>
+                        </div>
+                    </div>
+
+                    <div class="crypto-hero-buttons">
+                        <a href="#" class="crypto-btn crypto-btn-primary">
+                            <i class="fas fa-chart-line"></i> View Live Rates
+                        </a>
+                        <a href="#" class="crypto-btn crypto-btn-secondary">
+                            <i class="fas fa-play-circle"></i> How It Works
+                        </a>
+                    </div>
+                </div>
+
+                <div class="crypto-hero-visual">
+                    <div class="crypto-dashboard">
+                        <div class="crypto-dashboard-content">
+                            <div class="crypto-dashboard-header">
+                                <h3 class="crypto-dashboard-title">Live Crypto Rates</h3>
+                                <div class="crypto-dashboard-actions">
+                                    <div class="crypto-dashboard-action">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </div>
+                                    <div class="crypto-dashboard-action">
+                                        <i class="fas fa-expand-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="crypto-rates">
+                                <div class="crypto-rate-card">
+                                    <div class="crypto-rate-header">
+                                        <div class="crypto-rate-icon">
+                                            <i class="fab fa-bitcoin"></i>
+                                        </div>
+                                        <div class="crypto-rate-name">Bitcoin (BTC)</div>
+                                    </div>
+                                    <div class="crypto-rate-value">₦28,450,000</div>
+                                    <div class="crypto-rate-change positive">+2.4% today</div>
+                                </div>
+
+                                <div class="crypto-rate-card">
+                                    <div class="crypto-rate-header">
+                                        <div class="crypto-rate-icon">
+                                            <i class="fab fa-ethereum"></i>
+                                        </div>
+                                        <div class="crypto-rate-name">Ethereum (ETH)</div>
+                                    </div>
+                                    <div class="crypto-rate-value">₦1,850,000</div>
+                                    <div class="crypto-rate-change positive">+1.2% today</div>
+                                </div>
+
+                                <div class="crypto-rate-card">
+                                    <div class="crypto-rate-header">
+                                        <div class="crypto-rate-icon">
+                                            <i class="fas fa-coins"></i>
+                                        </div>
+                                        <div class="crypto-rate-name">USDT</div>
+                                    </div>
+                                    <div class="crypto-rate-value">₦1,520</div>
+                                    <div class="crypto-rate-change negative">-0.3% today</div>
+                                </div>
+
+                                <div class="crypto-rate-card">
+                                    <div class="crypto-rate-header">
+                                        <div class="crypto-rate-icon">
+                                            <i class="fas fa-chart-bar"></i>
+                                        </div>
+                                        <div class="crypto-rate-name">Best Exchange</div>
+                                    </div>
+                                    <div class="crypto-rate-value">Binance</div>
+                                    <div class="crypto-rate-change">Save 1.5%</div>
+                                </div>
+                            </div>
+
+                            <div class="crypto-platforms">
+                                <div class="crypto-platform">
+                                    <div class="crypto-platform-logo">BN</div>
+                                    <span>Binance</span>
+                                </div>
+                                <div class="crypto-platform">
+                                    <div class="crypto-platform-logo">LB</div>
+                                    <span>Luno</span>
+                                </div>
+                                <div class="crypto-platform">
+                                    <div class="crypto-platform-logo">QF</div>
+                                    <span>Quidax</span>
+                                </div>
+                                <div class="crypto-platform">
+                                    <div class="crypto-platform-logo">BC</div>
+                                    <span>BuyCoins</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Simple animation for the dashboard cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const rateCards = document.querySelectorAll('.crypto-rate-card');
+
+            rateCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 800 + (index * 150));
+            });
+        });
+    </script>
+</body>
+</html>
